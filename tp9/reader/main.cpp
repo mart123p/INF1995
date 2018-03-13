@@ -19,7 +19,7 @@
 
 int main () {
 	
-	Memoire24CXXX memoire;
+	mem::Memoire24CXXX memoire;
 	uint16_t adresse = 0;
 	uint8_t donnee[2]; 
 	
