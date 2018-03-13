@@ -18,27 +18,31 @@
 
 
 int main () {
-	
+	uart::init();
 	mem::Memoire24CXXX memoire;
 	uint16_t adresse = 0;
 	uint8_t donnee[2]; 
 	
 	bool estTermine = false;
+	bool debutCode = false;
 	while(!estTermine){
 		
 		memoire.lecture(adresse,donnee,2);//lecture de deux octets a une adresse dans le tableau donnee
 		adresse += 2;//compteur d'adresse
 		
+		if(!debutCode && donnee[0] == dbt){
+			debutCode = true;
+			light::init();
+			pwm::init();
+		}
+
 		uart::print(donnee[0]);
 		uart::println();
 		uart::print(donnee[1]);
 		uart::println();
-		
+	
+		if(debutCode){	
 		switch (donnee[0]){
-			
-			case dbt: 
-				
-				break;
 				
 			case att:
 				uart::print("case att");
@@ -110,6 +114,7 @@ int main () {
 			
 			
 		}
+	}
 		
 	
 		
