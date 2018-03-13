@@ -48,6 +48,12 @@ void uart::print(const char *c) {
   }
 }
 
+uint8_t uart::readData(){
+  while ( !(UCSR0A & (1<<RXC0)) );
+  /* Get and return received data from buffer */
+  return UDR0;
+}
+
 void uart::print(const char c) { uartSend(c); }
 
 void uart::print(const int n) {

@@ -1,4 +1,4 @@
-include Makefile.common
+include ../Makefile.common
 ########       AVR Project Makefile       ########
 #####                                        #####
 #####      Makefile produit et ecrit par     #####
@@ -29,7 +29,7 @@ PROJECTNAME=projet
 PRJSRC= main.cpp
 
 # Inclusions additionnels (ex: -I/path/to/mydir)
-INC=-I lib/
+INC=-I../lib/
 CFLAGS+=$(INC)
 # Libraires a lier (ex: -lmylib)
 LIBS=-lohboy
@@ -70,7 +70,7 @@ HEXFORMAT=ihex
 CXXFLAGS=-fno-exceptions     
 
 # Linker pour lier les librairies utilisees
-LDFLAGS=-Wl,-Map,$(TRG).map -mmcu=$(MCU) -Llib/
+LDFLAGS=-Wl,-Map,$(TRG).map -mmcu=$(MCU) -L../lib/
 
 
 
@@ -118,7 +118,7 @@ all: $(TRG)
 # Implementation de la cible
 $(TRG): $(OBJDEPS)
 	$(CC) $(LDFLAGS) -o $(TRG) $(OBJDEPS) \
-	-lm $(LIBS) -Ilib\
+	-lm $(LIBS) -I..\lib\
 
 # Production des fichiers object
 # De C a objet

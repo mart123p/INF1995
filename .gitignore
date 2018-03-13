@@ -4,3 +4,4 @@
 *.out*
 *.hex
 *.a
+.DS_Store

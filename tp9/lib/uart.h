@@ -75,6 +75,11 @@ void print(const char c);
  * @return void
  */
 void println();
+/**
+ * Read data from uart
+ * @return uint8_t the data
+ */
+uint8_t readData();
 
 /**
  * Test all the uart functions. This method is mainly used for developpement

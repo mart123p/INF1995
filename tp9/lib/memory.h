@@ -19,7 +19,6 @@
 
 #ifndef MEMOIRE_24_H
 #define MEMOIRE_24_H
-
 #include <avr/io.h>
 #include <util/twi.h>
 
