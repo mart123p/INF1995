@@ -1,7 +1,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <ohboy.h>
-volatile bool readDataBack = false;
 mem::Memoire24CXXX memoire;
 int  main()
 {
