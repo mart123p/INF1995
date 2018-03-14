@@ -54,12 +54,14 @@ int main () {
 				
 			case dal:
 				uart::print("case dal");
-				light::green();
+				light::on(donnee[1]);
 				uart::print("case dal break");
 				break;
 				
 			case det:
-				
+				uart::print("case det");
+				light::off(donnee[1]);
+				uart::print("case det break");
 				break;
 				
 			case sgo:

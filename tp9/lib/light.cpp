@@ -1,6 +1,6 @@
 #include "light.h"
 #include "uart.h"
-void light::init() { DDRB |= 0x0c; }
+void light::init() { DDRB |= 0xFF; }
 
 void light::green() {
   PORTB |= (1 << PD2);
@@ -8,8 +8,8 @@ void light::green() {
 }
 
 void light::red() {
-  PORTB |= (1 << PD3);
-  PORTB &= ~(1 << PD2);
+	PORTB |= (1 << PD3);
+	PORTB &= ~(1 << PD2);
 }
 
 void light::amber(uint16_t ms) {
@@ -21,25 +21,25 @@ void light::amber(uint16_t ms) {
   }
 }
 
-void light::on(uint8_t broche){
-		switch (broche){
-			
-			
-			
-			
-		}
+void light::on(uint8_t pin){
+	PORTB |= pin;
 }
 
 void light::off() {
-  PORTB &= ~(1 << PD2);
-  PORTB &= ~(1 << PD3);
+	PORTB &= ~(1 << PD2);
+	PORTB &= ~(1 << PD3);
 }
+
+void light::off(uint8_t pin) {
+	PORTB &=  ~(pin);
+}
+
 void light::test() {
-  light::init();
-  light::green();
-  _delay_ms(5000);
-  light::red();
-  _delay_ms(5000);
-  light::amber(5000);
-  light::off();
+	light::init();
+	light::green();
+	_delay_ms(5000);
+	light::red();
+	_delay_ms(5000);
+	light::amber(5000);
+	light::off();
 }

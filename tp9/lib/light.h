@@ -11,11 +11,13 @@
 
 namespace light {
 
+
 /**
- * Set PortD pin in output mode
+ * Set PortB pin in output mode
  * @return void
  */
 void init();
+
 
 /**
  * Set the LED to green
@@ -23,11 +25,13 @@ void init();
  */
 void green();
 
+
 /**
  * Set the LED to red
  * @return void
  */
 void red();
+
 
 /**
  * Set the LED to amber
@@ -35,15 +39,30 @@ void red();
  */
 void amber(uint16_t ms);
 
+
+/**
+ * Turn on the LED on pin selected
+ * @param pin
+ * @return void
+ */
+void on(uint8_t pin);
+
+
 /**
  * Turn off the LED
  * @param time in ms the LED is amber
  * @return void
  */
- 
-void on(uint8_t broche);
-
 void off();
+
+
+/**
+ * Turn off the led on pin selected
+ * @param pin
+ * return void
+ */
+void off(uint8_t pin);
+
 
 /**
  * Test the LED functions
