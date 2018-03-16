@@ -64,7 +64,7 @@ void uart::print(const int n) {
     uartSend('-');
   }
   uint8_t rem;
-  while (pow(10, size) < num) {
+  while (pow(10, size) <= num) {
     size++;
   }
   uint8_t digits[size];
@@ -128,6 +128,9 @@ void uart::print(const uint32_t n) {
 
 void uart::println() { uartSend('\n'); }
 
+void uart::clear(){
+  uart::print("\033[2J\033[;H");
+}
 void uart::test() {
   uart::init();
 

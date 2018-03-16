@@ -26,15 +26,17 @@ int main () {
 
 	bool estTermine = false;
 	bool debutCode = false;
+	uart::clear();
+	uart::print("Starting VirtualMachine\n");
 	
 	while(!estTermine){
 		
 		memoire.lecture(adresse,donnee,2);//lecture de deux octets a une adresse dans le tableau donnee
 		adresse += 2;//compteur d'adresse
 
-
+		uart::print("[Mem] => Instruction: ");
 		uart::print(donnee[0]);
-		uart::println();
+		uart::print(" ");
 		uart::print(donnee[1]);
 		uart::println();
 		
@@ -50,16 +52,19 @@ int main () {
 				pwm::off();
 				//son off
 			}else if(donnee[0] == dbc){
-				uint16_t addresseBoucle = adresse +2;
-				uint8_t donneeBoucle[2];
-				
-				uint8_t* instructionBuffer = 0;
-				uint8_t instructionCount = 0;
 
 				//On met toutes les instructions dans la mémoire vive. Si on doit faire plus d'une itération
 				if(donnee[1] > 0){
+
+					uint16_t addresseBoucle = adresse;
+					uint8_t donneeBoucle[2];
+					
+					uint8_t* instructionBuffer = 0;
+					uint8_t instructionCount = 0;
+
+					
+					memoire.lecture(addresseBoucle,donneeBoucle,2);
 					while(donneeBoucle[0] != fbc){
-						memoire.lecture(addresseBoucle,donneeBoucle);
 						addresseBoucle+=2;
 						instructionBuffer =(uint8_t*) realloc(instructionBuffer,instructionCount*2+2);
 						
@@ -67,16 +72,34 @@ int main () {
 							instructionBuffer[instructionCount*2+i] = donneeBoucle[i];
 						}
 						instructionCount++;
+						memoire.lecture(addresseBoucle,donneeBoucle,2);
 					}
 					//On fait le nombre d'ittérations nécessaires qui sont spécifiées par l'opérande.
 					for(uint8_t i = 0; i < donnee[1];i++){
+						uart::print("\n\n*** loop ");
+						uart::print(i);
+						uart::print(") nb instruction: ");
+						uart::print(instructionCount);
+						uart::print(" ***\n");
 						for(uint8_t j = 0; j < instructionCount;j++){
-							uint8_t* singleInstrcution = instructionBuffer+(instructionCount-1)*2;
-							instructionExecute(singleInstrcution);
+							uart::print("\n--executing instruction ");
+							uart::print(j);
+							uart::println();
+							
+							uint8_t* singleInstruction = instructionBuffer+j*2;
+							instructionExecute(singleInstruction);
+							
+							uart::print("--instruction ");
+							uart::print(singleInstruction[0]);
+							uart::print(" ");
+							uart::print(singleInstruction[1]);
+							uart::print(" executed\n");
 						}
+						uart::print("*** end loop ***\n");
 					}
 					//We cleanup memory
 					free(instructionBuffer);
+					instructionBuffer = 0;
 				}
 			}else if(donnee[0] != fbc){
 				instructionExecute(donnee);
@@ -95,23 +118,20 @@ int main () {
 void instructionExecute(uint8_t* donnee){
 			switch (donnee[0]){
 				case att:
-					uart::print("case att");
+					uart::print("att\n");
 					for (uint8_t i = 0; i < donnee[1]; i++){
 						_delay_ms(25);
 					}
-					uart::print("case att break");
 					break;
 					
 				case dal:
-					uart::print("case dal");
+					uart::print("dal\n");
 					light::on(donnee[1]);
-					uart::print("case dal break");
 					break;
 					
 				case det:
-					uart::print("case det");
+					uart::print("det\n");
 					light::off(donnee[1]);
-					uart::print("case det break");
 					break;
 					
 				case sgo:
@@ -124,33 +144,38 @@ void instructionExecute(uint8_t* donnee){
 				
 				case mar:	
 				case mar1:
-					uart::print("case mar1");
+					uart::print("mar1\n");
 					pwm::off();
-					uart::print("case mar1 break");
 					break;
 
 
 				case mav:
-					pwm::setA(donnee[1],1);
-					pwm::setB(donnee[1],1);
-					break;
-				
-					
-				case mre:
+					uart::print("mav\n");
 					pwm::setA(donnee[1],0);
 					pwm::setB(donnee[1],0);
 					break;
 				
 					
-				case trg:
-					pwm::setA(255,1);
-					pwm::setB(255,0);
-					_delay_ms(200);
+				case mre:
+					uart::print("mre\n");
+					pwm::setA(donnee[1],1);
+					pwm::setB(donnee[1],1);
 					break;
-				case trd:
+				
+					
+				case trg:
+					uart::print("trg\n");
 					pwm::setA(255,0);
 					pwm::setB(255,1);
-					_delay_ms(200);
+					_delay_ms(425);
+					pwm::off();
+					break;
+				case trd:
+					uart::print("trd\n");
+					pwm::setA(255,1);
+					pwm::setB(255,0);
+					_delay_ms(425);
+					pwm::off();
 					break;
 				
 			}

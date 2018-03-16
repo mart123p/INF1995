@@ -1,49 +1,29 @@
-
+att 10;
 dbt;
+dal 17; //Allume LED 5 et 1
+att 40; //Attend 1s
+det 17;
+att 40; //Attend 1s
+
+dbc 2;
+dal 17; //Allume LED 5 et 1
+att 40; //Attend 1s
+det 17;
+att 40; //Attend 1s
+fbc;
 
 dal 17; //Allume LED 5 et 1
+att 10; //Attend 1s
+det 17;
+att 10; //Attend 1s
 
-att 10; //Attend 250ms
-
-dal 32; //Led 7
-
-att 10;
-
-dal 8; //Allume LED 4
-
-att 10;
-
-mav 255;//Vitesse maximale
-
-att 100;
-
-mav 50;
-
-att 100;
-
-mar; //Arrete les moteur
-
-det 1;//Eteind la LED 1
-
-att 10;
-
-det 127;
-
-mre 64; //Recule 
-
-att 100;
-
-mar;
-
-trd; //Tourne a droite
-
-att 10;
-
-trg;
-
-att 10;
-
-dal 127; //Allumer toutes les LED
-
+//mav 255;//Vitesse maximale
+//att 100;
+//mav 200;
+//att 100;
+//mar; //Arrete les moteur
+//det 1;//Eteind la LED 1
+//att 10;
+//det 127;
+//mre 255; //Recule 
 fin;
-

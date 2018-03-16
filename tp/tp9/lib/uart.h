@@ -82,6 +82,11 @@ void println();
 uint8_t readData();
 
 /**
+ * Clear the console
+ * @return void
+ */
+void clear();
+/**
  * Test all the uart functions. This method is mainly used for developpement
  * @return void
  */
