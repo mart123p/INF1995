@@ -1,4 +1,5 @@
-#include "ohboy.h"
+#include "ohBoy.h"
+#include <stdlib.h>
 
 #define dbt 0x01
 #define att 0x02
@@ -15,35 +16,84 @@
 #define dbc 0xC0
 #define fbc 0xC1
 #define fin 0xFF
-
+void instructionExecute(uint8_t* donnee);
 
 int main () {
 	uart::init();
 	mem::Memoire24CXXX memoire;
-	uint16_t adresse = 0;
+	uint16_t adresse = 2;
 	uint8_t donnee[2]; 
-	
+
 	bool estTermine = false;
 	bool debutCode = false;
+	
 	while(!estTermine){
 		
 		memoire.lecture(adresse,donnee,2);//lecture de deux octets a une adresse dans le tableau donnee
 		adresse += 2;//compteur d'adresse
+
+
+		uart::print(donnee[0]);
+		uart::println();
+		uart::print(donnee[1]);
+		uart::println();
 		
 		if(!debutCode && donnee[0] == dbt){
 			debutCode = true;
 			light::init();
 			pwm::init();
 		}
-
-		uart::print(donnee[0]);
-		uart::println();
-		uart::print(donnee[1]);
-		uart::println();
 	
-		if(debutCode){	
+		if(debutCode){
+			if(donnee[0] == fin){
+				estTermine = true;
+				pwm::off();
+				//son off
+			}else if(donnee[0] == dbc){
+				uint16_t addresseBoucle = adresse +2;
+				uint8_t donneeBoucle[2];
+				
+				uint8_t* instructionBuffer = 0;
+				uint8_t instructionCount = 0;
+
+				//On met toutes les instructions dans la mémoire vive. Si on doit faire plus d'une itération
+				if(donnee[1] > 0){
+					while(donneeBoucle[0] != fbc){
+						memoire.lecture(addresseBoucle,donneeBoucle);
+						addresseBoucle+=2;
+						instructionBuffer =(uint8_t*) realloc(instructionBuffer,instructionCount*2+2);
+						
+						for(uint8_t i = 0; i < 2; i++){
+							instructionBuffer[instructionCount*2+i] = donneeBoucle[i];
+						}
+						instructionCount++;
+					}
+					//On fait le nombre d'ittérations nécessaires qui sont spécifiées par l'opérande.
+					for(uint8_t i = 0; i < donnee[1];i++){
+						for(uint8_t j = 0; j < instructionCount;j++){
+							uint8_t* singleInstrcution = instructionBuffer+(instructionCount-1)*2;
+							instructionExecute(singleInstrcution);
+						}
+					}
+					//We cleanup memory
+					free(instructionBuffer);
+				}
+			}else if(donnee[0] != fbc){
+				instructionExecute(donnee);
+			}
+		}
+		
+	
+		
+		
+	}
+	
+	
+	while(true);
+}
+
+void instructionExecute(uint8_t* donnee){
 			switch (donnee[0]){
-					
 				case att:
 					uart::print("case att");
 					for (uint8_t i = 0; i < donnee[1]; i++){
@@ -81,54 +131,27 @@ int main () {
 
 
 				case mav:
-					pwm::setA(donne[1],1);
-					pwm::setB(donne[1],1);
+					pwm::setA(donnee[1],1);
+					pwm::setB(donnee[1],1);
 					break;
 				
 					
 				case mre:
-					pwm::setA(donne[1],0);
-					pwm::setB(donne[1],0);
-				
+					pwm::setA(donnee[1],0);
+					pwm::setB(donnee[1],0);
 					break;
 				
 					
 				case trg:
-					//pwm::setA(donne[1], 
+					pwm::setA(255,1);
+					pwm::setB(255,0);
+					_delay_ms(200);
 					break;
-					
-					
-				case dbc:
-				
-				
+				case trd:
+					pwm::setA(255,0);
+					pwm::setB(255,1);
+					_delay_ms(200);
 					break;
-					
-					
-				case fbc:
-				
-				
-					break;
-					
-					
-				case fin:
-					estTermine = true;
-					pwm::off();
-					//son off
-					break;
-				
-				
 				
 			}
-	}
-		
-	
-		
-		
-	}
-	
-	
-	while(true);
-	
-	
-	
 }
