@@ -42,80 +42,83 @@ int main () {
 		uart::println();
 	
 		if(debutCode){	
-		switch (donnee[0]){
+			switch (donnee[0]){
+					
+				case att:
+					uart::print("case att");
+					for (uint8_t i = 0; i < donnee[1]; i++){
+						_delay_ms(25);
+					}
+					uart::print("case att break");
+					break;
+					
+				case dal:
+					uart::print("case dal");
+					light::on(donnee[1]);
+					uart::print("case dal break");
+					break;
+					
+				case det:
+					uart::print("case det");
+					light::off(donnee[1]);
+					uart::print("case det break");
+					break;
+					
+				case sgo:
+					
+					break;
+					
+				case sar:
 				
-			case att:
-				uart::print("case att");
-				for (uint8_t i = 0; i < donnee[1]; i++){
-					_delay_ms(25);
-				}
-				uart::print("case att break");
-				break;
+					break;
 				
-			case dal:
-				uart::print("case dal");
-				light::on(donnee[1]);
-				uart::print("case dal break");
-				break;
-				
-			case det:
-				uart::print("case det");
-				light::off(donnee[1]);
-				uart::print("case det break");
-				break;
-				
-			case sgo:
-				
-				break;
-				
-			case sar:
-			
-				break;
-			
-			case mar:	
-			case mar1:
-				uart::print("case mar1");
-				pwm::off();
-				uart::print("case mar1 break");
-				break;
+				case mar:	
+				case mar1:
+					uart::print("case mar1");
+					pwm::off();
+					uart::print("case mar1 break");
+					break;
 
 
-			case mav:
-			
-				break;
-			
+				case mav:
+					pwm::setA(donne[1],1);
+					pwm::setB(donne[1],1);
+					break;
 				
-			case mre:
-			
-				break;
-			
+					
+				case mre:
+					pwm::setA(donne[1],0);
+					pwm::setB(donne[1],0);
 				
-			case trg:
-			
-				break;
+					break;
 				
-				
-			case dbc:
-			
-			
-				break;
-				
-				
-			case fbc:
-			
-			
-				break;
+					
+				case trg:
+					//pwm::setA(donne[1], 
+					break;
+					
+					
+				case dbc:
 				
 				
-			case fin:
-				estTermine = true;
-				pwm::off();
-				//son off
-				break;
-			
-			
-			
-		}
+					break;
+					
+					
+				case fbc:
+				
+				
+					break;
+					
+					
+				case fin:
+					estTermine = true;
+					pwm::off();
+					//son off
+					break;
+				
+				
+				
+			}
 	}
 		
 	
