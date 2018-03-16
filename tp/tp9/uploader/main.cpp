@@ -1,6 +1,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include <ohboy.h>
+#include <ohBoy.h>
 mem::Memoire24CXXX memoire;
 int  main()
 {
