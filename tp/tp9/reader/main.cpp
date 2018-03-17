@@ -1,5 +1,5 @@
 /*
- * Reader Interpreteur de byte code
+ * Reader: Interpréteur de bytecode du cours INF1995
  *
  * Créé par 
  * Cédric Tessier (1907831)
@@ -7,19 +7,20 @@
  * Pascal-Alexandre Morel (xxxxxxx)
  * Sean Costello (xxxxxxx)
  *
- * 1er mars 2018
+ * 20 mars 2018
  *
  * Description du programme:
- * Programme modifiant la couleur de la DEL en fonction de l'intensité lumineuse 
- * ambiante captée par le photorésistance.
+ * Programme lisant un bytecode sur la mémoire externe du robot. Il évalue ces
+ * instructions et les exécutent. Un programme nommé uploader se retrouve dans
+ * un autre dossier pour téléverser le bytecode sur la mémoire externe.
  *
  */
 #include <stdlib.h>
 #include "ohBoy.h"
 
-// Encodage des diverses instructions qui peuvent etre represente par le
-// bytecode. Ces instructions sont utilises dans la methode
-// instruction execute.
+// Encodage des diverses instructions qui peuvent être représentées par le
+// bytecode. Ces instructions sont utilisées dans la méthode 
+// instructionExecute()
 #define dbt 0x01
 #define att 0x02
 #define dal 0x44
@@ -41,22 +42,25 @@ void instructionExecute(uint8_t* instruction);
 int main() {
   uart::init();
   mem::Memoire24CXXX memoire;
+
+  //TODO Read the first two bytes and include them in the main loop
+
   uint16_t adresse = 2;
   uint8_t instruction[2];
 
   bool estTermine = false;
   bool debutCode = false;
 
-  uart::clear();  // Nettoye la console.
+  uart::clear();  // Nettoie la console.
   uart::print("Starting VirtualMachine\n\n");
 
   while (!estTermine) {
     memoire.lecture(
         adresse, instruction,
-        2);        // Lecture de la prochaine instruction qu'on met en memoire
+        2);        // Lecture de la prochaine instruction qu'on met en mémoire.
     adresse += 2;  // Compteur d'adresse
 
-    // Instructions de debogage. Utile pour verifier le bon fonctionnement
+    // Instructions de débogage. Utile pour vérifier le bon fonctionnement
     // du robot.
     uart::print("[Mem] => Instruction: ");
     uart::print(instruction[0]);
@@ -64,20 +68,20 @@ int main() {
     uart::print(instruction[1]);
     uart::println();
 
-    // Verification si on est au debut du programme si on n'est pas au debut
-    // du programme les instructions sont ignorees
+    // Vérification si l'on est au début du programme. Si l'on n'est pas au 
+    // début du programme, les instructions seront ignorées.
     if (!debutCode && instruction[0] == dbt) {
       debutCode = true;
 
-      // Intialisation des differents peripheriques sur le robot.
+      // Initialisation des différents périphériques sur le robot.
       light::init();
       pwm::init();
       soundpwm::init();
     }
 
-    // Une fois que l'instruction de debut a ete execute on peut commencer a
-    // regarder pour des instructions de controle. Les instructions de
-    // controle sont fin, dbc fbc.
+    // Une fois que l'instruction de début a été exécutée on peut commencer à
+    // regarder pour des instructions de contrôle. Les instructions de
+    // contrôle sont fin, dbc fbc.
     if (debutCode) {
       if (instruction[0] == fin) {
         estTermine = true;
@@ -85,29 +89,29 @@ int main() {
         soundpwm::off();
 
       } else if (instruction[0] == dbc) {
-        // On met toutes les instructions de la boucle dans la mémoire vive. Si
-        // on doit faire plus d'une itération sur la boucle.
+        // On met toutes les instructions de la boucle dans la mémoire vive. On 
+        // le fait seulement si plus d'une itération doit être faite.
         if (instruction[1] > 0) {
           uint16_t addresseBoucle = adresse;
           uint8_t instructionBoucle[2];
 
-          uint8_t* instructionBuffer = 0;  // Buffer utilise pour enregistrer
-                                           // les instructions en memoire.
+          uint8_t* instructionBuffer = 0;  // Buffer utilisé pour enregistrer
+                                           // les instructions en mémoire.
           uint8_t instructionCount = 0;
           memoire.lecture(addresseBoucle, instructionBoucle, 2);
 
-          // On itere tant que le l'instruction n'est pas l'instruction fbc qui
-          // est l'instruction qui indique la fin de la boucle
+          // On itère sur la mémoire tant que le l'instruction n'est pas 
+          // l'instruction fbc qui indique la fin de la boucle.
           while (instructionBoucle[0] != fbc) {
             instructionBuffer = (uint8_t*)realloc(
                 instructionBuffer,
                 instructionCount * 2 + 2);  // On fait de l'espace dans le
-                                            // buffer a l'aide de realloc pour
+                                            // buffer à l'aide de realloc() pour
                                             // ajouter les deux prochains bytes
                                             // d'instructions.
 
-            // Copie les deux bytes lues en memoire et les rajoute a la fin du
-            // buffer
+            // Copie les deux bytes lus en mémoire et les rajoutent à la fin du
+            // buffer.
             for (uint8_t i = 0; i < 2; i++) {
               instructionBuffer[instructionCount * 2 + i] =
                   instructionBoucle[i];
@@ -116,10 +120,10 @@ int main() {
             addresseBoucle += 2;
             instructionCount++;
             memoire.lecture(addresseBoucle, instructionBoucle,
-                            2);  // Cherche la prochaine valeur dans la memoire.
+                            2);  // Cherche la prochaine valeur dans la mémoire.
           }
 
-          // On fait le nombre d'ittérations nécessaires qui sont spécifiées par
+          // On fait le nombre d'itérations nécessaires qui sont spécifiées par
           // l'opérande de dbc.
           for (uint8_t i = 0; i < instruction[1]; i++) {
             uart::print("\n\n*** loop ");
@@ -128,18 +132,19 @@ int main() {
             uart::print(instructionCount);
             uart::print(" ***\n");
 
-            // On itere sur les instructions qui ont ete enregistres en memoire
+            // On itère sur les instructions qui ont été enregistrées en mémoire
             for (uint8_t j = 0; j < instructionCount; j++) {
               uart::print("\n--executing instruction ");
               uart::print(j);
               uart::println();
 
               uint8_t* singleInstruction =
-                  instructionBuffer + j * 2;  // On cree un nouveau pointeur qui
-                                              // pointe a la bonne place dans le
-                                              // buffer et on le passe a la
-                                              // fonction instructionExecute qui
-                                              // va interpreter ces deux bytes
+                  instructionBuffer + j * 2;  // On crée un nouveau pointeur qui
+                                              // pointe à la bonne place dans le
+                                              // buffer. On le passe à la
+                                              // fonction instructionExecute() 
+                                              // qui va interpréter ces deux 
+                                              // bytes.
               instructionExecute(singleInstruction);
 
               uart::print("--instruction ");
@@ -151,28 +156,31 @@ int main() {
             uart::print("*** end loop ***\n");
           }
 
-          // Nettoyage du buffer pour recuperer la memoire utilise par le buffer
+          // Nettoyage du buffer pour récupérer la mémoire utilisée par 
+          // celui-ci.
           free(instructionBuffer);
           instructionBuffer = 0;
         }
 
       } else if (instruction[0] != fbc) {
-        // Si ce n'est pas une instruction de controle, on execute l'instruction
-        // en question
+        // Si ce n'est pas une instruction de contrôle, on exécute l'instruction
+        // en question.
         instructionExecute(instruction);
       }
     }
   }
 
-  // Le programme a fini d'iterer sur le byte code.
+  // Le programme a fini d'itérer sur le bytecode.
   while (true)
     ;
 }
 
+
+
 /**
- * Execute l'instruction en question.
- * @param pointeur sur un tableau de 2 bytes qui reprensente l'instruction a
- * executer
+ * Exécute l'instruction passée en paramètre
+ * @param pointeur sur un tableau de deux bytes qui représente l'instruction à
+ * exécuter
  */
 void instructionExecute(uint8_t* instruction) {
   switch (instruction[0]) {
@@ -233,5 +241,9 @@ void instructionExecute(uint8_t* instruction) {
       _delay_ms(425);
       pwm::off();
       break;
+    default:
+      uart::print("Unknown instruction ");
+      uart::print(instruction[0]);
+      uart::println();
   }
 }
