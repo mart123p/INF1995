@@ -22,7 +22,7 @@ int main() {
   uart::init();
   light::init();
 
-  // Initialisation des interupts
+  // Initialisation des interrupts
   DDRD &= ~(2 << DDD2);
   EICRA |= (1 << ISC00);
   EIMSK |= (1 << INT0);
