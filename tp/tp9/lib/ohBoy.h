@@ -19,6 +19,7 @@
 #include "memory.h"
 #include "pwm.h"
 #include "sound.h"
+#include "soundpwm.h"
 #include "timer.h"
 #include "uart.h"
 

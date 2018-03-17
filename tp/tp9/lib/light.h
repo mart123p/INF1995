@@ -13,7 +13,7 @@ namespace light {
 
 
 /**
- * Set PortB pin in output mode
+ * Set PortC pin in output mode
  * @return void
  */
 void init();

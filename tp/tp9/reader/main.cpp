@@ -44,12 +44,14 @@ int main () {
 			debutCode = true;
 			light::init();
 			pwm::init();
+			soundpwm::init();
 		}
 	
 		if(debutCode){
 			if(donnee[0] == fin){
 				estTermine = true;
 				pwm::off();
+				soundpwm::off();
 				//son off
 			}else if(donnee[0] == dbc){
 
@@ -135,11 +137,11 @@ void instructionExecute(uint8_t* donnee){
 					break;
 					
 				case sgo:
-					
+					soundpwm::beep(donnee[1]);	
 					break;
 					
 				case sar:
-				
+					soundpwm::off();	
 					break;
 				
 				case mar:	

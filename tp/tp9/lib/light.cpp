@@ -1,15 +1,15 @@
 #include "light.h"
 #include "uart.h"
-void light::init() { DDRB |= 0xFF; }
+void light::init() { DDRC |= 0xFF; }
 
 void light::green() {
-  PORTB |= (1 << PD2);
-  PORTB &= ~(1 << PD3);
+  PORTC |= (1 << PD2);
+  PORTC &= ~(1 << PD3);
 }
 
 void light::red() {
-	PORTB |= (1 << PD3);
-	PORTB &= ~(1 << PD2);
+	PORTC |= (1 << PD3);
+	PORTC &= ~(1 << PD2);
 }
 
 void light::amber(uint16_t ms) {
@@ -22,16 +22,16 @@ void light::amber(uint16_t ms) {
 }
 
 void light::on(uint8_t pin){
-	PORTB |= pin;
+	PORTC |= pin;
 }
 
 void light::off() {
-	PORTB &= ~(1 << PD2);
-	PORTB &= ~(1 << PD3);
+	PORTC &= ~(1 << PD2);
+	PORTC &= ~(1 << PD3);
 }
 
 void light::off(uint8_t pin) {
-	PORTB &=  ~(pin);
+	PORTC &=  ~(pin);
 }
 
 void light::test() {
