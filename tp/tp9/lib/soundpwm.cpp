@@ -9,17 +9,18 @@ void soundpwm::init(){
 	DDRB |= 0x0C;	
 	PORTB &= ~(1 << PB2);
 	//Reinitialise le compteur
-    	TCNT0 = 0;
+    TCNT0 = 0;
 
-	TCCR0A |= _BV(COM0A0) | _BV(WGM01);
+	TCCR0A = 0;
 	TCCR0B = (1 << CS02);
 
 }
 
 void soundpwm::beep(uint8_t note){
-	TCCR0A |= _BV(COM0A0) | _BV(WGM01);
-	if(note >= 45 &&  note <= 81)
+	if(note >= 45 &&  note <= 81){
+		TCCR0A |= _BV(COM0A0) | _BV(WGM01);
 		OCR0A = pgm_read_byte(&notesEncoded[note-45]);
+	}
 }
 void soundpwm::off(){
 	TCCR0A = 0;

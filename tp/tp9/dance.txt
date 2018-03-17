@@ -1,0 +1,22 @@
+dbt; //Debut
+dal 4; //Led 1 allume 
+mav 255; // avance 
+att 50; 
+dbc 5; //Boucle
+	trd;
+	sgo 81;
+	att 10;
+	sgo 61;
+	att 10;
+	sgo 45;
+fbc;
+sar;
+mav 200;
+att 20;
+trg;
+att 50;
+mre 255;
+att 50;
+mar;
+det 127;
+fin;
