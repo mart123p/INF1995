@@ -4,8 +4,8 @@
  * Créé par
  * Cédric Tessier (1907831)
  * Martin Pouliot (1900045)
- * Pascal-Alexandre Morel (xxxxxxx)
- * Sean Costello (xxxxxxx)
+ * Pascal-Alexandre Morel (1907829)
+ * Sean Costello (1902126)
  *
  * 20 mars 2018
  *
