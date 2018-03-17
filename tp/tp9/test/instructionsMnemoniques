@@ -1,5 +1,14 @@
 att 10;
 dbt;
+sgo 81;//joue 3 sons
+att 100;
+sgo 65;
+att 100;
+sgo 45;
+att 100;
+sar;
+sgo 120;
+
 dal 17; //Allume LED 5 et 1
 att 40; //Attend 1s
 det 17;
@@ -26,4 +35,6 @@ att 10; //Attend 1s
 //att 10;
 //det 127;
 //mre 255; //Recule 
+
+
 fin;
