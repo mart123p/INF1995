@@ -6,9 +6,8 @@
 #include <util/delay.h>
 
 /**
- * Methods to make some sound and music
+ * Methods used to make some sound using pwm
  */
-
 namespace soundpwm {
 
 /**
@@ -19,7 +18,7 @@ void init();
 
 /**
  * Play a beep sound
- * @param duration in ms to play beep sound
+ * @param midi note
  * @return void
  */
 void beep(const uint8_t note);

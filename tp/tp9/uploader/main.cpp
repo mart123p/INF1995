@@ -24,6 +24,7 @@ int  main()
         }
 }
 //Interrupt Service Routine for INT0
+//Reads back the data that was written to memory
 ISR(INT0_vect)
 {
         _delay_ms(5);

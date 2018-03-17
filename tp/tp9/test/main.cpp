@@ -1,7 +1,7 @@
 /*
  *main.cpp:
  *
- * OhBoy library test
+ * OhBoy, simple program to test the sound on the robot.
  *
  *
  */
