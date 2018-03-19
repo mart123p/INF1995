@@ -88,7 +88,7 @@ void uart::print(const long n) {
     uartSend('-');
   }
   uint8_t rem;
-  while (pow(10, size) < num) {
+  while (pow(10, size) <= num) {
     size++;
   }
   uint8_t digits[size];
@@ -112,7 +112,7 @@ void uart::print(const uint32_t n) {
     uartSend('-');
   }
   uint8_t rem;
-  while (pow_unsigned(10, size) < num) {
+  while (pow_unsigned(10, size) <= num) {
     size++;
   }
   uint8_t digits[size];

@@ -43,8 +43,13 @@ int main() {
   uart::init();
   mem::Memoire24CXXX memoire;
 
-  //TODO Read the first two bytes and include them in the main loop
-
+  //Extraction de la taille du bytecode. Cette valeur va agir comme limite
+  //afin que le programme puisse arrêter même s'il n y a pas d'instruction qui
+  //indique la fin du bytecode.
+  uint8_t bytecodeHeader[2]; 
+  memoire.lecture(0,bytecodeHeader,2);
+  uint16_t tailleBytecode = bytecodeHeader[1] | (bytecodeHeader[0] << 8);
+  
   uint16_t adresse = 2;
   uint8_t instruction[2];
 
@@ -52,8 +57,10 @@ int main() {
   bool debutCode = false;
 
   uart::clear();  // Nettoie la console.
-  uart::print("Starting VirtualMachine\n\n");
-
+  uart::print("Starting VirtualMachine\n");
+  uart::print("Bytecode size: ");
+  uart::print(tailleBytecode);
+  uart::print("\n\n");
   while (!estTermine) {
     memoire.lecture(
         adresse, instruction,
@@ -62,7 +69,9 @@ int main() {
 
     // Instructions de débogage. Utile pour vérifier le bon fonctionnement
     // du robot.
-    uart::print("[Mem] => Instruction: ");
+    uart::print("[Mem ");
+    uart::print(adresse);
+    uart::print("] => Instruction: ");
     uart::print(instruction[0]);
     uart::print(" ");
     uart::print(instruction[1]);
@@ -77,14 +86,16 @@ int main() {
       light::init();
       pwm::init();
       soundpwm::init();
+      continue;
     }
 
     // Une fois que l'instruction de début a été exécutée on peut commencer à
     // regarder pour des instructions de contrôle. Les instructions de
     // contrôle sont fin, dbc fbc.
     if (debutCode) {
-      if (instruction[0] == fin) {
+      if (instruction[0] == fin || adresse >= tailleBytecode) {
         estTermine = true;
+        uart::print("\n\nEOF");
         pwm::off();
         soundpwm::off();
 
@@ -202,10 +213,12 @@ void instructionExecute(uint8_t* instruction) {
       break;
 
     case sgo:
+      uart::print("sgo\n");
       soundpwm::beep(instruction[1]);
       break;
 
     case sar:
+      uart::print("sar\n");
       soundpwm::off();
       break;
 
