@@ -10,13 +10,13 @@ dbc 5; //Boucle
 	att 10;
 	sgo 45;
 fbc;
-sar;
+sar; //Arreter le son
 mav 200;
 att 20;
 trg;
 att 50;
 mre 255;
 att 50;
-mar;
-det 127;
+mar; //Arreter les moteurs
+det 127; //Eteint le portC au complet
 fin;
