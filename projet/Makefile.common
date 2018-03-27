@@ -1,0 +1,8 @@
+#Makefile common
+CC=avr-gcc
+MCU=atmega324pa
+OPTLEVEL=s
+CFLAGS=-I. -MMD -g -mmcu=$(MCU) -O$(OPTLEVEL) \
+        -fpack-struct -fshort-enums             \
+        -funsigned-bitfields -funsigned-char    \
+        -Wall
