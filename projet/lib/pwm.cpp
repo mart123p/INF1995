@@ -9,21 +9,75 @@ void pwm::init() {
   DDRD = 0xff;
 }
 
-void pwm::setA(uint8_t signal, bool wheelDirection) {
-  OCR1A = signal;
-  if (wheelDirection)
-    PORTD |= 0x80;  // set PIND8 to 1
-  else
-    PORTD &= 0x7F;  // set PIND8 to 0
+void pwm::setA(int8_t signal) {
+    
+    if (signal >= 0){
+      PORTD |= 0x80;  // set PIND8 to 1
+    }
+    else  {
+        PORTD &= 0x7F;  // set PIND8 to 0
+        signal *=-1;
+    }
+     
+    switch (signal)
+    {
+    
+
+        case 100:
+          OCR1A = 255;
+          break;
+
+        case 75:
+          OCR1A = 191;
+          break;
+
+        case 50:
+          OCR1A = 128;
+          break;
+
+        case 25:
+          OCR1A = 64;
+          break;
+
+        case 0:
+          OCR1A = 0;
+          break;
+    }
 }
 
-void pwm::setB(uint8_t signal, bool wheelDirection) {
-  OCR1B = signal;
-  if (wheelDirection)
-    PORTD |= 0x40;  // set PIND7 to 1
-  else
-    PORTD &= 0xBf;  // set PIND7 to 0
+void pwm::setB(int8_t signal) {
+    if (signal >= 0){
+      PORTD |= 0x40;  // set PIND8 to 1
+    }
+    else  {
+        PORTD &= 0xBF;  // set PIND8 to 0
+        signal *=-1;
+    }
+     
+    switch (signal)
+    {
+        case 100:
+          OCR1A = 255;
+          break;
+        
+        case 75:
+          OCR1A = 191;
+          break;
+        
+        case 50:
+          OCR1A = 128;
+          break;
+        
+        case 25:
+          OCR1A = 64;
+          break;
+        
+        case 0:
+          OCR1A = 0;
+          break;
+    }
 }
+
 
 void pwm::off(){
 	pwm::setA(0,0);

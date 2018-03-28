@@ -18,7 +18,7 @@ void init();
  * @param wheelDirection (0 forward or 1 backward)
  * @return void
  */
-void setA(uint8_t signal, bool wheelDirection);
+void setA(int8_t signal);
 
 /**
  * Set pwm signal to OCR1B
@@ -26,7 +26,7 @@ void setA(uint8_t signal, bool wheelDirection);
  * @param wheelDirection (0 forward or 1 backward)
  * @return void
  */
-void setB(uint8_t signal, bool wheelDirection);
+void setB(int8_t signal);
 
 /**
  * Test all the functions in pwm.h
