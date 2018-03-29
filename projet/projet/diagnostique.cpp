@@ -17,6 +17,7 @@
 #define vert 0x04
 
 uint8_t etatBoutonPoussoir(){
+	_delay_ms(5);
 	if(PIND & 0x04) {
 		return 0x00; 		// 0x00 pour enfonce
 	}
@@ -97,5 +98,9 @@ void envoieInformation() {
 
 void diagnostique(){
 	light::init();
-	light::green();
+	while(1) {
+	   lectureRequete();
+	   //envoieInformation();
+  }
 }
+
