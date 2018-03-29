@@ -34,6 +34,21 @@ void light::off(uint8_t pin) {
 	PORTC &=  ~(pin);
 }
 
+void light::controleDeLaDel(uint8_t donnee) {
+	switch (donnee) {	
+		case 0x00:
+			light::off();
+			break;
+		case 0x01:
+			light::green();
+			break;
+		case 0x02:
+			light::red();
+			break;
+	}
+}
+
+
 void light::test() {
 	light::init();
 	light::green();

@@ -48,6 +48,16 @@ void amber(uint16_t ms);
 void on(uint8_t pin);
 
 
+
+/**
+ * Changes color of LED or turns it off 
+ * @param donnee
+ * @return void
+ */
+void controleDeLaDel(uint8_t donnee);
+
+
+
 /**
  * Turn off the LED
  * @param time in ms the LED is amber

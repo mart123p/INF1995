@@ -12,27 +12,25 @@ void pwm::init() {
 void pwm::setA(int8_t signal) {
     
     if (signal >= 0){
-      PORTD |= 0x80;  // set PIND8 to 1
+      PORTD |= 0x80;    // Avancer si signal positif
     }
     else  {
-        PORTD &= 0x7F;  // set PIND8 to 0
-        signal *=-1;
+        PORTD &= 0x7F;  // Reculer si signal negatif
+        signal *=-1;	// Pour diminuer le nombre de case dans le switch
     }
      
     switch (signal)
     {
-    
-
         case 100:
-          OCR1A = 255;
+          OCR1A = 255; // 255 * (100/100)
           break;
 
         case 75:
-          OCR1A = 191;
+          OCR1A = 191; // 255 * (75/100)
           break;
 
         case 50:
-          OCR1A = 128;
+          OCR1A = 128; // etc...
           break;
 
         case 25:
@@ -47,10 +45,10 @@ void pwm::setA(int8_t signal) {
 
 void pwm::setB(int8_t signal) {
     if (signal >= 0){
-      PORTD |= 0x40;  // set PIND8 to 1
+      PORTD |= 0x40;  
     }
     else  {
-        PORTD &= 0xBF;  // set PIND8 to 0
+        PORTD &= 0xBF; 
         signal *=-1;
     }
      
@@ -86,23 +84,23 @@ void pwm::off(){
 
 void pwm::test() {
   pwm::init();
-/*
-  pwm::setA(0, 1);
-  pwm::setB(0, 1);
+
+  pwm::setA(0);
+  pwm::setB(0);
   _delay_ms(1);
 
-  pwm::setA(170, 1);
-  pwm::setB(170, 1);
+  pwm::setA(75);
+  pwm::setB(75);
   _delay_ms(4000);
 
-  pwm::setA(170, 0);
-  pwm::setB(170, 0);
+  pwm::setA(-75);
+  pwm::setB(-75);
   _delay_ms(4000);
 
-  pwm::setA(255, 0);
-  pwm::setB(255, 0);
+  pwm::setA(100);
+  pwm::setB(100);
   _delay_ms(8000);
 
-  pwm::setA(0, 1);
-  pwm::setB(0, 1);*/
+  pwm::setA(0);
+  pwm::setB(0);
 }
