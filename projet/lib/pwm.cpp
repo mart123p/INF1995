@@ -80,13 +80,13 @@ void pwm::setB(int8_t signal) {
 
 
 void pwm::off(){
-	pwm::setA(0,0);
-	pwm::setB(0,0);
+	pwm::setA(0);
+	pwm::setB(0);
 }
 
 void pwm::test() {
   pwm::init();
-
+/*
   pwm::setA(0, 1);
   pwm::setB(0, 1);
   _delay_ms(1);
@@ -104,5 +104,5 @@ void pwm::test() {
   _delay_ms(8000);
 
   pwm::setA(0, 1);
-  pwm::setB(0, 1);
+  pwm::setB(0, 1);*/
 }

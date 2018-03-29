@@ -82,6 +82,14 @@ void println();
 uint8_t readData();
 
 /**
+ * Send data with uart
+ * @param data The data to send 
+ * @return void 
+ */
+void sendData(uint8_t data);
+
+
+/**
  * Clear the console
  * @return void
  */
