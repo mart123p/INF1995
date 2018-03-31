@@ -14,19 +14,17 @@ void init();
 
 /**
  * Set pwm signal to OCR1A
- * @param signal (0 to 255)
- * @param wheelDirection (0 forward or 1 backward)
+ * @param signal (-100 to 100)
  * @return void
  */
-void setA(uint8_t signal, bool wheelDirection);
+void setA(int8_t signal);
 
 /**
  * Set pwm signal to OCR1B
- * @param signal (0 to 255)
- * @param wheelDirection (0 forward or 1 backward)
+ * @param signal (-100 to 100)
  * @return void
  */
-void setB(uint8_t signal, bool wheelDirection);
+void setB(int8_t signal);
 
 /**
  * Test all the functions in pwm.h
