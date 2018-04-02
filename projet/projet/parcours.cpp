@@ -1,5 +1,12 @@
 #include "parcours.h"
-int movingAvg(int *ptrArrNumbers, int *ptrSum, int pos, int len, uint16_t nextNum);
+int movingAvg(int *ptrArrNumbers, int *ptrSum, int pos, int len, uint16_t nextNum){
+	//Subtract the oldest number from the prev sum, add the new number
+	*ptrSum = *ptrSum - ptrArrNumbers[pos] + (int) nextNum;
+	//Assign the nextNum to the position in the array
+	ptrArrNumbers[pos] = nextNum;
+	//return the average
+	return *ptrSum / len;
+}
 
 
 void parcours(){
