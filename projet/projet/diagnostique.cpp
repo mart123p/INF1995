@@ -15,15 +15,16 @@
 // Donnees pour identification du robot
 #define nSection 0x04
 #define vert 0x04
+volatile bool ready = false;
+
+Sensor sensor;
 
 uint8_t etatBoutonPoussoir(){
-	_delay_ms(5);
 	if(PIND & 0x04) {
 		return 0x00; 		// 0x00 pour enfonce
 	}
 	return 0x01;			// 0x01 pour relache
 } 
-
 
 
 void envoyerIdentificationRobot() {
@@ -57,6 +58,7 @@ void lectureRequete() {
 	bool aLuIntruction = false;
 	while(!aLuIntruction) {
 		tableauDonnees[0] = uart::readData(); 		// On met instruction dans tableau
+		cli();
 		if(tableauDonnees[0] != 0){			  		// S'il y a une instruction
  			tableauDonnees[1] = uart::readData();   // valide, on lit la donnee
 			aLuIntruction = true;
@@ -66,11 +68,11 @@ void lectureRequete() {
 	switch (tableauDonnees[0]){
 
 		case 0xF8:
-			pwm::setA(tableauDonnees[1]);
+			pwm::setB(tableauDonnees[1]);
 			break;
 
-		case 0xF9:
-			pwm::setB(tableauDonnees[1]);
+		case 0xF9:					
+			pwm::setA(tableauDonnees[1]);
 			break;
 
 		case 0xFA:
@@ -79,8 +81,12 @@ void lectureRequete() {
 
 		case 0xFB:
 			envoyerIdentificationRobot();
+			ready = true;
 			break;
 	}
+	sei();
+
+
 }
 		
 
@@ -90,17 +96,25 @@ void envoieInformation() {
 	uart::sendData(etatBoutonPoussoir());
 	// Envoie etat des capteurs
 	uart::sendData(capteurD);
-	uart::sendData(60);
+	uart::sendData(sensor.read0());
 	uart::sendData(capteurG);
-	uart::sendData(60);
+	uart::sendData(sensor.read1());
 }
 
 
 void diagnostique(){
-	light::init();
+	DDRD &= ~(1 << DDD2);     // Mettre le bouton en entrée 
+	
+	UCSR0B |= (1 << RXCIE0); // Activate receive interrupt
+
+	sei();
 	while(1) {
-	   lectureRequete();
-	   //envoieInformation();
+		sensor.tick();
+		if(ready)
+	   	envoieInformation();
   }
 }
-
+ISR(USART0_RX_vect) {
+	ready = true;
+	lectureRequete();
+}

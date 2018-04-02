@@ -12,10 +12,10 @@ void pwm::init() {
 void pwm::setA(int8_t signal) {
     
     if (signal >= 0){
-      PORTD |= 0x80;    // Avancer si signal positif
+      PORTD &= 0x7F;  // Reculer si signal negatif
     }
     else  {
-        PORTD &= 0x7F;  // Reculer si signal negatif
+        PORTD |= 0x80;    // Avancer si signal positif
         signal *=-1;	// Pour diminuer le nombre de case dans le switch
     }
      
@@ -45,33 +45,34 @@ void pwm::setA(int8_t signal) {
 
 void pwm::setB(int8_t signal) {
     if (signal >= 0){
-      PORTD |= 0x40;  
+      PORTD &= 0xBF; 
+
     }
     else  {
-        PORTD &= 0xBF; 
-        signal *=-1;
+      PORTD |= 0x40;  
+      signal *=-1;
     }
      
     switch (signal)
     {
         case 100:
-          OCR1A = 255;
+          OCR1B = 255;
           break;
         
         case 75:
-          OCR1A = 191;
+          OCR1B = 191;
           break;
         
         case 50:
-          OCR1A = 128;
+          OCR1B = 128;
           break;
         
         case 25:
-          OCR1A = 64;
+          OCR1B = 64;
           break;
         
         case 0:
-          OCR1A = 0;
+          OCR1B = 0;
           break;
     }
 }

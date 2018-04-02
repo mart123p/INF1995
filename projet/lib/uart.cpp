@@ -57,7 +57,7 @@ uint8_t uart::readData(){
 
 void uart::sendData(uint8_t data){
   // Wait for empty transmit buffer 
-  while( !( UCSR0A & (1<<UDRE0)) );   // Est-ce bien UCSR 0 A, UDRE 0, UDR 0?
+  while( !( UCSR0A & (1<<UDRE0)) );
   // Put data into buffer, sends the data 
   UDR0 = data;
 }

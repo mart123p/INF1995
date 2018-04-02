@@ -1,7 +1,6 @@
 #include "sensors.h"
 
 Sensor::Sensor(){
-	can::can can;
 	pos0 = 0;
 	pos1 = 0;
 	sum0 = 0;
@@ -36,7 +35,7 @@ uint8_t Sensor::read0(){
 
 uint8_t Sensor::read1(){
 	int newAvg = 0;
-	newAvg = movingAvg(data1, &sum1, pos1, SAMPLE_SIZE, can.lecture(0));
+	newAvg = movingAvg(data1, &sum1, pos1, SAMPLE_SIZE, can.lecture(1));
 	pos1++;
 	if (pos1 >= SAMPLE_SIZE){
 	    pos1 = 0;
