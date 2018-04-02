@@ -15,8 +15,8 @@ public:
 private:
 	int movingAvg(int *ptrArrNumbers, int *ptrSum, uint8_t pos, uint8_t len, uint16_t nextNum);
 	can::can can;
-	int* data0;
-	int* data1;
+	int data0[SAMPLE_SIZE];
+	int data1[SAMPLE_SIZE];
 	uint8_t pos0;
 	uint8_t pos1;
 	int sum0;

@@ -21,6 +21,7 @@
 #include "sound.h"
 #include "soundpwm.h"
 #include "timer.h"
+#include "sensors.h"
 #include "uart.h"
 
 #endif

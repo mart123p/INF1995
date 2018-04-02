@@ -2,8 +2,6 @@
 
 Sensor::Sensor(){
 	can::can can;
-	data0 = new int[SAMPLE_SIZE];
-	data1 = new int[SAMPLE_SIZE];
 	pos0 = 0;
 	pos1 = 0;
 	sum0 = 0;
