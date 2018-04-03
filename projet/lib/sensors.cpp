@@ -25,10 +25,10 @@ uint8_t Sensor::read0(){
 	    pos0 = 0;
 	}
 	int distance = 0;
-	if(newAvg >= 210){
-	   	distance = -18 + (9500/newAvg) + (newAvg/51); 
+	if(newAvg >= 250){
+	   	distance = -23 + (11200/newAvg) + (newAvg/43); 
 	}else{
-	    distance = -132 + (23370/newAvg) + (newAvg/4); 
+	    distance = -23 + (11970/newAvg) + (newAvg/49); 
 	}
 	return (uint8_t) distance;
 }
@@ -41,10 +41,10 @@ uint8_t Sensor::read1(){
 	    pos1 = 0;
 	}
 	int distance = 0;
-	if(newAvg >= 250){
-	   	distance = -23 + (11200/newAvg) + (newAvg/43); 
+	if(newAvg >= 210){
+	   	distance = -18 + (9500/newAvg) + (newAvg/51); 
 	}else{
-	    distance = -23 + (11970/newAvg) + (newAvg/49); 
+	    distance = -132 + (23370/newAvg) + (newAvg/4); 
 	}
 	return (uint8_t) distance;
 }
