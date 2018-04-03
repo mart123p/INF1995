@@ -110,8 +110,10 @@ void diagnostique(){
 	sei();
 	while(1) {
 		sensor.tick();
-		if(ready)
-	   	envoieInformation();
+		if(ready){
+	   		envoieInformation();
+	   		_delay_ms(50);
+	   	}
   }
 }
 ISR(USART0_RX_vect) {

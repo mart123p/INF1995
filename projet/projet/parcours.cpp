@@ -1,38 +1,30 @@
 #include "parcours.h"
-int movingAvg(int *ptrArrNumbers, int *ptrSum, int pos, int len, uint16_t nextNum){
-	//Subtract the oldest number from the prev sum, add the new number
-	*ptrSum = *ptrSum - ptrArrNumbers[pos] + (int) nextNum;
-	//Assign the nextNum to the position in the array
-	ptrArrNumbers[pos] = nextNum;
-	//return the average
-	return *ptrSum / len;
-}
 
-
+enum State {WALL_0, WALL_1, NONE};
 void parcours(){
-	light::init();
-	light::red();
-	can::can can;
-	int arrNumbers[20] = {0};
-	int newAvg = 0;
-	int pos = 0;
-	int sum = 0;
+	State state = NONE;
+	Sensor sensor;
+	bool isRunning = true;
+	light::green();
+	while(isRunning){
+		switch(state){
+			case NONE:
+				if(sensor.read0() > sensor.read1()){
+					state = WALL_1;
+				}else{
+					state = WALL_0;
+				}
+				pwm::setA(75);
+				pwm::setB(75);
+			break;
 
-	while(true){
-		newAvg = movingAvg(arrNumbers, &sum, pos, 20, can.lecture(0));
-	    pos++;
-	    if (pos >= 20){
-	      pos = 0;
-	    }
-	    int distance = 0;
-	    if(newAvg >= 250){
-	   		distance = -23 + (11200/newAvg) + (newAvg/43); 
-	    }else{
-	    	distance = -23 + (11970/newAvg) + (newAvg/49); 
-	    }
-
-	    uart::print(distance);
-	    uart::println();	
+			case WALL_0:
+				uart::print("WALL_0");
+			break;
+			case WALL_1:
+				uart::print("WALL_1");
+			break;
+		}
+		sensor.tick();
 	}
-
 }
