@@ -2,7 +2,10 @@
 #define PARCOURS_H
 #include "ohBoy.h"
 
-
-void parcours();
-
+class Parcours{
+public:
+	void exec();
+private:
+	Sensor sensor;
+};
 #endif

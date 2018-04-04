@@ -1,25 +1,28 @@
 #include "diagnostique.h"
-
 #include "ohBoy.h"
 
-// Instructions d'envoie d'identification du robot
-#define nom 0xf0
-#define equipe 0xf1
-#define section 0xf2
-#define session 0xf3
-#define couleur 0xf4
-#define etatBP 0xf5
-#define capteurD 0xf6
-#define capteurG 0xf7
-
-// Donnees pour identification du robot
-#define nSection 0x04
-#define vert 0x04
 volatile bool ready = false;
 
-Sensor sensor;
+void Diagnostique::exec(){
+	DDRD &= ~(1 << DDD2);     // Mettre le bouton en entrée 
+	
+	UCSR0B |= (1 << RXCIE0); // Activate receive interrupt
 
-uint8_t etatBoutonPoussoir(){
+	sei();
+	while(1) {
+		if(ready){
+	   		envoieInformation();
+	   		_delay_ms(50);
+	   	}
+  }
+}
+
+ISR(USART0_RX_vect) {
+	ready = true;
+	lectureRequete();
+}
+
+uint8_t Diagnostique::etatBoutonPoussoir(){
 	if(PIND & 0x04) {
 		return 0x00; 		// 0x00 pour enfonce
 	}
@@ -28,6 +31,9 @@ uint8_t etatBoutonPoussoir(){
 
 
 void envoyerIdentificationRobot() {
+	uint8_t robot[6] = {'S','n','o','o','p','y'};
+	uint8_t nEquipe[4] = {'8', '2', '9', '2'};
+	uint8_t nSession[4] = {'1','8','-','1'};
 	// nom
 	uart::sendData(nom);
 	for (int i = 0; i < 6; i++) {
@@ -37,6 +43,9 @@ void envoyerIdentificationRobot() {
 	uart::sendData(equipe);
 	for (int i = 0; i < 4; i++)
 		uart::sendData(nEquipe[i]);
+	// couleur
+	uart::sendData(couleur);
+	uart::sendData(vert);	
 	
 	// section
 	uart::sendData(section);
@@ -47,9 +56,6 @@ void envoyerIdentificationRobot() {
 	for (int i = 0; i < 4; i++)
 		uart::sendData(nSession[i]);
 	
-	// couleur
-	uart::sendData(couleur);
-	uart::sendData(vert);	
 }
 
 
@@ -90,7 +96,7 @@ void lectureRequete() {
 }
 		
 
-void envoieInformation() {
+void Diagnostique::envoieInformation() {
 	// Envoie etat du BP
 	uart::sendData(etatBP);
 	uart::sendData(etatBoutonPoussoir());
@@ -99,24 +105,4 @@ void envoieInformation() {
 	uart::sendData(sensor.read0());
 	uart::sendData(capteurG);
 	uart::sendData(sensor.read1());
-}
-
-
-void diagnostique(){
-	DDRD &= ~(1 << DDD2);     // Mettre le bouton en entrée 
-	
-	UCSR0B |= (1 << RXCIE0); // Activate receive interrupt
-
-	sei();
-	while(1) {
-		sensor.tick();
-		if(ready){
-	   		envoieInformation();
-	   		_delay_ms(50);
-	   	}
-  }
-}
-ISR(USART0_RX_vect) {
-	ready = true;
-	lectureRequete();
 }

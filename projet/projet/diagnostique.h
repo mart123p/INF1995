@@ -4,14 +4,32 @@
 #include <avr/pgmspace.h>
 
 
-const uint8_t robot[] = {'S','n','o','o','p','y'};
-const uint8_t nEquipe[] PROGMEM = {'8', '2', '9', '2'};
-const uint8_t nSession[] PROGMEM = {'1','8','-','1'};
+// Instructions d'envoie d'identification du robot
+#define nom 0xf0
+#define equipe 0xf1
+#define section 0xf2
+#define session 0xf3
+#define couleur 0xf4
+#define etatBP 0xf5
+#define capteurD 0xf6
+#define capteurG 0xf7
 
-uint8_t etatBoutonPoussoir();
+// Donnees pour identification du robot
+#define nSection 0x04
+#define vert 0x04
+
+
+class Diagnostique{
+	public:
+	void exec();
+private:
+	
+	uint8_t etatBoutonPoussoir();
+	void envoieInformation();
+	Sensor sensor;
+};
+
 void envoyerIdentificationRobot();
 void lectureRequete();
-void envoieInformation();
-void diagnostique();
 
 #endif
