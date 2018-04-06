@@ -74,11 +74,11 @@ void lectureRequete() {
 	switch (tableauDonnees[0]){
 
 		case 0xF8:
-			pwm::setB(tableauDonnees[1]);
+			pwm::set0(tableauDonnees[1]);
 			break;
 
 		case 0xF9:					
-			pwm::setA(tableauDonnees[1]);
+			pwm::set1(tableauDonnees[1]);
 			break;
 
 		case 0xFA:
