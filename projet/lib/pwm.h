@@ -17,14 +17,14 @@ void init();
  * @param signal (-100 to 100)
  * @return void
  */
-void setA(int8_t signal);
+void set1(int8_t signal);
 
 /**
  * Set pwm signal to OCR1B
  * @param signal (-100 to 100)
  * @return void
  */
-void setB(int8_t signal);
+void set0(int8_t signal);
 
 /**
  * Test all the functions in pwm.h

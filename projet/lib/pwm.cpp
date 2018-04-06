@@ -9,7 +9,7 @@ void pwm::init() {
   DDRD = 0xff;
 }
 
-void pwm::setA(int8_t signal) {
+void pwm::set1(int8_t signal) {
     
     if (signal >= 0){
       PORTD &= 0x7F;  // Reculer si signal negatif
@@ -22,7 +22,7 @@ void pwm::setA(int8_t signal) {
     OCR1A = (int)(255 * signal) / 100;
 }
 
-void pwm::setB(int8_t signal) {
+void pwm::set0(int8_t signal) {
     if (signal >= 0){
       PORTD &= 0xBF; 
 
@@ -37,29 +37,29 @@ void pwm::setB(int8_t signal) {
 
 
 void pwm::off(){
-	pwm::setA(0);
-	pwm::setB(0);
+	pwm::set1(0);
+	pwm::set0(0);
 }
 
 void pwm::test() {
   pwm::init();
 
-  pwm::setA(0);
-  pwm::setB(0);
+  pwm::set1(0);
+  pwm::set0(0);
   _delay_ms(1);
 
-  pwm::setA(75);
-  pwm::setB(75);
+  pwm::set1(75);
+  pwm::set0(75);
   _delay_ms(4000);
 
-  pwm::setA(-75);
-  pwm::setB(-75);
+  pwm::set1(-75);
+  pwm::set0(-75);
   _delay_ms(4000);
 
-  pwm::setA(100);
-  pwm::setB(100);
+  pwm::set1(100);
+  pwm::set0(100);
   _delay_ms(8000);
 
-  pwm::setA(0);
-  pwm::setB(0);
+  pwm::set1(0);
+  pwm::set0(0);
 }
