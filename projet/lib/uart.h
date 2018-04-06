@@ -100,7 +100,7 @@ void clear();
  */ 
 void test();
 
-void parcousDebug(uint8_t sensor0, uint8_t sensor1, uint8_t state, const char *c);
+void parcoursDebug(uint8_t sensor0, uint8_t sensor1, uint8_t state, const char *c);
 
 }  // namespace uart
 

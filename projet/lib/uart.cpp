@@ -143,7 +143,7 @@ void uart::clear(){
 }
 
 
-void parcousDebug(uint8_t sensor0, uint8_t sensor1, uint8_t state, const char *c){
+void uart::parcoursDebug(uint8_t sensor0, uint8_t sensor1, uint8_t state, const char *c){
 	uart::sendData(0x11);
 	uart::sendData(sensor0);
 	uart::sendData(sensor1);
