@@ -19,28 +19,7 @@ void pwm::setA(int8_t signal) {
         signal *=-1;	// Pour diminuer le nombre de case dans le switch
     }
      
-    switch (signal)
-    {
-        case 100:
-          OCR1A = 255; // 255 * (100/100)
-          break;
-
-        case 75:
-          OCR1A = 191; // 255 * (75/100)
-          break;
-
-        case 50:
-          OCR1A = 128; // etc...
-          break;
-
-        case 25:
-          OCR1A = 64;
-          break;
-
-        case 0:
-          OCR1A = 0;
-          break;
-    }
+    OCR1A = (int)(255 * signal) / 100;
 }
 
 void pwm::setB(int8_t signal) {
@@ -52,29 +31,8 @@ void pwm::setB(int8_t signal) {
       PORTD |= 0x40;  
       signal *=-1;
     }
-     
-    switch (signal)
-    {
-        case 100:
-          OCR1B = 255;
-          break;
-        
-        case 75:
-          OCR1B = 191;
-          break;
-        
-        case 50:
-          OCR1B = 128;
-          break;
-        
-        case 25:
-          OCR1B = 64;
-          break;
-        
-        case 0:
-          OCR1B = 0;
-          break;
-    }
+    
+    OCR1B = (int)(255 * signal) /100;
 }
 
 
