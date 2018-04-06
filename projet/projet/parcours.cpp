@@ -8,6 +8,8 @@
 
 
 
+// LE BON
+
 Parcours::Parcours(){
 	lastValue0 = 0;
 	lastValue1 = 0;
@@ -30,6 +32,7 @@ void Parcours::exec(){
 		uart::sendData(0x11);
 		uart::sendData(currentValue0);
 		uart::sendData(currentValue1);
+		uart::sendData(state);
 
 		
 
@@ -38,13 +41,13 @@ void Parcours::exec(){
 
 		switch(state){
 			case READY:
-				if(currentValue0 > currentValue1){
-					state = WALL_1;
+				if(currentValue0 > currentValue1){ // Determiner quel 
+					state = WALL_1;				   // mur suivre
 				}else{
 					state = WALL_0;
 				}
-				pwm::setA(defaultSpeed);
-				pwm::setB(defaultSpeed);
+				pwm::set1(defaultSpeed);
+				pwm::set0(defaultSpeed);
 			break;
 
 			case SWITCH_WALL:
@@ -52,11 +55,11 @@ void Parcours::exec(){
 			break;
 
 			case WALL_0:
-				if(currentValue0 > vide_0)
+				if(currentValue0 > vide_0) // Si trop loin au mur, tourner
 					state = BIG_TURN_0;
 				else{
-					ajustement0();
-				}
+					ajustement0();// Pour rester entre 13 et 16 cm
+				}				  // de distance.
 			break;
 
 			case BIG_TURN_0:
@@ -119,26 +122,26 @@ void Parcours::grosAjustement0()
 		
 		//Le robot tourne vers le mur 0
 		light::red();
-		pwm::setA(defaultSpeed);
-		pwm::setB(-40);
+		pwm::set1(defaultSpeed);
+		pwm::set0(-40);
 		_delay_ms(1000);
 		
 		//Le robot avance pendant une seconde
-		pwm::setA(defaultSpeed);
-		pwm::setB(defaultSpeed);
+		pwm::set1(defaultSpeed);
+		pwm::set0(defaultSpeed);
 		_delay_ms(1000);
 
 		//le robot se replace droit
-		pwm::setA(-40);
-		pwm::setB(defaultSpeed);
+		pwm::set1(-40);
+		pwm::set0(defaultSpeed);
 		_delay_ms(1000);
 
 	}
 
 	else
 	{
-		pwm::setA(defaultSpeed);
-		pwm::setB(defaultSpeed);
+		pwm::set1(defaultSpeed);
+		pwm::set0(defaultSpeed);
 		state = WALL_0;
 	}
 	
@@ -153,60 +156,61 @@ void Parcours::grosAjustement1()
 		
 		//Le robot tourne vers le mur 1
 		light::red();
-		pwm::setB(defaultSpeed);
-		pwm::setA(-40);
+		pwm::set0(defaultSpeed);
+		pwm::set1(-40);
 		_delay_ms(1000);
 		
 		//Le robot avance pendant une seconde
-		pwm::setB(defaultSpeed);
-		pwm::setA(defaultSpeed);
+		pwm::set0(defaultSpeed);
+		pwm::set1(defaultSpeed);
 		_delay_ms(1000);
 
 		//le robot se replace droit
-		pwm::setB(-40);
-		pwm::setA(defaultSpeed);
+		pwm::set0(-40);
+		pwm::set1(defaultSpeed);
 		_delay_ms(1000);
 	}
 
 	else
 	{
-		pwm::setB(defaultSpeed);
-		pwm::setA(defaultSpeed);
+		pwm::set0(defaultSpeed);
+		pwm::set1(defaultSpeed);
 		state = WALL_1;
 	}
 }
 
 void Parcours::virage90_0() {
-	pwm::setA(defaultSpeed);
-	pwm::setB(defaultSpeed);
+
+	pwm::set1(defaultSpeed);
+	pwm::set0(defaultSpeed);
 	soundpwm::beep(61);
 	_delay_ms(2500);
 	currentValue0 = sensor.read0();
-	if(currentValue0 > vide_0)
-	{
-		pwm::setA(80);
-		pwm::setB(-80);
+	if(currentValue0 > vide_0){
+		pwm::set1(80);
+		pwm::set0(-80);
 		_delay_ms(300);
-		pwm::setA(defaultSpeed);
-		pwm::setB(defaultSpeed);
+		pwm::set1(defaultSpeed);
+		pwm::set0(defaultSpeed);
 		_delay_ms(1000);
 	}
 	soundpwm::off();
 }
 
 void Parcours::virage90_1() {
-	pwm::setA(defaultSpeed);
-	pwm::setB(defaultSpeed);
+
+
+	pwm::set1(defaultSpeed);
+	pwm::set0(defaultSpeed);
 	soundpwm::beep(61);
 	_delay_ms(2500);
 	currentValue1 = sensor.read0();
-	if(currentValue1 > vide_1)
-	{
-		pwm::setA(-80);
-		pwm::setB(80);
+	if(currentValue1 > vide_1){
+		pwm::set1(-80);
+		pwm::set0(80);
 		_delay_ms(300);
-		pwm::setA(defaultSpeed);
-		pwm::setB(defaultSpeed);
+		pwm::set1(defaultSpeed);
+		pwm::set0(defaultSpeed);
 		_delay_ms(1000);
 	}
 	soundpwm::off();
@@ -215,35 +219,29 @@ void Parcours::ajustement0(){
 	if(currentValue0 > 16 && currentValue0 < borneSupAjustement)
 	{
 		light::red();
-		pwm::setA(60);
-
-		if(currentValue0 > lastValue0)
-		{
-			pwm::setB(-40);
-		}
-		else
-		{
-			pwm::setB(defaultSpeed);
+		pwm::set1(60);
+	if(currentValue0 > lastValue0){
+		pwm::set0(-40);
+	}else{
+		pwm::set0(defaultSpeed);
 		}
 	}
 	else if(currentValue0 < borneInfAjustement)
 		{
 		light::red();
-		pwm::setB(60);
+		pwm::set0(60);
 		//Mur à 90 le virage doit etre plus seree
 		if(currentValue0 < lastValue0){
-			pwm::setA(-40);
-		}
-		else
-		{
-			pwm::setA(defaultSpeed);
+			pwm::set1(-40);
+		}else{
+			pwm::set1(defaultSpeed);
 		}
 	}
 	else
 	{
 		light::green();
-		pwm::setA(defaultSpeed);
-		pwm::setB(defaultSpeed);
+		pwm::set1(defaultSpeed);
+		pwm::set0(defaultSpeed);
 	}
 }
 
@@ -252,35 +250,28 @@ void Parcours::ajustement1()
 	if(currentValue1 > 16  && currentValue1 < borneSupAjustement)
 	{
 		light::red();
-		pwm::setB(60);
-
-		if(currentValue1 > lastValue1)
-		{
-			pwm::setA(-40);
-		}
-		else
-		{
-			pwm::setA(defaultSpeed);
-		}
+		pwm::set0(60);
+		if(currentValue1 > lastValue1){
+			pwm::set1(-40);
+		}else{
+			pwm::set1(defaultSpeed);
+			}
 	}
 	else if(currentValue1 < borneInfAjustement)
 	{
 		light::red();
-		pwm::setA(60);
+		pwm::set1(60);
 		//Mur à 90 le virage doit etre plus seree
-		if(currentValue1 < lastValue1)
-		{
-			pwm::setB(-40);
-		}
-		else
-		{
-			pwm::setB(defaultSpeed);
+		if(currentValue1 < lastValue1){
+			pwm::set0(-40);
+		}else{
+			pwm::set0(defaultSpeed);
 		}
 	}
 	else
 	{
 		light::green();
-		pwm::setA(defaultSpeed);
-		pwm::setB(defaultSpeed);
+		pwm::set1(defaultSpeed);
+		pwm::set0(defaultSpeed);
 	}
 }

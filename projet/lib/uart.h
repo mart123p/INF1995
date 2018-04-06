@@ -97,7 +97,13 @@ void clear();
 /**
  * Test all the uart functions. This method is mainly used for developpement
  * @return void
- */
+ */ 
 void test();
+
+void parcousDebug(uint8_t sensor0, uint8_t sensor1, uint8_t state, const char *c);
+
 }  // namespace uart
+
+
+
 #endif
