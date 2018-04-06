@@ -40,35 +40,38 @@ void Parcours::exec() {
       pwm::set1(defaultSpeed);
       pwm::set0(defaultSpeed);
       break;
-
+/*
     case SWITCH_WALL:
       changeWall();
       break;
-
+*/
     case WALL_0:
       if (currentValue0 > vide_0) // Si trop loin au mur, tourner
-        state = BIG_TURN_0;
+        uart::parcoursDebug(currentValue0, currentValue1, state, "state = BIG_TURN_0");
+        //state = BIG_TURN_0;
       else {
         ajustement0(); // Pour rester entre 13 et 16 cm
       }                // de distance.
       break;
-
+    /*
     case BIG_TURN_0:
       virage90_0();
       state = WALL_0;
       break;
-
+	*/
     case WALL_1:
       if (currentValue1 > vide_1) {
-        state = BIG_TURN_1;
+         uart::parcoursDebug(currentValue0, currentValue1, state, "state = BIG_TURN_1");
+        //state = BIG_TURN_1;
       }
       ajustement1();
       break;
-
+/*
     case BIG_TURN_1:
       virage90_1();
       state = WALL_1;
       break;
+  */
     }
     lastValue0 = currentValue0;
     lastValue1 = currentValue1;
@@ -78,12 +81,14 @@ void Parcours::exec() {
 
 void Parcours::wallScrutation() {
   if (canSwitchWall && state == WALL_0 && sensor.read1() < vide_1) {
-    state = SWITCH_WALL;
+     uart::parcoursDebug(currentValue0, currentValue1, state, "state = SWITCH_WALL");
+    //state = SWITCH_WALL;
     lastState = WALL_0;
   }
 
   if (canSwitchWall && state == WALL_1 && sensor.read0() < vide_0) {
-    state = SWITCH_WALL;
+     uart::parcoursDebug(currentValue0, currentValue1, state, "state = SWITCH_WALL");
+	//state = SWITCH_WALL;
     lastState = WALL_1;
   }
 }
@@ -255,7 +260,7 @@ void Parcours::ajustement1() {
     }
   } else {
     uart::parcoursDebug(currentValue0, currentValue1, state,
-                        "Ajustement0 else");
+                        "Ajustement1 else");
     light::green();
     pwm::set1(defaultSpeed);
     pwm::set0(defaultSpeed);
