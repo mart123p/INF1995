@@ -29,11 +29,7 @@ void Parcours::exec(){
 		currentValue0 = sensor.read0();
 		currentValue1 = sensor.read1();
 
-		uart::sendData(0x11);
-		uart::sendData(currentValue0);
-		uart::sendData(currentValue1);
-		uart::sendData(state);
-
+		uart::parcorusDebug(currentValue0,currentValue1,state,"Top");
 		
 
 		wallScrutation();
