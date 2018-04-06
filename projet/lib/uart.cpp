@@ -141,6 +141,24 @@ void uart::println() { uartSend('\n'); }
 void uart::clear(){
   uart::print("\033[2J\033[;H");
 }
+
+
+void parcousDebug(uint8_t sensor0, uint8_t sensor1, uint8_t state, const char *c){
+	uart::sendData(0x11);
+	uart::sendData(sensor0);
+	uart::sendData(sensor1);
+	uart::sendData(state);
+	uint8_t compteur = 0;
+	while (c[compteur] != '\0'){
+		compteur++;
+	}
+	uart::sendData(compteur);
+	for(uint8_t i = 0; i < compteur; i++) {
+		uart::sendData(c[i]);
+	}
+}
+
+
 void uart::test() {
   uart::init();
 
