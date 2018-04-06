@@ -24,6 +24,7 @@ void Parcours::exec(){
 		uart::sendData(0x11);
 		uart::sendData(currentValue0);
 		uart::sendData(currentValue1);
+		uart::sendData(state);
 
 		switch(state){
 			case READY:
