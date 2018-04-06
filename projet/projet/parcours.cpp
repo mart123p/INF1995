@@ -200,80 +200,60 @@ void Parcours::virage90_1() {
   soundpwm::off();
 }
 void Parcours::ajustement0() {
-	//Approach
-	if (currentValue0 > 16 && currentValue0 < borneSupAjustement){
-		light::red();
-		//Ajustement vers le mur 0 quand le robot est entre 16 et borneSup du mur
-		pwm::set0(defaultSpeed);
-		pwm::set1(60);
-		//On regarde si le robot avance trop rapidement pour le virage qu'il doit faire
-		//Le -1 est une valeur permettant d'éviter les variations des capteurs
-		if (lastValue0 > currentValue0 + correctionIncertitude){
-			uart::parcoursDebug(currentValue0, currentValue1, state, "Beaucoup trop loin");
-			pwm::set0(frein);
-			pwm::set1(60);
-		}
-		
-	}
-	//LeaveTheWall   
-	else if (currentValue0 < borneInfAjustement){
-		light::red();
-		//Ajustement ver la droite quand le robot est a moins de borneInf du mur 
-		pwm::set0(60);
-		pwm::set1(defaultSpeed);
-		//On regarde si le robot avance trop rapidement pour le virage qu'il doit faire
-		if (lastValue0 < currentValue0 - correctionIncertitude){
-			uart::parcoursDebug(currentValue0, currentValue1, state, "Beaucoup trop proche");
-			pwm::set0(60);
-			pwm::set1(frein);
-		}
-	}
-	
-	else if (currentValue0 < 16 && currentValue0 > borneInfAjustement){
-		//Le robot est sur la bonne voie et continue, il est entre 13 et 16 cm
-		light::green();
-		pwm::set0(defaultSpeed);
-		pwm::set1(defaultSpeed);
-	}
-		
+  if(currentValue0 > 16){
+    light::red();
+    pwm::set1(60);
+
+  if(currentValue0 > lastValue0){
+    pwm::set0(-40);
+  }else{
+    pwm::set0(defaultSpeed);
+    }
+  }
+  else if(currentValue0 < 13){
+    light::red();
+    pwm::set0(60);
+    //Mur à 90 le virage doit etre plus seree
+    if(currentValue0 < lastValue0){
+      pwm::set1(-40);
+    }else{
+      pwm::set1(defaultSpeed);
+    }
+  }
+  else{
+    light::green();
+    pwm::set1(defaultSpeed);
+    pwm::set0(defaultSpeed);
+  }		
 }
 
 void Parcours::ajustement1() {
  	//Approach
-	if (currentValue1 > 16 && currentValue1 < borneSupAjustement){
-		light::red();
-		//Ajustement vers le mur 0 quand le robot est entre 16 et borneSup du mur
-		pwm::set1(defaultSpeed);
-		pwm::set0(60);
-		//On regarde si le robot avance trop rapidement pour le virage qu'il doit faire
-		//Le -1 est une valeur permettant d'éviter les variations des capteurs
-		if (lastValue1 > currentValue1 + correctionIncertitude){
-			 uart::parcoursDebug(currentValue0, currentValue1, state, "Beaucoup trop loin");
-			pwm::set1(frein);
-			pwm::set0(60);
-		}
-	}
-	//LeaveTheWall   
-	else if (currentValue1 < borneInfAjustement){
-		light::red();
-		//Ajustement ver la droite quand le robot est a moins de borneInf du mur 
-		pwm::set1(60);
-		pwm::set0(defaultSpeed);
-		//On regarde si le robot avance trop rapidement pour le virage qu'il doit faire
-		if (lastValue1 < currentValue1 - correctionIncertitude){
-			uart::parcoursDebug(currentValue0, currentValue1, state, "Beaucoup trop proche");
-			pwm::set1(60);
-			pwm::set0(frein);
-		}
-	}
-	
-	else if (currentValue1 < 16 && currentValue1 > borneInfAjustement){
-		//Le robot est sur la bonne voie et continue, il est entre 13 et 16 cm
-		light::green();
-		pwm::set0(defaultSpeed);
-		pwm::set1(defaultSpeed);
-	}
-		
+if(currentValue1 > 16){
+    light::red();
+    pwm::set0(60);
+
+    if(currentValue1 > lastValue1){
+      pwm::set1(-40);
+    }else{
+      pwm::set1(defaultSpeed);
+      }
+  }
+  else if(currentValue1 < 13){
+    light::red();
+    pwm::set1(60);
+    //Mur à 90 le virage doit etre plus seree
+    if(currentValue1 < lastValue1){
+      pwm::set0(-40);
+    }else{
+      pwm::set0(defaultSpeed);
+    }
+  }
+  else{
+    light::green();
+    pwm::set1(defaultSpeed);
+    pwm::set0(defaultSpeed);
+  }		
 }
 
 
