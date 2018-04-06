@@ -1,9 +1,11 @@
 #include "parcours.h"
 #define defaultSpeed 40
+#define frein -40
+#define correctionIncertitude 1
 #define vide_0 45
 #define vide_1 45
 #define borneInfAjustement 13
-#define borneSupAjustement 20
+#define borneSupAjustement 30
 
 // LE BON
 
@@ -110,18 +112,18 @@ void Parcours::grosAjustement0() {
     // Le robot tourne vers le mur 0
     light::red();
     pwm::set1(defaultSpeed);
-    pwm::set0(-40);
-    _delay_ms(1000);
+    pwm::set0(frein);
+    _delay_ms(500);
 
     // Le robot avance pendant une seconde
     pwm::set1(defaultSpeed);
     pwm::set0(defaultSpeed);
-    _delay_ms(1000);
+    _delay_ms(500);
 
     // le robot se replace droit
-    pwm::set1(-40);
+    pwm::set1(frein);
     pwm::set0(defaultSpeed);
-    _delay_ms(1000);
+    _delay_ms(500);
 
   }
 
@@ -141,18 +143,18 @@ void Parcours::grosAjustement1() {
     // Le robot tourne vers le mur 1
     light::red();
     pwm::set0(defaultSpeed);
-    pwm::set1(-40);
-    _delay_ms(1000);
+    pwm::set1(frein);
+    _delay_ms(500);
 
     // Le robot avance pendant une seconde
     pwm::set0(defaultSpeed);
     pwm::set1(defaultSpeed);
-    _delay_ms(1000);
+    _delay_ms(500);
 
     // le robot se replace droit
-    pwm::set0(-40);
+    pwm::set0(frein);
     pwm::set1(defaultSpeed);
-    _delay_ms(1000);
+    _delay_ms(500);
   }
 
   else {
@@ -198,71 +200,80 @@ void Parcours::virage90_1() {
   soundpwm::off();
 }
 void Parcours::ajustement0() {
-
-  if (currentValue0 > 16 && currentValue0 <= borneSupAjustement) {
-    //Entre 16 et 20 ajustement
-    uart::parcoursDebug(currentValue0, currentValue1, state, "Ajustement0 if1");
-    light::red();
-    pwm::set1(60);
-    if (currentValue0 > lastValue0) {
-    	//Freine si il y a une variation de distance
-      uart::parcoursDebug(currentValue0, currentValue1, state,
-                          "Ajustement0 if2");
-      pwm::set0(-40);
-    } else {
-      uart::parcoursDebug(currentValue0, currentValue1, state,
-                          "Ajustement0 else1");
-      pwm::set0(defaultSpeed);
-    }
-  } else if (currentValue0 < borneInfAjustement) {
-    //Quand le robot est trop pres du mur  
-    uart::parcoursDebug(currentValue0, currentValue1, state,
-                        "Ajustement0 else if");
-    light::red();
-    pwm::set0(60);
-    // Mur à 90 le virage doit etre plus seree
-    if (currentValue0 < lastValue0) {
-      uart::parcoursDebug(currentValue0, currentValue1, state,
-                          "Ajustement0 if3");
-      pwm::set1(-40);
-    } else {
-      uart::parcoursDebug(currentValue0, currentValue1, state,
-                          "Ajustement0 else2");
-      pwm::set1(defaultSpeed);
-    }
-  } else if (currentValue0 < borneSupAjustement){
-    uart::parcoursDebug(currentValue0, currentValue1, state,
-                        "Ajustement0 else3");
-    light::green();
-    pwm::set1(defaultSpeed);
-    pwm::set0(defaultSpeed);
-  }
+	//Approach
+	if (currentValue0 > 16 && currentValue0 < borneSupAjustement){
+		light::red();
+		//Ajustement vers le mur 0 quand le robot est entre 16 et borneSup du mur
+		pwm::set0(defaultSpeed);
+		pwm::set1(60);
+		//On regarde si le robot avance trop rapidement pour le virage qu'il doit faire
+		//Le -1 est une valeur permettant d'éviter les variations des capteurs
+		if (lastValue0 > currentValue0 + correctionIncertitude){
+			uart::parcoursDebug(currentValue0, currentValue1, state, "Beaucoup trop loin");
+			pwm::set0(frein);
+			pwm::set1(60);
+		}
+		
+	}
+	//LeaveTheWall   
+	else if (currentValue0 < borneInfAjustement){
+		light::red();
+		//Ajustement ver la droite quand le robot est a moins de borneInf du mur 
+		pwm::set0(60);
+		pwm::set1(defaultSpeed);
+		//On regarde si le robot avance trop rapidement pour le virage qu'il doit faire
+		if (lastValue0 < currentValue0 - correctionIncertitude){
+			uart::parcoursDebug(currentValue0, currentValue1, state, "Beaucoup trop proche");
+			pwm::set0(60);
+			pwm::set1(frein);
+		}
+	}
+	
+	else if (currentValue0 < 16 && currentValue0 > borneInfAjustement){
+		//Le robot est sur la bonne voie et continue, il est entre 13 et 16 cm
+		light::green();
+		pwm::set0(defaultSpeed);
+		pwm::set1(defaultSpeed);
+	}
+		
 }
 
 void Parcours::ajustement1() {
-  uart::parcoursDebug(currentValue0, currentValue1, state, "Ajustement1");
-  if (currentValue1 > 16 && currentValue1 < borneSupAjustement) {
-    light::red();
-    pwm::set0(60);
-    if (currentValue1 > lastValue1) {
-      pwm::set1(-40);
-    } else {
-      pwm::set1(defaultSpeed);
-    }
-  } else if (currentValue1 < borneInfAjustement) {
-    light::red();
-    pwm::set1(60);
-    // Mur à 90 le virage doit etre plus seree
-    if (currentValue1 < lastValue1) {
-      pwm::set0(-40);
-    } else {
-      pwm::set0(defaultSpeed);
-    }
-  } else {
-    uart::parcoursDebug(currentValue0, currentValue1, state,
-                        "Ajustement1 else");
-    light::green();
-    pwm::set1(defaultSpeed);
-    pwm::set0(defaultSpeed);
-  }
+ 	//Approach
+	if (currentValue1 > 16 && currentValue1 < borneSupAjustement){
+		light::red();
+		//Ajustement vers le mur 0 quand le robot est entre 16 et borneSup du mur
+		pwm::set1(defaultSpeed);
+		pwm::set0(60);
+		//On regarde si le robot avance trop rapidement pour le virage qu'il doit faire
+		//Le -1 est une valeur permettant d'éviter les variations des capteurs
+		if (lastValue1 > currentValue1 + correctionIncertitude){
+			 uart::parcoursDebug(currentValue0, currentValue1, state, "Beaucoup trop loin");
+			pwm::set1(frein);
+			pwm::set0(60);
+		}
+	}
+	//LeaveTheWall   
+	else if (currentValue1 < borneInfAjustement){
+		light::red();
+		//Ajustement ver la droite quand le robot est a moins de borneInf du mur 
+		pwm::set1(60);
+		pwm::set0(defaultSpeed);
+		//On regarde si le robot avance trop rapidement pour le virage qu'il doit faire
+		if (lastValue1 < currentValue1 - correctionIncertitude){
+			uart::parcoursDebug(currentValue0, currentValue1, state, "Beaucoup trop proche");
+			pwm::set1(60);
+			pwm::set0(frein);
+		}
+	}
+	
+	else if (currentValue1 < 16 && currentValue1 > borneInfAjustement){
+		//Le robot est sur la bonne voie et continue, il est entre 13 et 16 cm
+		light::green();
+		pwm::set0(defaultSpeed);
+		pwm::set1(defaultSpeed);
+	}
+		
 }
+
+
