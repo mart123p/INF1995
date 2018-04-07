@@ -8,20 +8,28 @@ class Parcours{
 public:
 	Parcours();
 	void exec();
+	
+
+
+	bool wallScrutation();
+
+	void changeWall();
+
 	void virage90_0();
 	void virage90_1();
+
 	void ajustement0();
 	void ajustement1();
-	void wallScrutation();
+
 	void grosAjustement0();
 	void grosAjustement1();
-	void changeWall();
 private:
 	Sensor sensor;
 	uint8_t lastValue0;
 	uint8_t lastValue1;
 	uint8_t currentValue0;
 	uint8_t currentValue1;
+	uint8_t tick;
 	bool canSwitchWall;
 	State state;
 	State lastState;

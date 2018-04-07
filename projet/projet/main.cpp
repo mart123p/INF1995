@@ -2,6 +2,11 @@
 #include "ohBoy.h"
 #include "diagnostique.h"
 #include "parcours.h"
+void delay(uint16_t time){
+  for(uint16_t i =0; i < time; i++){
+    _delay_ms(1);
+  }
+}
 
 int main() {
   uart::init();

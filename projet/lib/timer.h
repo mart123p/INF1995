@@ -1,6 +1,8 @@
 #ifndef TIMER_H
 #define TIMER_H
 #include <avr/interrupt.h>
+#define F_CPU 8000000
+#include <util/delay.h>
 /**
  * Various functions to simplify the use of timer1
  */
@@ -25,6 +27,8 @@ void on();
  * @return void
  */
 void off();
+
+void delay(uint16_t time);
 
 /**
  * Test all the timer functions

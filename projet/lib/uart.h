@@ -1,6 +1,7 @@
 #ifndef UART_H
 #define UART_H
 #include <avr/io.h>
+#include "sensors.h"
 /**
  * Send various messages via uart. Can be used with the program serieViaUSB
  */
@@ -100,7 +101,7 @@ void clear();
  */ 
 void test();
 
-void parcoursDebug(uint8_t sensor0, uint8_t sensor1, uint8_t state, const char *c);
+void parcoursDebug(Sensor &sensor, uint8_t state, const char *c);
 
 }  // namespace uart
 
