@@ -247,7 +247,6 @@ void Parcours::virage90_0() {
     pwm::set0(defaultSpeed);
     _delay_ms(1000);
   }
-  soundpwm::off();
 }
 
 void Parcours::virage90_1() {
