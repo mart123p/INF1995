@@ -7,6 +7,13 @@ Sensor::Sensor(){
 	valSensor1 = 0;
 }
 
+void Sensor::push(uint8_t val, uint8_t* array){
+	for(uint8_t i = 1; i < SENSOR_SIZE; i++){
+		array[i] = array[i-1];
+	}
+	array[0] = val;
+}
+
 uint8_t Sensor::read0(){
 	int newAvg = 0;
 	newAvg = can.lecture(0);
@@ -22,6 +29,9 @@ uint8_t Sensor::read0(){
 	    distance = -23 + (11970/newAvg) + (newAvg/49); 
 	}
 	valSensor0 = (uint8_t) distance;
+	
+	push(valSensor0,oldVals0);
+	
 	return valSensor0;
 }
 
@@ -41,7 +51,16 @@ uint8_t Sensor::read1(){
 	    distance = -132 + (23350/newAvg) + (newAvg/4); 
 	}
 	valSensor1 = (uint8_t) distance;
+
+	push(valSensor1,oldVals1);
+	
 	return valSensor1;
+}
+uint8_t* Sensor::getOldVals0(){
+	return oldVals0;
+}
+uint8_t* Sensor::getOldVals1(){
+	return oldVals1;
 }
 uint8_t Sensor::getValSensor0(){
 	return valSensor0;
