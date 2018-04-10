@@ -11,16 +11,11 @@
 #define borneSupAjustement 35
 // LE BON
 
-Parcours::Parcours() {
-  lastValue0 = 0;
-  lastValue1 = 0;
+Parcours::Parcours() : ajustement(&sensor) {
   tick = 0;
-  tickGrosAjustement = 0;
   canSwitchWall = true;
   state = READY;
   lastState = READY;
-  angle = 0;
-  aTrouveUnAngle = false;
 }
 
 void Parcours::exec() {
@@ -66,29 +61,36 @@ void Parcours::exec() {
 
       case WALL_0:
         if (sensor.getValSensor0() > vide_0){
-          state = BIG_TURN_1;
+          state = BIG_TURN_0;
         }else if (sensor.getValSensor0() > 27) {
           state = GROS_AJUSTEMENT_0;
           lastState = WALL_0;
         }else{ 
-          ajustement0();  // Pour rester entre 13 et 16 cm
+          ajustement.ajuste0(); //Rester entre 13 et 16cm
         }
         break;
 
       case WALL_1:
-        ajustement1();
+        if (sensor.getValSensor0() > vide_0){
+          state = BIG_TURN_1;
+        }else if (sensor.getValSensor0() > 27) {
+          state = GROS_AJUSTEMENT_1;
+          lastState = WALL_1;
+        }else{ 
+          ajustement.ajuste1();
+        }
         break;
 
       case GROS_AJUSTEMENT_0:
-          grosAjustement0();
+          if(ajustement.grosAjustement0(state)){
+            state = WALL_0;
+          } 
         break;
 
       case GROS_AJUSTEMENT_1:
-        if (sensor.getValSensor0() > vide_1) {
-          state = BIG_TURN_1;
-        }else{
-          grosAjustement1();
-        }
+          if(ajustement.grosAjustement1(state)){
+            state = WALL_1;
+          }
         break;
 
       case BIG_TURN_0:
@@ -99,9 +101,6 @@ void Parcours::exec() {
         virage90_1();
         break;
     }
-
-    lastValue0 = sensor.getValSensor0();
-    lastValue1 = sensor.getValSensor1();
     _delay_ms(50);
   }
 }
@@ -168,75 +167,12 @@ bool Parcours::wallScrutation() {
 void Parcours::changeWall() {
   uart::parcoursDebug(sensor, state, "changewall");
   if (lastState == WALL_0) {
-    grosAjustement1();
     canSwitchWall = false;
-    state = WALL_1;  // TODO add changing wall state
+    state = GROS_AJUSTEMENT_1;
   }
   if (lastState == WALL_1) {
-    grosAjustement0();
     canSwitchWall = false;
-    state = WALL_0;  // TODO add changing wall state
-  }
-}
-
-// Permet d'aller vers le mur 0
-void Parcours::grosAjustement0() {
-  uart::parcoursDebug(sensor, state, "grosAjustement0");
-  // Le robot tourne vers le mur 0
-  light::red();
-  pwm::set0(frein);
-  pwm::set1(defaultSpeed);
-
-  // Adjust in consequence if the wall is further the attack angle
-  // should be bigger
-  uint16_t angle = 0;
-  if (sensor.getValSensor1() > 50) {
-    angle = 800;
-  } else if (sensor.getValSensor1() > 40) {
-    angle = 700;
-  } else {
-    angle = 600;
-  }  
-  timer::delay(angle);
-
-
-}
-
-// Permet d'aller vers le mur 1
-void Parcours::grosAjustement1() {
-  if (sensor.getValSensor1() > borneSupAjustement) {
-    uart::parcoursDebug(sensor, state, "grosAjustement1");
-
-    // Le robot tourne vers le mur 1
-    light::red();
-    pwm::set0(defaultSpeed);
-    pwm::set1(frein);
-
-    // Adjust in consequence if the wall is further the attack angle
-    // should be bigger
-    uint16_t angle = 0;
-    if (sensor.getValSensor1() > 50) {
-      angle = 800;
-    } else if (sensor.getValSensor1() > 40) {
-      angle = 700;
-    } else {
-      angle = 600;
-    }
-    timer::delay(angle);
-
-    while (sensor.read1() > 17) {
-      // Le robot avance pendant une seconde
-      pwm::set0(defaultSpeed);  // TODO s'assurer qu'il suit une ligne droite
-      pwm::set1(
-          defaultSpeed);  // Pas moyen de s'assurer qu'il suit une ligne droite
-      _delay_ms(50);
-      uart::parcoursDebug(sensor, state, "grosAjustement1 forward");
-    }
-
-    // le robot se replace droit
-    pwm::set0(frein);
-    pwm::set1(defaultSpeed);
-    timer::delay(angle);
+    state = GROS_AJUSTEMENT_0;  
   }
 }
 
@@ -269,31 +205,4 @@ void Parcours::virage90_1() {
     _delay_ms(1000);
   }
   soundpwm::off();
-}
-void Parcours::ajustement0() {
-if (sensor.getValSensor0() > 16) {
-    light::red();
-    pwm::set1(acceleration);
-    if (sensor.getValSensor0() > lastValue0) {
-      pwm::set0(frein);
-    } else {
-      pwm::set0(defaultSpeed);
-    }
-  } else if (sensor.getValSensor0() < 13) {
-    light::red();
-    pwm::set0(acceleration);
-    // Mur à 90 le virage doit etre plus seree
-    if (sensor.getValSensor0() < lastValue0) {
-      pwm::set1(frein);
-    } else {
-      pwm::set1(defaultSpeed);
-    }
-  } else {
-    light::green();
-    pwm::set1(defaultSpeed);
-    pwm::set0(defaultSpeed);
-  }
-}
-
-void Parcours::ajustement1() {
 }

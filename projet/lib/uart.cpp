@@ -165,6 +165,28 @@ void uart::parcoursDebug(Sensor &sensor, uint8_t state, const char *c){
   	}
 }
 
+void uart::parcoursDebug(Sensor *sensor, uint8_t state, const char *c){
+    uart::sendData(0x11);
+  	uart::sendData(sensor->getValSensor0());
+  	uart::sendData(sensor->getValSensor1());
+
+    uart::sendData((uint8_t) (sensor->getAdcSensor0() & 0xFF));
+    uart::sendData((uint8_t) (sensor->getAdcSensor0() >> 8));
+
+    uart::sendData((uint8_t) (sensor->getAdcSensor1() & 0xFF));
+    uart::sendData((uint8_t) (sensor->getAdcSensor1() >> 8));
+
+  	uart::sendData(state);
+  	uint8_t compteur = 0;
+  	while (c[compteur] != '\0'){
+  		compteur++;
+  	}
+  	uart::sendData(compteur);
+  	for(uint8_t i = 0; i < compteur; i++) {
+  		uart::sendData(c[i]);
+  	}
+}
+
 void uart::parcoursDebug(Sensor &sensor, uint8_t state, uint8_t num){
   uint8_t size = 1;
   uint8_t rem;
