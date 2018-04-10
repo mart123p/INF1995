@@ -16,22 +16,27 @@ Parcours::Parcours() {
   lastValue0 = 0;
   lastValue1 = 0;
   tick = 0;
+  canSwitchWall = true;
+  state = READY;
+  lastState = READY;
+
 }
 
 void Parcours::exec() {
 
+  //Initialisation du code
   soundpwm::init();
-  state = READY;
-  lastState = READY;
   light::green();
-  canSwitchWall = true;
   bool isRunning = true;
+  
   uart::parcoursDebug(sensor, state, "init");
+
+
   while (isRunning) {
      sensor.read0();
      sensor.read1();
 
-    uart::parcoursDebug(sensor, state, "Top");
+    uart::parcoursDebug(sensor, state, "Begin");
 
     wallScrutation();
     poteau.scrutation(sensor,state);
@@ -94,22 +99,22 @@ void Parcours::exec() {
 }
 
 bool Parcours::wallScrutation() {
-  bool result = false;
-  if (canSwitchWall && state == WALL_0 &&  sensor.getValSensor1() < vide_1) {
+  bool needsToChangeWall = false;
+  if (canSwitchWall && state == WALL_0 &&  sensor.getValSensor1() < vide_1) { //Capte un mur et qu'il est deja sur un mur
     if (tick > 15) {
       uart::parcoursDebug(sensor, state, "state = SWITCH_WALL");
       state = SWITCH_WALL;
       lastState = WALL_0;
-      result = true;
+      needsToChangeWall = true;
       tick = 0;
     }
     tick++;
-  } else if (canSwitchWall && state == WALL_1 && sensor.getValSensor0() < vide_0) {
+  } else if (canSwitchWall && state == WALL_1 && sensor.getValSensor0() < vide_0) { //Capte un mur et qu'il est deja sur un mur
     if (tick > 15) {
       uart::parcoursDebug(sensor, state, "state = SWITCH_WALL");
       state = SWITCH_WALL;
       lastState = WALL_1;
-      result = true;
+      needsToChangeWall = true;
       tick = 0;
     }
     tick++;
@@ -118,9 +123,10 @@ bool Parcours::wallScrutation() {
   }
 
   //Detection si le robot a le droit de changer de cote
+  //TODO Changement de mur non fonctionnel
   if(!canSwitchWall){
     if(state == WALL_0){
-      if(sensor.read0() > vide_0){
+      if(sensor.read1() > vide_0){
         if(tick > 5){
           tick =0;
           canSwitchWall = true;
@@ -131,7 +137,7 @@ bool Parcours::wallScrutation() {
         tick = 0;
       }
     }else if(state == WALL_1){
-      if(sensor.read1() > vide_1){
+      if(sensor.read0() > vide_1){
         if(tick > 5){
           tick =0;
           canSwitchWall = true;
@@ -144,7 +150,7 @@ bool Parcours::wallScrutation() {
     }
   }
 
-  return result;
+  return needsToChangeWall;
 }
 
 void Parcours::changeWall() {
@@ -152,12 +158,12 @@ void Parcours::changeWall() {
   if (lastState == WALL_0) {
     grosAjustement1();
     canSwitchWall = false;
-    state = WALL_1;
+    state = WALL_1; //TODO add changing wall state
   }
   if (lastState == WALL_1) {
     grosAjustement0();
     canSwitchWall = false;
-    state = WALL_0;
+    state = WALL_0; //TODO add changing wall state
   }
 }
 
@@ -241,7 +247,7 @@ void Parcours::grosAjustement1() {
 }
 
 void Parcours::virage90_0() {
-
+  //BIGTURN0
   pwm::set1(defaultSpeed);
   pwm::set0(defaultSpeed);
   _delay_ms(2500);
@@ -256,7 +262,7 @@ void Parcours::virage90_0() {
 }
 
 void Parcours::virage90_1() {
-
+  //BIGTURN1
   pwm::set1(defaultSpeed);
   pwm::set0(defaultSpeed);
   _delay_ms(2500);
@@ -272,6 +278,7 @@ void Parcours::virage90_1() {
 }
 void Parcours::ajustement0() {
   if (sensor.getValSensor0() > 27) {
+    //Faire autre chose que gros ajustement?
     Parcours::grosAjustement0();
   } else if (sensor.getValSensor0() > 16) {
     light::red();
@@ -299,6 +306,7 @@ void Parcours::ajustement0() {
 
 void Parcours::ajustement1() {
   if (sensor.getValSensor1() > 27) {
+    //Faire autre chose que gros ajustement?
     Parcours::grosAjustement1();
   } else if (sensor.getValSensor1() > 16) {
     light::red();
