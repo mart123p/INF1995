@@ -44,8 +44,6 @@ void Poteau::scrutation(Sensor& sensor,uint8_t state){
 				oldVals = sensor.getOldVals1();
 			}
 
-
-
 			if (oldVals[1] <= vide){
 				//On peut aller jusqu'a 2 donnee en arriere pour savoir si je la difference de -10 existe		
 				bool poteauMaybe = false;
@@ -60,18 +58,15 @@ void Poteau::scrutation(Sensor& sensor,uint8_t state){
 				pos++;
 
 				if(poteauMaybe){
-				uart::parcoursDebug(sensor,state,"Poteaux maybe");
-				uart::parcoursDebug(sensor,state,oldVals[posMin]);
-				uart::print("{");
-				for(uint8_t i = 0; i <SENSOR_SIZE; i++){
-					uart::print(oldVals[i]);
-					uart::print(" ");
-				}
-				uart::print("}");
-				uart::println();
+					uart::parcoursDebug(sensor,state,"Poteaux maybe");
+					uart::parcoursDebug(sensor,state,i);
 
+					bool under60 = false;
 					for(;pos < SENSOR_SIZE;pos++){
-						if((int8_t)oldVals[pos] - (int8_t)oldVals[posMin] > DISTANCE){
+						if(oldVals[pos] <= 60){
+							under60 = true;
+						}
+						if((int8_t)oldVals[pos] - (int8_t)oldVals[posMin] > DISTANCE && under60){
 							
 							//POTEAUX!!!!
 				
@@ -82,6 +77,7 @@ void Poteau::scrutation(Sensor& sensor,uint8_t state){
 					}
 				}
 			}
+			oldVals = 0;
 		}
 	}
 }
