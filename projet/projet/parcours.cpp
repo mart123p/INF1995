@@ -34,6 +34,7 @@ void Parcours::exec() {
     uart::parcoursDebug(sensor, state, "Top");
 
     wallScrutation();
+    poteau.scrutation(sensor,state);
 
 
     switch (state) {
@@ -43,7 +44,12 @@ void Parcours::exec() {
       } else {
         state = WALL_0;
       }
-      _delay_ms(1000); // Attente de une seconde avant de commencer
+      for(uint8_t i = 0; i < 20; i++){
+         _delay_ms(50); 
+         sensor.read0();
+         sensor.read1();
+      }// Attente de une seconde avant de commencer
+     
                        // à rouler pour ne pas changer dans un mauvais
                        // état
       pwm::set1(defaultSpeed);
@@ -90,7 +96,7 @@ void Parcours::exec() {
 bool Parcours::wallScrutation() {
   bool result = false;
   if (canSwitchWall && state == WALL_0 &&  sensor.getValSensor1() < vide_1) {
-    if (tick > 5) {
+    if (tick > 15) {
       uart::parcoursDebug(sensor, state, "state = SWITCH_WALL");
       state = SWITCH_WALL;
       lastState = WALL_0;
@@ -99,7 +105,7 @@ bool Parcours::wallScrutation() {
     }
     tick++;
   } else if (canSwitchWall && state == WALL_1 && sensor.getValSensor0() < vide_0) {
-    if (tick > 5) {
+    if (tick > 15) {
       uart::parcoursDebug(sensor, state, "state = SWITCH_WALL");
       state = SWITCH_WALL;
       lastState = WALL_1;

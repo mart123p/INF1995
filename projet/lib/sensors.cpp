@@ -8,10 +8,10 @@ Sensor::Sensor(){
 }
 
 void Sensor::push(uint8_t val, uint8_t* array){
-	for(uint8_t i = 1; i < SENSOR_SIZE; i++){
-		array[i] = array[i-1];
-	}
-	array[0] = val;
+    for(uint8_t i = SENSOR_SIZE; i > 0; i--){
+        array[i] = array[i-1];
+    }
+    array[0] = val;
 }
 
 uint8_t Sensor::read0(){

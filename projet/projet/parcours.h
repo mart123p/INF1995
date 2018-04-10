@@ -1,8 +1,9 @@
 #ifndef PARCOURS_H
 #define PARCOURS_H
 #include "ohBoy.h"
+#include "poteau.h"
 
-enum State {WALL_0,BIG_TURN_0, SWITCH_WALL, WALL_1, BIG_TURN_1, READY};
+enum State {WALL_0,BIG_TURN_0, SWITCH_WALL, WALL_1, BIG_TURN_1, READY}; //Rajouter des etats a la fin
 
 class Parcours{
 public:
@@ -25,10 +26,9 @@ public:
 	void grosAjustement1();
 private:
 	Sensor sensor;
+	Poteau poteau;
 	uint8_t lastValue0;
 	uint8_t lastValue1;
-	uint8_t currentValue0;
-	uint8_t currentValue1;
 	uint8_t tick;
 	bool canSwitchWall;
 	State state;
