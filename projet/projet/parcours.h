@@ -31,11 +31,8 @@ private:
 	uint8_t lastValue0;
 	uint8_t lastValue1;
 	uint8_t tick;
-	uint16_t tickGrosAjustement;
 	bool canSwitchWall;
 	State state;
 	State lastState;
-	uint16_t angle;
-	bool aTrouveUnAngle;
 };
 #endif
