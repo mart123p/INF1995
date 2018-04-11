@@ -6,30 +6,30 @@ Ajustement::Ajustement(Sensor* sensor){
 }
 
 void Ajustement::ajuste0(){
-    if (sensor->getValSensor0() > 16) {
+    if(sensor->getValSensor0() > 16){
         light::red();
-        pwm::set1(acceleration);
-    if (sensor->getValSensor0() > sensor->getOldVals0()[1]) {
-        pwm::set0(frein);
-            uart::parcoursDebug(sensor, 255, "ajustements frein");
-
-    } else {
-        pwm::set0(defaultSpeed);
+        pwm::set1(60);
+        
+        if(sensor->getValSensor0() > sensor->getOldVals0()[1]){
+            pwm::set0(-40);
+        }else{
+            pwm::set0(defaultSpeed);
+        }
     }
-  } else if (sensor->getValSensor0() < 13) {
+    else if(sensor->getValSensor0() < 13){
         light::red();
-        pwm::set0(acceleration);
-        // Mur à 90 le virage doit etre plus seree
-    if (sensor->getValSensor0() < sensor->getOldVals0()[1]) {
-        pwm::set1(frein);
-    } else {
-        pwm::set1(defaultSpeed);
+        pwm::set0(60);
+        if(sensor->getValSensor0() < sensor->getOldVals0()[1]){
+            pwm::set1(-40);
+        }else{
+            pwm::set1(defaultSpeed);
+        }
     }
-  } else {
+    else{
         light::green();
         pwm::set1(defaultSpeed);
         pwm::set0(defaultSpeed);
-  }
+    } 
 }
 
 void Ajustement::ajuste1(){

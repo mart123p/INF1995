@@ -3,10 +3,6 @@
 #include "ohBoy.h"
 #include "state.h"
 
-#define defaultSpeed 50
-#define frein -50
-#define acceleration 70
-
 class Ajustement{
     public:
         Ajustement(Sensor* sensor);

@@ -2,7 +2,7 @@
 #define STATE_H
 
 #define defaultSpeed 40
-#define frein -50
+#define frein -40
 #define acceleration 50
 
 #define vide_0 60
