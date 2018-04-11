@@ -13,12 +13,13 @@ public:
 	bool getDetected();
 
 private:
-	void onTimer2();
 	void wasDetected();
 	void reset();
-	uint8_t tick;
+
+	uint8_t tick; //Utilise pour limiter le nombre de detection evite
+				  //les falses positives. Ou les boucles sans fin de 
+				  //dectection de poteau.
 	bool detected;
-	uint8_t soundCount;
 };
 
 #endif
