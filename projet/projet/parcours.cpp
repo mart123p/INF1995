@@ -10,13 +10,14 @@ Parcours::Parcours() : ajustement(&sensor) {
   compteurBigTurn =0;
   effectueVirage90 = false;
 
-
   //Activation de l'interruption du bouton pour
   //faire la rotation du 180.
-  DDRD &= ~(2 << DDD2);     // Clear the PD2 pin 
+  DDRD &= ~(1 << PD2);     // Clear the PD2 pin 
   EICRA |= (1 << ISC00);    // set INT0 to trigger on ANY logic change
   EIMSK |= (1 << INT0);     // Turns on INT0
-  
+  sei();
+
+
   pThis = this; //On utilise cet attribut pour pouvoir interagir avec
                 //la classe lors de l'interrupt
 
@@ -31,6 +32,7 @@ void Parcours::exec() {
   uart::parcoursDebug(sensor, state, "init");
 
   while (isRunning) {
+    
     sensor.read0();
     sensor.read1();
 
@@ -40,6 +42,7 @@ void Parcours::exec() {
     mur.scrutation(sensor,state,lastState); //Cette fonction peut changer l'etat de la machine
                                             //A etat, il faut donc faire attention.
     poteau.scrutation(sensor, state,lastState);
+   // bouton.scrutation(sensor, state,lastState);
     //Fin des taches de scrutation.
 
 
@@ -151,7 +154,23 @@ void Parcours::interrupt180(){
   pwm::set0(100);
   pwm::set1(-100);
   _delay_ms(500);
-  pThis->state = READY; //Quick hack on peut maintenant modifier la classe.
+    switch(pThis->state){
+    case GROS_AJUSTEMENT_1:
+      pThis->state = GROS_AJUSTEMENT_0;
+    break;
+    case GROS_AJUSTEMENT_0:
+      pThis->state = GROS_AJUSTEMENT_1;
+    break;
+    case WALL_0:
+      pThis->state = WALL_1;
+    break;
+    case WALL_1:
+      pThis->state = WALL_0;
+    break;
+    default:
+      pThis->state = READY; 
+    break;
+  }
 }
 
 //Interruption pour faire le 180

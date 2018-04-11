@@ -1,7 +1,6 @@
 #ifndef POTEAU_H
 #define POTEAU_H
 #include <avr/io.h> 
-#include <avr/interrupt.h>
 #include "ohBoy.h"
 #include "tache.h"
 
