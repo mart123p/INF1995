@@ -3,18 +3,14 @@
 #include <avr/io.h> 
 #include <avr/interrupt.h>
 #include "ohBoy.h"
+#include "tache.h"
 
-extern "C" void TIMER2_COMPA_vect(void) __attribute__((signal)); 
-
-
-class Poteau{
-	friend void ::TIMER2_COMPA_vect(void); 
+class Poteau : Tache {
 public:
 	
 	Poteau();
+	void scrutation(Sensor& sensor,State& state,State& lastState);
 	bool getDetected();
-	void scrutation(Sensor& sensor,uint8_t state);
-
 
 private:
 	void onTimer2();

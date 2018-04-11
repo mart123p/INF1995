@@ -28,7 +28,7 @@ void Poteau::wasDetected(){
 	}
 }
 
-void Poteau::scrutation(Sensor& sensor,uint8_t state){
+void Poteau::scrutation(Sensor& sensor,State& state, State& lastState){
 	//On peut detecter le poteau a 60 on la avant derniere valeur pour regarder le poteau.
 	//La valeur actuelle peut etre dans le vide.
 	

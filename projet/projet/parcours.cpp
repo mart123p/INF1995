@@ -1,19 +1,6 @@
 #include "parcours.h"
 
-#define defaultSpeed 50
-#define frein -50
-#define acceleration 70
-
-#define correctionIncertitude 1
-#define vide_0 60
-#define vide_1 60
-#define borneInfAjustement 13
-#define borneSupAjustement 35
-// LE BON
-
 Parcours::Parcours() : ajustement(&sensor) {
-  tick = 0;
-  canSwitchWall = true;
   state = READY;
   lastState = READY;
 }
@@ -32,13 +19,17 @@ void Parcours::exec() {
 
     uart::parcoursDebug(sensor, state, "Begin");
 
-    wallScrutation();
-    poteau.scrutation(sensor, state);
+    //Execution des taches d'arriere plan
+    mur.scrutation(sensor,state,lastState); //Cette fonction peut changer l'etat de la machine
+                                  //A etat, il faut donc faire attention.
+    poteau.scrutation(sensor, state,lastState);
+    //Fin des taches de scrutation.
 
+
+    //Debut de la machine a etat
     switch (state) {
       case READY:
-        if (sensor.getValSensor0() >
-            sensor.getValSensor1()) {  // Determiner quel
+        if (sensor.getValSensor0() > sensor.getValSensor1()) {  // Determiner quel
           state = WALL_1;              // mur suivre
         } else {
           state = WALL_0;
@@ -105,73 +96,14 @@ void Parcours::exec() {
   }
 }
 
-bool Parcours::wallScrutation() {
-  bool needsToChangeWall = false;
-  if (canSwitchWall && state == WALL_0 &&
-      sensor.getValSensor1() <
-          vide_1) {  // Capte un mur et qu'il est deja sur un mur
-    if (tick > 15) {
-      uart::parcoursDebug(sensor, state, "state = SWITCH_WALL");
-      state = SWITCH_WALL;
-      lastState = WALL_0;
-      needsToChangeWall = true;
-      tick = 0;
-    }
-    tick++;
-  } else if (canSwitchWall && state == WALL_1 &&
-             sensor.getValSensor0() <
-                 vide_0) {  // Capte un mur et qu'il est deja sur un mur
-    if (tick > 15) {
-      uart::parcoursDebug(sensor, state, "state = SWITCH_WALL");
-      state = SWITCH_WALL;
-      lastState = WALL_1;
-      needsToChangeWall = true;
-      tick = 0;
-    }
-    tick++;
-  } else {
-    tick = 0;
-  }
-
-  // Detection si le robot a le droit de changer de cote
-  // TODO Changement de mur non fonctionnel
-  if (!canSwitchWall) {
-    if (state == WALL_0) {
-      if (sensor.read1() > vide_0) {
-        if (tick > 5) {
-          tick = 0;
-          canSwitchWall = true;
-          uart::parcoursDebug(sensor, state, "canSwitchWall true");
-        }
-        tick++;
-      } else {
-        tick = 0;
-      }
-    } else if (state == WALL_1) {
-      if (sensor.read0() > vide_1) {
-        if (tick > 5) {
-          tick = 0;
-          canSwitchWall = true;
-          uart::parcoursDebug(sensor, state, "canSwitchWall true");
-        }
-        tick++;
-      } else {
-        tick = 0;
-      }
-    }
-  }
-
-  return needsToChangeWall;
-}
-
 void Parcours::changeWall() {
   uart::parcoursDebug(sensor, state, "changewall");
   if (lastState == WALL_0) {
-    canSwitchWall = false;
+    mur.reset();
     state = GROS_AJUSTEMENT_1;
   }
   if (lastState == WALL_1) {
-    canSwitchWall = false;
+    mur.reset();
     state = GROS_AJUSTEMENT_0;  
   }
 }

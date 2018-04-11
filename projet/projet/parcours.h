@@ -4,16 +4,14 @@
 #include "poteau.h"
 #include "ajustements.h"
 #include "state.h"
+#include "tache.h"
+#include "mur.h"
 
 class Parcours{
 public:
 	Parcours();
 	void exec();
 	
-
-
-	bool wallScrutation();
-
 	void changeWall();
 
 	void virage90_0();
@@ -22,9 +20,10 @@ public:
 private:
 	Sensor sensor;
 	Poteau poteau;
+	Mur mur;
 	Ajustement ajustement;
-	uint8_t tick;
-	bool canSwitchWall;
+	
+	
 	State state;
 	State lastState;
 };
