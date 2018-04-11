@@ -31,10 +31,10 @@ void Mur::scrutation(Sensor& sensor,State& state,State& lastState){
     if (!canSwitchWall) {
         if (state == WALL_0) {
             if (sensor.read1() > vide_1) {
-                if (tick > 5) {
+                if (tick > 5) { //On s'assure que c'est bien un vide
                     tick = 0;
                     canSwitchWall = true;
-                    uart::parcoursDebug(sensor, state, "canSwitchWall -> wall_1");
+                    uart::parcoursDebug(sensor, state, "canSwitchWall -> WaLL_1");
                 }
                 tick++;
             } else {
@@ -45,7 +45,7 @@ void Mur::scrutation(Sensor& sensor,State& state,State& lastState){
                 if (tick > 5) {
                     tick = 0;
                     canSwitchWall = true;
-                    uart::parcoursDebug(sensor, state, "canSwitchWall true");
+                    uart::parcoursDebug(sensor, state, "canSwitchWall -> WALL_0");
                 }
                 tick++;
             } else {

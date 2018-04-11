@@ -78,23 +78,14 @@ bool Ajustement::grosAjustement0(State state) {
     uart::parcoursDebug(sensor,state,"angle grosAjustement");  
     timer::delay(angle);
     grosAjustement0IsAjusted = true;
+
   }else{
     //The attack angle is ajusted. We need to go foward until the distance is normal
     pwm::set0(defaultSpeed);
-    pwm::set1(defaultSpeed);
-
+    pwm::set1(45);
     if(sensor->getValSensor0() < 20){
       //We are good we need to change the state
       return true;
-    }else{
-      //We check for the variation and make sure that the variation is still enough
-      int8_t variation = 0;
-      for(uint8_t i = 4; i < 0; i--){
-        variation += ((int8_t)sensor->getOldVals0()[i] - (int8_t)sensor->getOldVals0()[i-1]);
-      }
-      if(variation < 5){
-        grosAjustement0IsAjusted = false; //We need to reajust the robot
-      }
     }
   }
   return false;
@@ -123,21 +114,12 @@ bool Ajustement::grosAjustement1(State state){
     grosAjustement1IsAjusted = true;
   }else{
     //The attack angle is ajusted. We need to go foward until the distance is normal
-    pwm::set1(defaultSpeed);
+    pwm::set1(45);
     pwm::set0(defaultSpeed);
 
     if(sensor->getValSensor1() < 20){
       //We are good we need to change the state
       return true;
-    }else{
-      //We check for the variation and make sure that the variation is still enough
-      int8_t variation = 0;
-      for(uint8_t i = 4; i < 0; i--){
-        variation += ((int8_t)sensor->getOldVals1()[i] - (int8_t)sensor->getOldVals1()[i-1]);
-      }
-      if(variation < 5){
-        grosAjustement1IsAjusted = false; //We need to reajust the robot
-      }
     }
   }
   return false;

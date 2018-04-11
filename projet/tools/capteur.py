@@ -1,17 +1,17 @@
 """
 #               Diagnostique de snoopy
 #   
-#   Script python utilisé pour déboguer le robot snoopy.
-#   Ce script lit le port série et interprètte les résultats
-#   Il affiche les résultats sur un graphique en temps réel.
-#   Il peut interpréter les informations suivantes:
+#   Script python utilise pour deboguer le robot snoopy.
+#   Ce script lit le port serie et interprette les resultats
+#   Il affiche les resultats sur un graphique en temps reel.
+#   Il peut interpreter les informations suivantes:
 #
 #   - valeur 2 capteurs en cm   
 #   - valeur 2 capteurs CAN
-#   - état de la machine à état
-#   - 32 octets de texte pour faciliter le débogage
+#   - etat de la machine a etat
+#   - 32 octets de texte pour faciliter le debogage
 #
-#   Code original de Girish Joshi créateur de plotcat sous 
+#   Code original de Girish Joshi createur de plotcat sous 
 #   licence GPL 3.0
 #   https://bit.ly/2JAAo8Z
 #
