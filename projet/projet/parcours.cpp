@@ -169,7 +169,23 @@ void Parcours::interrupt180(){
   pwm::set0(100);
   pwm::set1(-100);
   _delay_ms(500);
-  pThis->state = READY; //Quick hack on peut maintenant modifier la classe.
+    switch(pThis->state){
+    case GROS_AJUSTEMENT_1:
+      pThis->state = GROS_AJUSTEMENT_0;
+    break;
+    case GROS_AJUSTEMENT_0:
+      pThis->state = GROS_AJUSTEMENT_1;
+    break;
+    case WALL_0:
+      pThis->state = WALL_1;
+    break;
+    case WALL_1:
+      pThis->state = WALL_0;
+    break;
+    default:
+      pThis->state = READY; 
+    break;
+  }
 }
 
 //Interruption pour faire le 180
