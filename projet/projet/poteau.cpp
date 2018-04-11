@@ -6,6 +6,7 @@
 Poteau::Poteau(){
 	soundpwm::init();
 	detected = false;
+	tick = 0;
 }
 
 bool Poteau::getDetected(){
@@ -33,7 +34,7 @@ void Poteau::scrutation(Sensor& sensor,State& state, State& lastState){
 	//La valeur actuelle peut etre dans le vide.
 	
 	//On fait le code 2 fois, une fois pour chaque cote des capteurs.
-	if(state != 5){
+	if(state != READY && tick > 10){
 		for(uint8_t i = 0; i < 2; i++){
 			uint8_t* oldVals;
 			
@@ -69,7 +70,7 @@ void Poteau::scrutation(Sensor& sensor,State& state, State& lastState){
 						if((int8_t)oldVals[pos] - (int8_t)oldVals[posMin] > DISTANCE && under60){
 							
 							//POTEAUX!!!!
-				
+							tick = 0;
 							uart::parcoursDebug(sensor,state,"Poteaux!!");
 							wasDetected();
 							break;
@@ -79,5 +80,9 @@ void Poteau::scrutation(Sensor& sensor,State& state, State& lastState){
 			}
 			oldVals = 0;
 		}
+	}
+	tick++;
+	if(tick == 255){
+		tick = 11;
 	}
 }

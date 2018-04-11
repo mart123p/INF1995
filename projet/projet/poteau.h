@@ -16,6 +16,7 @@ private:
 	void onTimer2();
 	void wasDetected();
 	void reset();
+	uint8_t tick;
 	bool detected;
 	uint8_t soundCount;
 };
