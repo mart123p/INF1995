@@ -12,11 +12,24 @@ public:
 	Parcours();
 	void exec();
 	
+	/**
+	 * Fait le changement de mur 
+	 */
 	void changeWall();
 
+	/**
+	 * Permet de faire un virage à 90 vers le mur 0
+	 */
 	void virage90_0();
+	
+	/**
+	 * Permet de faire un virage à 90 vers le mur 1
+	 */
 	void virage90_1();
 	
+	/**
+	 * Permet de faire un 180 lorsque le bouton d'intérruption est utilisé
+	 */
 	static void interrupt180();
 
 private:
