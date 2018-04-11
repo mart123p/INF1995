@@ -124,42 +124,27 @@ void Parcours::changeWall() {
 }
 
 void Parcours::virage90_0() {
-
-  //bool effectueVirage90 = false; // On veut que le robot avance un peu avant de tourner pour ne pas foncer dans le mur
-  uart::parcoursDebug(sensor, state, "state = BIGTURN1");
-  if (compteurBigTurn >= 250 && !effectueVirage90) {   // Attend un certain temps, puis permet au robot de tourner
-    effectueVirage90 = true;
-    compteurBigTurn = 0;                                     // On reset le compteur pour l'utiliser pour faire le virage
-  }
-
-  if (effectueVirage90) {                 
-    pwm::set1(80);
-    pwm::set0(-80);                 // Ajuster la vitesse des roues pendant un certain temps pour tourner
-    if (compteurBigTurn >= 30)             // ration : 300/2500 * 25 = 30
-      effectueVirage90 = false;
-  }
-
-  compteurBigTurn ++; 
+  uart::parcoursDebug(sensor, state, "BIGTURN0");
+  // Le robot tourne vers le mur 0
+  light::red();
+  
+  pwm::set0(defaultSpeed);
+  pwm::set1 (defaultSpeed);
+  timer::delay(400);
+  pwm::set0(frein);
+  pwm::set1(defaultSpeed);
+  timer::delay(800);
 }
 
 
 void Parcours::virage90_1() {
 
-  //bool effectueVirage90 = false; // On veut que le robot avance un peu avant de tourner pour ne pas foncer dans le mur
-  uart::parcoursDebug(sensor, state, "state = BIGTURN1");
-  if (compteurBigTurn >= 250 && !effectueVirage90) {   // Attend un certain temps, puis permet au robot de tourner
-    effectueVirage90 = true;
-    compteurBigTurn = 0;                                     // On reset le compteur pour l'utiliser pour faire le virage
-  }
-
-  if (effectueVirage90) {                 
-    pwm::set0(80);
-    pwm::set1(-80);                 // Ajuster la vitesse des roues pendant un certain temps pour tourner
-    if (compteurBigTurn >= 30)             // ration : 300/2500 * 25 = 30
-      effectueVirage90 = false;
-  }
-
-  compteurBigTurn ++; 
+  pwm::set1(defaultSpeed);
+  pwm::set0(defaultSpeed);
+  timer::delay(400);
+  pwm::set1(frein);
+  pwm::set0(defaultSpeed);
+  timer::delay(800);
 }
 
 void Parcours::interrupt180(){

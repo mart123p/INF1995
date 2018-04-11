@@ -72,8 +72,10 @@ bool Ajustement::grosAjustement0(State state) {
       angle = 800;
     } else if (sensor->getValSensor0() > 40) {
       angle = 700;
-    } else {
+    } else if (sensor->getValSensor0() > 30) {
       angle = 600;
+    } else {
+      angle = 500;
     }
     uart::parcoursDebug(sensor,state,"angle grosAjustement");  
     timer::delay(angle);
@@ -106,8 +108,10 @@ bool Ajustement::grosAjustement1(State state){
       angle = 800;
     } else if (sensor->getValSensor1() > 40) {
       angle = 700;
-    } else {
+    } else if (sensor->getValSensor1() > 30) {
       angle = 600;
+    } else {
+      angle = 400;
     }
     uart::parcoursDebug(sensor,state,"angle grosAjustement");  
     timer::delay(angle);
