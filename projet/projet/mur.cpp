@@ -54,7 +54,7 @@ void Mur::scrutation(Sensor& sensor,State& state,State& lastState){
         }
     }
 }
-//TODO
+
 void Mur::reset(){
-    canSwitchWall = false; //devrait etre a true ?
+    canSwitchWall = true; 
 }
