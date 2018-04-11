@@ -34,7 +34,7 @@ void Poteau::scrutation(Sensor& sensor,State& state, State& lastState){
 	//La valeur actuelle peut etre dans le vide.
 	
 	//On fait le code 2 fois, une fois pour chaque cote des capteurs.
-	if(state != READY && tick > 10){
+	if(state != READY && tick > 25){
 		for(uint8_t i = 0; i < 2; i++){
 			uint8_t* oldVals;
 			
@@ -82,7 +82,7 @@ void Poteau::scrutation(Sensor& sensor,State& state, State& lastState){
 		}
 	}
 	tick++;
-	if(tick == 255){
-		tick = 11;
+	if(tick >= 250){
+		tick = 26;
 	}
 }
