@@ -1,16 +1,25 @@
 #include "parcours.h"
 
+Parcours* Parcours::pThis;
+
+
 Parcours::Parcours() : ajustement(&sensor) {
+  
   state = READY;
   lastState = READY;
   compteurBigTurn =0;
   effectueVirage90 = false;
 
 
-  //Enable interrupt
+  //Activation de l'interruption du bouton pour
+  //faire la rotation du 180.
   DDRD &= ~(2 << DDD2);     // Clear the PD2 pin 
   EICRA |= (1 << ISC00);    // set INT0 to trigger on ANY logic change
   EIMSK |= (1 << INT0);     // Turns on INT0
+  
+  pThis = this; //On utilise cet attribut pour pouvoir interagir avec
+                //la classe lors de l'interrupt
+
 }
 
 void Parcours::exec() {
@@ -159,6 +168,6 @@ void Parcours::interrupt180(){
   pwm::set0(100);
   pwm::set1(-100);
   _delay_ms(500);
-  state = READY;
+  pThis->state = READY; //Quick hack on peut maintenant modifier la classe.
 }
 

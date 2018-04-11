@@ -3,8 +3,6 @@
 #include "diagnostique.h"
 #include "parcours.h"
 
-void (Parcours::*ptr180)() const = NULL;
-
 int main() {
   uart::init();
   light::init();
@@ -19,7 +17,6 @@ int main() {
   }else{
     eeprom_write_byte(0,1);
     Parcours parcours;
-    ptr180 = &Parcours::interrupt180;
     parcours.exec();
   }
 
@@ -32,6 +29,6 @@ ISR(INT0_vect)
 {
   _delay_ms(5);
   if ( PIND & 0x04 ){
-    ptr180();
+    Parcours::interrupt180();
   }
 }
