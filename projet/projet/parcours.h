@@ -21,6 +21,7 @@ public:
 
 private:
 	static Parcours* pThis;
+	
 	Sensor sensor;
 	Poteau poteau;
 	Mur mur;
