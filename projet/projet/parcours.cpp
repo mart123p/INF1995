@@ -127,7 +127,7 @@ void Parcours::changeWall() {
 
 void Parcours::virage90_0() {
 
-//bool effectueVirage90 = false; // On veut que le robot avance un peu avant de tourner pour ne pas foncer dans le mur
+  //bool effectueVirage90 = false; // On veut que le robot avance un peu avant de tourner pour ne pas foncer dans le mur
   uart::parcoursDebug(sensor, state, "state = BIGTURN1");
   if (compteurBigTurn >= 250 && !effectueVirage90) {   // Attend un certain temps, puis permet au robot de tourner
     effectueVirage90 = true;
@@ -147,7 +147,7 @@ void Parcours::virage90_0() {
 
 void Parcours::virage90_1() {
 
-//bool effectueVirage90 = false; // On veut que le robot avance un peu avant de tourner pour ne pas foncer dans le mur
+  //bool effectueVirage90 = false; // On veut que le robot avance un peu avant de tourner pour ne pas foncer dans le mur
   uart::parcoursDebug(sensor, state, "state = BIGTURN1");
   if (compteurBigTurn >= 250 && !effectueVirage90) {   // Attend un certain temps, puis permet au robot de tourner
     effectueVirage90 = true;
@@ -171,3 +171,12 @@ void Parcours::interrupt180(){
   pThis->state = READY; //Quick hack on peut maintenant modifier la classe.
 }
 
+//Interruption pour faire le 180
+//lorsque le bouton est enfoncé
+ISR(INT0_vect)
+{
+  _delay_ms(5);
+  if ( PIND & 0x04 ){
+    Parcours::interrupt180();
+  }
+}

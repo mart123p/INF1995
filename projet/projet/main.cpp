@@ -8,27 +8,24 @@ int main() {
   light::init();
   pwm::init();
 
-  //We check for the first byte
   if(eeprom_read_byte(0) == 1){
     eeprom_write_byte(0,0);
+
+    //Debut du mode diagnostique
+    //Comunication avec le logiciel robodiag
+
     Diagnostique diangnostique;
     diangnostique.exec();
 
   }else{
     eeprom_write_byte(0,1);
+
+    //Debut du mode parcours
+    //Robot autonome
+
     Parcours parcours;
     parcours.exec();
   }
 
-
-
   while(true);
-}
-
-ISR(INT0_vect)
-{
-  _delay_ms(5);
-  if ( PIND & 0x04 ){
-    Parcours::interrupt180();
-  }
 }
