@@ -21,7 +21,7 @@ void Parcours::exec() {
 
     //Execution des taches d'arriere plan
     mur.scrutation(sensor,state,lastState); //Cette fonction peut changer l'etat de la machine
-                                  //A etat, il faut donc faire attention.
+                                            //A etat, il faut donc faire attention.
     poteau.scrutation(sensor, state,lastState);
     //Fin des taches de scrutation.
 
@@ -62,9 +62,9 @@ void Parcours::exec() {
         break;
 
       case WALL_1:
-        if (sensor.getValSensor0() > vide_0){
+        if (sensor.getValSensor1() > vide_0){
           state = BIG_TURN_1;
-        }else if (sensor.getValSensor0() > 27) {
+        }else if (sensor.getValSensor1() > 27) {
           state = GROS_AJUSTEMENT_1;
           lastState = WALL_1;
         }else{ 
