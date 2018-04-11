@@ -92,7 +92,7 @@ bool Ajustement::grosAjustement0(State state) {
       for(uint8_t i = 4; i < 0; i--){
         variation += ((int8_t)sensor->getOldVals0()[i] - (int8_t)sensor->getOldVals0()[i-1]);
       }
-      if(variation > 5){
+      if(variation < 5){
         grosAjustement0IsAjusted = false; //We need to reajust the robot
       }
     }
@@ -135,7 +135,7 @@ bool Ajustement::grosAjustement1(State state){
       for(uint8_t i = 4; i < 0; i--){
         variation += ((int8_t)sensor->getOldVals1()[i] - (int8_t)sensor->getOldVals1()[i-1]);
       }
-      if(variation > 5){
+      if(variation < 5){
         grosAjustement1IsAjusted = false; //We need to reajust the robot
       }
     }
