@@ -2,11 +2,8 @@
 #include "ohBoy.h"
 #include "diagnostique.h"
 #include "parcours.h"
-void delay(uint16_t time){
-  for(uint16_t i =0; i < time; i++){
-    _delay_ms(1);
-  }
-}
+
+void (Parcours::*ptr180)() const = NULL;
 
 int main() {
   uart::init();
@@ -22,10 +19,19 @@ int main() {
   }else{
     eeprom_write_byte(0,1);
     Parcours parcours;
+    ptr180 = &Parcours::interrupt180;
     parcours.exec();
   }
 
 
 
   while(true);
+}
+
+ISR(INT0_vect)
+{
+  _delay_ms(5);
+  if ( PIND & 0x04 ){
+    ptr180();
+  }
 }

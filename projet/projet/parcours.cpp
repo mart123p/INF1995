@@ -5,6 +5,12 @@ Parcours::Parcours() : ajustement(&sensor) {
   lastState = READY;
   compteurBigTurn =0;
   effectueVirage90 = false;
+
+
+  //Enable interrupt
+  DDRD &= ~(2 << DDD2);     // Clear the PD2 pin 
+  EICRA |= (1 << ISC00);    // set INT0 to trigger on ANY logic change
+  EIMSK |= (1 << INT0);     // Turns on INT0
 }
 
 void Parcours::exec() {
@@ -148,3 +154,11 @@ void Parcours::virage90_1() {
 
   compteurBigTurn ++; 
 }
+
+void Parcours::interrupt180(){
+  pwm::set0(100);
+  pwm::set1(-100);
+  _delay_ms(500);
+  state = READY;
+}
+

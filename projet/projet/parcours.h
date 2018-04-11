@@ -16,6 +16,8 @@ public:
 
 	void virage90_0();
 	void virage90_1();
+	
+	void interrupt180();
 
 private:
 	Sensor sensor;
