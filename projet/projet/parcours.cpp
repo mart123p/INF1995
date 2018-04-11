@@ -3,6 +3,8 @@
 Parcours::Parcours() : ajustement(&sensor) {
   state = READY;
   lastState = READY;
+  compteurBigTurn =0;
+  effectueVirage90 = false;
 }
 
 void Parcours::exec() {
@@ -109,32 +111,40 @@ void Parcours::changeWall() {
 }
 
 void Parcours::virage90_0() {
-  // BIGTURN0
-  pwm::set1(defaultSpeed);
-  pwm::set0(defaultSpeed);
-  _delay_ms(2500);
-  if (sensor.read0() > vide_0) {
-    pwm::set1(80);
-    pwm::set0(-80);
-    _delay_ms(300);
-    pwm::set1(defaultSpeed);
-    pwm::set0(defaultSpeed);
-    _delay_ms(1000);
+
+//bool effectueVirage90 = false; // On veut que le robot avance un peu avant de tourner pour ne pas foncer dans le mur
+  uart::parcoursDebug(sensor, state, "state = BIGTURN1");
+  if (compteurBigTurn >= 250 && !effectueVirage90) {   // Attend un certain temps, puis permet au robot de tourner
+    effectueVirage90 = true;
+    compteurBigTurn = 0;                                     // On reset le compteur pour l'utiliser pour faire le virage
   }
+
+  if (effectueVirage90) {                 
+    pwm::set1(80);
+    pwm::set0(-80);                 // Ajuster la vitesse des roues pendant un certain temps pour tourner
+    if (compteurBigTurn >= 30)             // ration : 300/2500 * 25 = 30
+      effectueVirage90 = false;
+  }
+
+  compteurBigTurn ++; 
 }
 
+
 void Parcours::virage90_1() {
-  // BIGTURN1
-  pwm::set1(defaultSpeed);
-  pwm::set0(defaultSpeed);
-  _delay_ms(2500);
-  if (sensor.read1() > vide_1) {
-    pwm::set1(-80);
-    pwm::set0(80);
-    _delay_ms(300);
-    pwm::set1(defaultSpeed);
-    pwm::set0(defaultSpeed);
-    _delay_ms(1000);
+
+//bool effectueVirage90 = false; // On veut que le robot avance un peu avant de tourner pour ne pas foncer dans le mur
+  uart::parcoursDebug(sensor, state, "state = BIGTURN1");
+  if (compteurBigTurn >= 250 && !effectueVirage90) {   // Attend un certain temps, puis permet au robot de tourner
+    effectueVirage90 = true;
+    compteurBigTurn = 0;                                     // On reset le compteur pour l'utiliser pour faire le virage
   }
-  soundpwm::off();
+
+  if (effectueVirage90) {                 
+    pwm::set0(80);
+    pwm::set1(-80);                 // Ajuster la vitesse des roues pendant un certain temps pour tourner
+    if (compteurBigTurn >= 30)             // ration : 300/2500 * 25 = 30
+      effectueVirage90 = false;
+  }
+
+  compteurBigTurn ++; 
 }

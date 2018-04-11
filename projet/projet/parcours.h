@@ -26,5 +26,8 @@ private:
 	
 	State state;
 	State lastState;
+
+	uint8_t compteurBigTurn;
+	bool effectueVirage90;
 };
 #endif

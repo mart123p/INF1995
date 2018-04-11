@@ -11,6 +11,8 @@ void Ajustement::ajuste0(){
         pwm::set1(acceleration);
     if (sensor->getValSensor0() > sensor->getOldVals0()[1]) {
         pwm::set0(frein);
+            uart::parcoursDebug(sensor, 255, "ajustements frein");
+
     } else {
         pwm::set0(defaultSpeed);
     }
