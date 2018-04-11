@@ -104,6 +104,8 @@ void test();
 void parcoursDebug(Sensor &sensor, uint8_t state, const char *c);
 void parcoursDebug(Sensor* sensor, uint8_t state, const char *c);
 void parcoursDebug(Sensor &sensor, uint8_t state, uint8_t num);
+void parcoursDebug(Sensor* sensor, uint8_t state, uint8_t num);
+
 
 }  // namespace uart
 

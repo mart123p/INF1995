@@ -205,6 +205,24 @@ void uart::parcoursDebug(Sensor &sensor, uint8_t state, uint8_t num){
 
 }
 
+void uart::parcoursDebug(Sensor* sensor, uint8_t state, uint8_t num){
+  uint8_t size = 1;
+  uint8_t rem;
+  while (pow_unsigned(10, size) <= num) {
+    size++;
+  }
+  char digits[size+1];
+  for (uint8_t i = 0; i < size; i++) {
+    rem = num % 10;
+    num = num / 10;
+    digits[i] = pgm_read_byte(&asciiNumbers[rem]);
+  }
+  digits[size] = '\0';
+
+  uart::parcoursDebug(sensor, state, digits);
+
+}
+
 
 void uart::test() {
   uart::init();
