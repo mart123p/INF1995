@@ -66,13 +66,14 @@ bool Ajustement::grosAjustement0(State state) {
   // should be bigger
   if(!grosAjustement0IsAjusted){
     uint16_t angle = 0;
-    if (sensor->getValSensor1() > 50) {
+    if (sensor->getValSensor0() > 50) {
       angle = 800;
-    } else if (sensor->getValSensor1() > 40) {
+    } else if (sensor->getValSensor0() > 40) {
       angle = 700;
     } else {
       angle = 600;
-    }  
+    }
+    uart::parcoursDebug(sensor,state,"angle grosAjustement");  
     timer::delay(angle);
     grosAjustement0IsAjusted = true;
   }else{
@@ -80,7 +81,7 @@ bool Ajustement::grosAjustement0(State state) {
     pwm::set0(defaultSpeed);
     pwm::set1(defaultSpeed);
 
-    if(sensor->getValSensor1() > 17){
+    if(sensor->getValSensor0() < 20){
       //We are good we need to change the state
       return true;
     }else{
@@ -99,4 +100,5 @@ bool Ajustement::grosAjustement0(State state) {
 
 bool Ajustement::grosAjustement1(State state){
     uart::parcoursDebug(sensor,state,"Not implemented");
+    return false;
 }
