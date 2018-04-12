@@ -139,6 +139,13 @@ void Parcours::virage90_0() {
     pwm::set0(frein);
     pwm::set1(defaultSpeed);
     timer::delay(800);
+    timer::delay(800);
+    pwm::set0(frein);
+    pwm::set1(frein);
+    timer::delay(50);
+    pwm::set0(defaultSpeed);
+    pwm::set1(defaultSpeed);
+    timer::delay(1500);
    } 
   state = WALL_0;
 }
@@ -150,9 +157,15 @@ void Parcours::virage90_1() {
   pwm::set0(defaultSpeed);
   timer::delay(2000);
   if (sensor.getValSensor1() > vide_0 ){
-     pwm::set1(frein);
-    pwm::set0(defaultSpeed);
-    timer::delay(800);
+      pwm::set1(frein);
+      pwm::set0(defaultSpeed);
+      timer::delay(800);
+      pwm::set0(frein);
+      pwm::set1(frein);
+      timer::delay(50);
+      pwm::set0(defaultSpeed);
+      pwm::set1(defaultSpeed);
+      timer::delay(1500);
   }
   state = WALL_1;
 }
