@@ -40,7 +40,7 @@ class Ajustement{
          */
         void neDoitPasAttendre();
 
-        
+
     private:
         Sensor* sensor;
         bool grosAjustement0IsAjusted;

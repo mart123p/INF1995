@@ -61,7 +61,7 @@ void Ajustement::ajuste1(){
 bool Ajustement::grosAjustement0(State state) {
  // Adjust in consequence if the wall is further the attack angle
   // should be bigger
-    if ( (sensor.getValSensor0() > 27 && sensor.getValSensor0() < vide_0) || !doitAttendre){
+    if ( (sensor->getValSensor0() > 27 && sensor->getValSensor0() < vide_0) || !doitAttendre){
       tick++;
       if (tick >= 15 || !doitAttendre){ 
         uart::parcoursDebug(sensor, state, "grosAjustement1");
@@ -110,7 +110,7 @@ bool Ajustement::grosAjustement1(State state){
 
   // Adjust in consequence if the wall is further the attack angle
   // should be bigger
-    if ( (sensor.getValSensor1() > 27 && sensor.getValSensor1() < vide_1) || !doitAttendre){
+    if ( (sensor->getValSensor1() > 27 && sensor->getValSensor1() < vide_1) || !doitAttendre){
       tick++;
       if (tick >= 15 || !doitAttendre){ 
         uart::parcoursDebug(sensor, state, "grosAjustement1");
@@ -155,6 +155,6 @@ bool Ajustement::grosAjustement1(State state){
 }
 
 
-void neDoitPasAttendre(){
+void Ajustement::neDoitPasAttendre(){
   doitAttendre = false;
 }
