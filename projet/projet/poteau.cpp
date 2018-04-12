@@ -6,6 +6,7 @@
 Poteau::Poteau(){
 	soundpwm::init();
 	detected = false;
+	stopBeep = false;
 	tick = 0;
 }
 
@@ -15,17 +16,39 @@ bool Poteau::getDetected(){
 
 void Poteau::reset(){
 	detected = false;
+	stopBeep = false;
 }
 
+void Poteau::cancelBeep(){
+	stopBeep = true;
+}
 
 void Poteau::wasDetected(){
 	detected = true;
 	for(uint8_t i = 0; i < 3;i++){
 		soundpwm::beep(81);
-		_delay_ms(200);
+		//Delay 200 ms
+		for(uint8_t j = 0; j < 10; j++){
+			_delay_ms(20);
+			if(stopBeep){
+				//Le bouton de 180 a ete appuye, on doit retourner
+				break;
+			}
+		}
 		soundpwm::off();
-		if(i < 2)
-			_delay_ms(100);
+		if(i < 2){
+			for(uint8_t j = 0; j < 10; j++){
+				_delay_ms(10);
+				if(stopBeep){
+					//Le bouton de 180 a ete appuye, on doit retourner
+					break;
+				}
+			}
+		}
+		if(stopBeep){
+			//Le bouton de 180 a ete appuye, on doit retourner
+			break;
+		}
 	}
 }
 

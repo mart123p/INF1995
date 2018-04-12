@@ -151,10 +151,27 @@ void Parcours::virage90_1() {
 }
 
 void Parcours::interrupt180(){
-  pwm::set0(100);
-  pwm::set1(-100);
+  if(pThis->poteau.getDetected()){
+    pThis->poteau.cancelBeep();
+  }
+
+  pwm::set0(0);
+  pwm::set1(0);
+  _delay_ms(500); //Le temps que le robot arrête
+
+  pwm::set0(-80);
+  pwm::set1(80);
+  _delay_ms(1100);
+
+  pwm::set0(-40);
+  pwm::set1(40);
+  _delay_ms(200);
+
+  pwm::set0(0);
+  pwm::set1(0);
   _delay_ms(500);
-    switch(pThis->state){
+
+  switch(pThis->state){
     case GROS_AJUSTEMENT_1:
       pThis->state = GROS_AJUSTEMENT_0;
     break;

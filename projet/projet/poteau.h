@@ -26,6 +26,11 @@ public:
 	 */
 	bool getDetected();
 
+	/**
+	 * Cancel a beeping in progress.
+	 */
+	void cancelBeep();
+
 private:
 	
 	/**
@@ -42,6 +47,7 @@ private:
 				  //les falses positives. Ou les boucles sans fin de 
 				  //dectection de poteau.
 	bool detected;
+	bool stopBeep;
 };
 
 #endif
