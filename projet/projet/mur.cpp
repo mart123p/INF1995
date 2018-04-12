@@ -7,7 +7,7 @@ void Mur::scrutation(Sensor& sensor,State& state,State& lastState){
     if (canSwitchWall && state == WALL_0 && sensor.getValSensor1() < vide_1) {  // Capte un mur et qu'il est deja sur un mur
         
         tick++;
-        if (tick > 15) {
+        if (tick > 20) {
             uart::parcoursDebug(sensor, state, "state = SWITCH_WALL");
             state = SWITCH_WALL;
             lastState = WALL_0;
@@ -17,7 +17,7 @@ void Mur::scrutation(Sensor& sensor,State& state,State& lastState){
     } else if (canSwitchWall && state == WALL_1 && sensor.getValSensor0() < vide_0) {  // Capte un mur et qu'il est deja sur un mur
         
         tick++;
-        if (tick > 15) {
+        if (tick > 20) {
             uart::parcoursDebug(sensor, state, "state = SWITCH_WALL");
             state = SWITCH_WALL;
             lastState = WALL_1;
@@ -31,7 +31,7 @@ void Mur::scrutation(Sensor& sensor,State& state,State& lastState){
     if (!canSwitchWall) {
         if (state == WALL_0) {
             if (sensor.read1() > vide_1) {
-                if (tick > 5) { //On s'assure que c'est bien un vide
+                if (tick > 10) { //On s'assure que c'est bien un vide
                     tick = 0;
                     canSwitchWall = true;
                     uart::parcoursDebug(sensor, state, "canSwitchWall -> WaLL_1");
@@ -42,7 +42,7 @@ void Mur::scrutation(Sensor& sensor,State& state,State& lastState){
             }
         } else if (state == WALL_1) {
             if (sensor.read0() > vide_0) {
-                if (tick > 5) {
+                if (tick > 10) {
                     tick = 0;
                     canSwitchWall = true;
                     uart::parcoursDebug(sensor, state, "canSwitchWall -> WALL_0");

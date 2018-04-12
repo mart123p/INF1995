@@ -1,5 +1,5 @@
 #include "poteau.h"
-#define SENSOR_SIZE 10
+#define SENSOR_SIZE 18
 #define DISTANCE 10
 #define vide 130
 

@@ -2,7 +2,7 @@
 #define SENSORS_H
 
 
-#define SENSOR_SIZE 10
+#define SENSOR_SIZE 18
 
 #include "can.h"
 

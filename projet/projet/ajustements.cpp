@@ -94,7 +94,7 @@ bool Ajustement::grosAjustement0(State state) {
         pwm::set1(defaultSpeed);
         // Adjust in consequence if the wall is further the attack angle
         // should be bigger
-        if(!grosAjustement1IsAjusted){
+        if(!grosAjustement0IsAjusted){
           uint16_t angle = 0;
           if (sensor->getValSensor1() > 50) {
             angle = 700;
@@ -107,11 +107,11 @@ bool Ajustement::grosAjustement0(State state) {
           }
           uart::parcoursDebug(sensor,state,"angle grosAjustement");  
           timer::delay(angle);
-          grosAjustement1IsAjusted = true;
+          grosAjustement0IsAjusted = true;
         }else{
           //The attack angle is ajusted. We need to go foward until the distance is normal
-          pwm::set0(45);
-          pwm::set1(defaultSpeed);
+          pwm::set1(45);
+          pwm::set0(defaultSpeed);
 
           if(sensor->getValSensor0() < 20){
             //We are good we need to change the state
@@ -122,6 +122,7 @@ bool Ajustement::grosAjustement0(State state) {
         }
         return false;
       }
+      return false;
     }else{
       //Si le robot n'est plus dans les bonnes bornes il change de state
       tick = 0;
@@ -164,8 +165,8 @@ bool Ajustement::grosAjustement1(State state){
           grosAjustement1IsAjusted = true;
         }else{
           //The attack angle is ajusted. We need to go foward until the distance is normal
-          pwm::set1(45);
-          pwm::set0(defaultSpeed);
+          pwm::set0(45);
+          pwm::set1(defaultSpeed);
 
           if(sensor->getValSensor1() < 20){
             //We are good we need to change the state
@@ -176,6 +177,7 @@ bool Ajustement::grosAjustement1(State state){
         }
         return false;
       }
+      return false;
     }else{
       //Si le robot n'est plus dans les bonnes bornes il change de state
       tick = 0;
