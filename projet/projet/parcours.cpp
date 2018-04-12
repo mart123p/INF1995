@@ -144,7 +144,7 @@ void Parcours::virage90_1() {
 
   pwm::set1(defaultSpeed);
   pwm::set0(defaultSpeed);
-  timer::delay(400);
+  timer::delay(1000);
   pwm::set1(frein);
   pwm::set0(defaultSpeed);
   timer::delay(800);
