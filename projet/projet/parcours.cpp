@@ -118,6 +118,7 @@ void Parcours::exec() {
 
 void Parcours::changeWall() {
   uart::parcoursDebug(sensor, state, "changewall");
+  ajustement.neDoitPasAttendre();
   if (lastState == WALL_0) {
     state = GROS_AJUSTEMENT_1;
   }
