@@ -34,10 +34,19 @@ class Ajustement{
          * @return       bool indiquand si l'ajustement est ok ou si il doit se réajuster
          */
         bool grosAjustement1(State state);
+
+        /**
+         * Met a false doitAttendre
+         */
+        void neDoitPasAttendre();
+
+
     private:
         Sensor* sensor;
         bool grosAjustement0IsAjusted;
         bool grosAjustement1IsAjusted;
+        bool doitAttendre;
+        uint8_t tick;
 
 };
 
