@@ -153,6 +153,7 @@ void Parcours::virage90_1() {
 void Parcours::interrupt180(){
   if(pThis->poteau.getDetected()){
     pThis->poteau.cancelBeep();
+    soundpwm::off();
   }
 
   pwm::set0(0);

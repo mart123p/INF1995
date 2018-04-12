@@ -47,9 +47,11 @@ void Poteau::wasDetected(){
 		}
 		if(stopBeep){
 			//Le bouton de 180 a ete appuye, on doit retourner
+			reset();
 			break;
 		}
 	}
+	reset();
 }
 
 void Poteau::scrutation(Sensor& sensor,State& state, State& lastState){
