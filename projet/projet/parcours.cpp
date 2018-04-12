@@ -162,7 +162,7 @@ void Parcours::interrupt180(){
 
   pwm::set0(-80);
   pwm::set1(80);
-  _delay_ms(1100);
+  _delay_ms(800); //1100 batteries faibles, 800 nouvelles batteries
 
   pwm::set0(-40);
   pwm::set1(40);
