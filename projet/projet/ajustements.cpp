@@ -64,7 +64,7 @@ bool Ajustement::grosAjustement0(State state) {
     if ( (sensor->getValSensor0() > 27 && sensor->getValSensor0() < vide_0) || !doitAttendre){
       tick++;
       if (tick >= 15 || !doitAttendre){ 
-        uart::parcoursDebug(sensor, state, "grosAjustement1");
+        uart::parcoursDebug(sensor, state, "grosAjustement0");
         // Le robot tourne vers le mur 0
         light::red();
         pwm::set0(frein);
