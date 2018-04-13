@@ -96,7 +96,7 @@ bool Ajustement::grosAjustement0(State state) {
         // Le robot tourne vers le mur 0
         light::red();
         pwm::set0(frein);
-        pwm::set1(defaultSpeed);
+        pwm::set1(40);//Une roue roule moins vite que l'autre
         // Adjust in consequence if the wall is further the attack angle
         // should be bigger
         if(!grosAjustement0IsAjusted){
@@ -118,7 +118,7 @@ bool Ajustement::grosAjustement0(State state) {
           pwm::set1(defaultSpeed);
           pwm::set0(defaultSpeed);
 
-          if(sensor->getValSensor0() < 20){
+          if(sensor->getValSensor0() < 14){
             //We are good we need to change the state
             tick = 0;
             doitAttendre = true;
@@ -173,7 +173,7 @@ bool Ajustement::grosAjustement1(State state){
           pwm::set0(defaultSpeed);
           pwm::set1(defaultSpeed);
 
-          if(sensor->getValSensor1() < 20){
+          if(sensor->getValSensor1() < 14){
             //We are good we need to change the state
             tick = 0;
             doitAttendre = true;
