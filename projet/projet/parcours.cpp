@@ -134,7 +134,7 @@ void Parcours::virage180_0() {
 
   while (state != WALL_0){
     uart::parcoursDebug(sensor, state, "BIGTURN 0 (IN LOOP)");
-
+    sensor.read1();
     sensor.read0();                            
     poteau.scrutation(sensor, state,lastState); 
     _delay_ms(50);
@@ -154,6 +154,7 @@ void Parcours::virage180_1() {
   while (state != WALL_1){
     uart::parcoursDebug(sensor, state, "BIGTURN 1 (IN LOOP)");
     sensor.read1();
+    sensor.read0();
     poteau.scrutation(sensor, state,lastState);
     _delay_ms(50);
 

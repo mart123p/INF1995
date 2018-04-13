@@ -10,6 +10,7 @@ void Ajustement::ajuste0(){
     //Si le robot est trop loin du mur 0 on fait accélérer 
     //le moteur 1 pour qu'il se raproche
     if(sensor->getValSensor0() > 16){
+    	uart::parcoursDebug(sensor, 255, "capteur 0 trop loin");
         light::red();
         pwm::set1(acceleration);
         
@@ -24,6 +25,7 @@ void Ajustement::ajuste0(){
     //Si le robot est trop près dur mur 0 on fait accélérer 
     //le moteur 0 pour s'éloigner du mur 
     else if(sensor->getValSensor0() < 13){
+    	uart::parcoursDebug(sensor, 255, "capteur 0 trop proche");
         light::red();
         pwm::set0(acceleration);
         //On s'assure que le robot s'éloigne bel et bien du mur 
@@ -47,6 +49,7 @@ void Ajustement::ajuste1(){
     //Si le robot est trop loin du mur 0 on fait accélérer 
     //le moteur 1 pour qu'il se raproche
     if (sensor->getValSensor1() > 16) {
+  	  uart::parcoursDebug(sensor, 255, "capteur 1 trop loin");
       light::red();
       pwm::set0(acceleration);
       //On vérifie que le robot se raproche bel et bien du mur 
@@ -61,6 +64,8 @@ void Ajustement::ajuste1(){
   //le moteur 1 pour s'éloigner du mur 
   else if (sensor->getValSensor1() < 13) {
         light::red();
+        uart::parcoursDebug(sensor, 255, "capteur 1 trop proche");
+
         pwm::set1(acceleration);
         //On s'assure que le robot s'éloigne bel et bien du mur 
         //sinon on augmente l'efficacité du virage 

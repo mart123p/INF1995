@@ -63,10 +63,10 @@ void Poteau::scrutation(Sensor& sensor,State& state, State& lastState){
 		for(uint8_t i = 0; i < 2; i++){
 
 			if(i == 0 && (state == WALL_0 || state == BIG_TURN_0 || state == GROS_AJUSTEMENT_0)){
-				break; // On ignore la scrutation du capteur 0 s'il est dans les états précédents
+				continue; // On ignore la scrutation du capteur 0 s'il est dans les états précédents
 			}
 			if(i == 1 && (state == WALL_1 || state == BIG_TURN_1 || state == GROS_AJUSTEMENT_1)){
-				break; // On ignore la scrutation du capteur 1 s'il est dans les états précédents
+				continue; // On ignore la scrutation du capteur 1 s'il est dans les états précédents
 			}
 			uint8_t* oldVals;
 			
