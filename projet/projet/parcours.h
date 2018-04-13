@@ -18,14 +18,14 @@ public:
 	void changeWall();
 
 	/**
-	 * Permet de faire un virage à 90 vers le mur 0
+	 * Permet de faire un virage à 180 vers le mur 0
 	 */
-	void virage90_0();
+	void virage180_0();
 	
 	/**
-	 * Permet de faire un virage à 90 vers le mur 1
+	 * Permet de faire un virage à 180 vers le mur 1
 	 */
-	void virage90_1();
+	void virage180_1();
 	
 	/**
 	 * Permet de faire un 180 lorsque le bouton d'intérruption est utilisé
