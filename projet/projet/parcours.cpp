@@ -133,26 +133,26 @@ void Parcours::virage180_0() {
   light::red();
   
   pwm::set0(defaultSpeed);   // Avancer pour ne pas foncer dans le mur en tournant
-  pwm::set1 (defaultSpeed);
-  _delay_ms(2000);
+  pwm::set1 (60);
+  _delay_ms(1000);
   if (sensor.getValSensor0() > vide_0 ){
     pwm::set0(frein);        // Tourner
     pwm::set1(defaultSpeed);
-    _delay_ms(800);
+    _delay_ms(1600);
     //pwm::set0(frein);      // Necessaire?
     //pwm::set1(frein);
     //timer::delay(50);
     pwm::set0(defaultSpeed); // Avancer un peu
     pwm::set1(defaultSpeed);
-    _delay_ms(1500);
+    _delay_ms(2200);
 
     pwm::set0(frein);        // Tourner
     pwm::set1(defaultSpeed);
-    _delay_ms(800);
+    _delay_ms(1600);
 
     pwm::set0(defaultSpeed);   // Pour reprendre le mur de l'autre cote
     pwm::set1 (defaultSpeed);
-    _delay_ms(2000);    
+    _delay_ms(1000);    
 
 
    } 
@@ -163,26 +163,26 @@ void Parcours::virage180_0() {
 void Parcours::virage180_1() {
 
   pwm::set1(defaultSpeed);
-  pwm::set0(defaultSpeed);
-  _delay_ms(2000);
+  pwm::set0(60);
+  _delay_ms(1000);
   if (sensor.getValSensor1() > vide_0 ){
       pwm::set1(frein);
       pwm::set0(defaultSpeed);
-      _delay_ms(800);
+      _delay_ms(1600);
       //pwm::set0(frein);   // Necessaire?
       //pwm::set1(frein);
       //timer::delay(50);
       pwm::set0(defaultSpeed);
       pwm::set1(defaultSpeed);
-      _delay_ms(1500);
+      _delay_ms(2200);
 
       pwm::set1(frein);
       pwm::set0(defaultSpeed);
-      _delay_ms(800);
+      _delay_ms(1600);
 
       pwm::set1(defaultSpeed);
       pwm::set0(defaultSpeed);
-      _delay_ms(2000);
+      _delay_ms(1000);
   }
   state = WALL_1;
 }
