@@ -97,20 +97,20 @@ bool Ajustement::grosAjustement0(State state) {
         if(!grosAjustement0IsAjusted){
           uint16_t angle = 0;
           if (sensor->getValSensor1() > 50) {
-            angle = 700;
-          } else if (sensor->getValSensor1() > 40) {
             angle = 600;
-          } else if (sensor->getValSensor1() > 30) {
+          } else if (sensor->getValSensor1() > 40) {
             angle = 500;
-          } else {
+          } else if (sensor->getValSensor1() > 30) {
             angle = 400;
+          } else {
+            angle = 300;
           }
           uart::parcoursDebug(sensor,state,"angle grosAjustement");  
           timer::delay(angle);
           grosAjustement0IsAjusted = true;
         }else{
           //The attack angle is ajusted. We need to go foward until the distance is normal
-          pwm::set1(45);
+          pwm::set1(defaultSpeed);
           pwm::set0(defaultSpeed);
 
           if(sensor->getValSensor0() < 20){
@@ -152,20 +152,20 @@ bool Ajustement::grosAjustement1(State state){
         if(!grosAjustement1IsAjusted){
           uint16_t angle = 0;
           if (sensor->getValSensor1() > 50) {
-            angle = 700;
-          } else if (sensor->getValSensor1() > 40) {
             angle = 600;
-          } else if (sensor->getValSensor1() > 30) {
+          } else if (sensor->getValSensor1() > 40) {
             angle = 500;
-          } else {
+          } else if (sensor->getValSensor1() > 30) {
             angle = 400;
+          } else {
+            angle = 300;
           }
           uart::parcoursDebug(sensor,state,"angle grosAjustement");  
           timer::delay(angle);
           grosAjustement1IsAjusted = true;
         }else{
           //The attack angle is ajusted. We need to go foward until the distance is normal
-          pwm::set0(45);
+          pwm::set0(defaultSpeed);
           pwm::set1(defaultSpeed);
 
           if(sensor->getValSensor1() < 20){

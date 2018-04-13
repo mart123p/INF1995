@@ -128,33 +128,9 @@ void Parcours::changeWall() {
 }
 
 void Parcours::virage180_0() {
+  light::red();
   uart::parcoursDebug(sensor, state, "BIGTURN0");
   // Le robot tourne vers le mur 0
-  /* light::red();
-  
-  pwm::set0(off);   // Avancer pour ne pas foncer dans le mur en tournant
-  pwm::set1 (defaultSpeed);
-  _delay_ms(2000);
-  if (sensor.getValSensor0() > vide_0 ){
-    pwm::set0(frein);        // Tourner
-    pwm::set1(defaultSpeed);
-    _delay_ms(800);
-    //pwm::set0(frein);
-    //pwm::set1(frein);      // Necessaire?
-    //timer::delay(50);
-    pwm::set0(defaultSpeed); // Avancer un peu
-    pwm::set1(defaultSpeed);
-    _delay_ms(1500); 
-
-    pwm::set0(frein);        // Tourner
-    pwm::set1(defaultSpeed);
-    _delay_ms(800);
-
-    pwm::set0(defaultSpeed);  // Avancer pour revenir sur ses pas
-    pwm::set1(defaultSpeed);
-    _delay_ms(2000);
-
-   } */
   uart::parcoursDebug(sensor, state, "BIG TURN 0 (IN WHILE LOOP)");
 
   while (state != WALL_0){
@@ -169,39 +145,14 @@ void Parcours::virage180_0() {
     }
   }
   uart::parcoursDebug(sensor, state, "BIG TURN 0 (OUT WHILE LOOP)");
-
-
-  
-  
 }
 
 
 void Parcours::virage180_1() {
-
-  /*pwm::set1(defaultSpeed);
-  pwm::set0(defaultSpeed);
-  _delay_ms(2000);
-  if (sensor.getValSensor1() > vide_0 ){
-      pwm::set1(frein);        // Tourner
-      pwm::set0(defaultSpeed);
-      _delay_ms(800);
-      //pwm::set0(frein);
-      //pwm::set1(frein);      // Necessaire?
-      //_delay_ms(50);
-      pwm::set0(defaultSpeed); // Avancer un peu
-      pwm::set1(defaultSpeed);
-      _delay_ms(1500);
-
-      pwm::set1(frein);        // Tourner
-      pwm::set0(defaultSpeed);
-      _delay_ms(800);
-
-      pwm::set1(defaultSpeed);  // Avancer pour revenir sur ses pas
-      pwm::set0(defaultSpeed);
-      _delay_ms(2000);
-  }*/
-uart::parcoursDebug(sensor, state, "BIG TURN 1 (IN WHILE LOOP)");
-while (state != WALL_1){
+  light::red();
+  uart::parcoursDebug(sensor, state, "BIGTURN1");
+  uart::parcoursDebug(sensor, state, "BIG TURN 1 (IN WHILE LOOP)");
+  while (state != WALL_1){
     sensor.read1();
     poteau.scrutation(sensor, state,lastState);
     _delay_ms(50);
@@ -211,10 +162,8 @@ while (state != WALL_1){
     if (sensor.getValSensor1() < 14) {
      state = WALL_1;
     }
-}
-uart::parcoursDebug(sensor, state, "BIG TURN 1 (OUT WHILE LOOP)");
-
-  
+  }
+  uart::parcoursDebug(sensor, state, "BIG TURN 1 (OUT WHILE LOOP)");
 }
 
 void Parcours::interrupt180(){
