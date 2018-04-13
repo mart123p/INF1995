@@ -131,39 +131,39 @@ void Parcours::virage180_0() {
   light::red();
   uart::parcoursDebug(sensor, state, "BIGTURN0");
   // Le robot tourne vers le mur 0
-  uart::parcoursDebug(sensor, state, "BIG TURN 0 (IN WHILE LOOP)");
 
   while (state != WALL_0){
+    uart::parcoursDebug(sensor, state, "BIGTURN 0 (IN LOOP)");
+
     sensor.read0();                            
     poteau.scrutation(sensor, state,lastState); 
     _delay_ms(50);
 
-    pwm::set0(20);
-    pwm::set1(40);
+    pwm::set0(25);
+    pwm::set1(45);
     if (sensor.getValSensor0() < 14) {
      state = WALL_0;
     }
   }
-  uart::parcoursDebug(sensor, state, "BIG TURN 0 (OUT WHILE LOOP)");
+  uart::parcoursDebug(sensor, state, "BIGTURN 0 (OUT LOOP)");
 }
 
 
 void Parcours::virage180_1() {
   light::red();
-  uart::parcoursDebug(sensor, state, "BIGTURN1");
-  uart::parcoursDebug(sensor, state, "BIG TURN 1 (IN WHILE LOOP)");
   while (state != WALL_1){
+    uart::parcoursDebug(sensor, state, "BIGTURN 1 (IN LOOP)");
     sensor.read1();
     poteau.scrutation(sensor, state,lastState);
     _delay_ms(50);
 
-    pwm::set0(40);
-    pwm::set1(20);
+    pwm::set0(45);
+    pwm::set1(25);
     if (sensor.getValSensor1() < 14) {
      state = WALL_1;
     }
   }
-  uart::parcoursDebug(sensor, state, "BIG TURN 1 (OUT WHILE LOOP)");
+  uart::parcoursDebug(sensor, state, "BIGTURN 1 (OUT LOOP)");
 }
 
 void Parcours::interrupt180(){

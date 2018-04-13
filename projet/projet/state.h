@@ -1,9 +1,9 @@
 #ifndef STATE_H
 #define STATE_H
 
-#define defaultSpeed 30
-#define frein -30
-#define acceleration 40
+#define defaultSpeed 35
+#define frein -35
+#define acceleration 45
 
 #define vide_0 60
 #define vide_1 60
