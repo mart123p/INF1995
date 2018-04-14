@@ -173,6 +173,8 @@ void Parcours::interrupt180(){
     soundpwm::off();
   }
 
+  pThis->mur.reset();
+
   pwm::set0(0);
   pwm::set1(0);
   _delay_ms(500); //Le temps que le robot arrête
