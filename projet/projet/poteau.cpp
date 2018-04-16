@@ -24,6 +24,13 @@ void Poteau::cancelBeep(){
 }
 
 void Poteau::wasDetected(){
+	//On garde en mémoire les anciennes valeurs
+	uint8_t oldSpeed1 = OCR1A;
+	uint8_t oldSpeed0 = OCR1B;
+
+	pwm::set0(0);
+	pwm::set1(0);
+
 	detected = true;
 	for(uint8_t i = 0; i < 3;i++){
 		soundpwm::beep(81);
@@ -52,6 +59,8 @@ void Poteau::wasDetected(){
 		}
 	}
 	reset();
+	pwm::set1(oldSpeed1);
+	pwm::set0(oldSpeed0);
 }
 
 void Poteau::scrutation(Sensor& sensor,State& state, State& lastState){
