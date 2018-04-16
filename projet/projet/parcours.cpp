@@ -65,7 +65,7 @@ void Parcours::exec() {
         pwm::set1(defaultSpeed);
         pwm::set0(defaultSpeed);
         break;
-
+ 
       case SWITCH_WALL:
         changeWall();
         break;
@@ -131,18 +131,15 @@ void Parcours::changeWall() {
 
 void Parcours::virage180_0() {
   light::red();
-  uart::parcoursDebug(sensor, state, "BIGTURN0");
-  // Le robot tourne vers le mur 0
-
   while (state != WALL_0){
+    pwm::set0(28);
+    pwm::set1(48);
+    
     uart::parcoursDebug(sensor, state, "BIGTURN 0 (IN LOOP)");
     sensor.read1();
     sensor.read0();                            
     poteau.scrutation(sensor, state,lastState); 
     _delay_ms(50);
-
-    pwm::set0(28);
-    pwm::set1(48);
     if (sensor.getValSensor0() < 14) {
      state = WALL_0;
     }
@@ -154,14 +151,17 @@ void Parcours::virage180_0() {
 void Parcours::virage180_1() {
   light::red();
   while (state != WALL_1){
+    pwm::set0(48);
+    pwm::set1(28);
+    
     uart::parcoursDebug(sensor, state, "BIGTURN 1 (IN LOOP)");
     sensor.read1();
     sensor.read0();
     poteau.scrutation(sensor, state,lastState);
+
     _delay_ms(50);
 
-    pwm::set0(48);
-    pwm::set1(28);
+
     if (sensor.getValSensor1() < 14) {
      state = WALL_1;
     }
@@ -183,15 +183,18 @@ void Parcours::interrupt180(){
 
   pwm::set0(-80);
   pwm::set1(80);
-  _delay_ms(800); //1100 batteries faibles, 800 nouvelles batteries
+  _delay_ms(850); //1100 batteries faibles, 800 nouvelles batteries
 
   pwm::set0(-40);
-  pwm::set1(40);
+  pwm::set1(40);  // Un frein pour arreter l'inertie
   _delay_ms(200);
 
   pwm::set0(0);
-  pwm::set1(0);
+  pwm::set1(0);   // Un autre frein pour mesure de securite
   _delay_ms(500);
+
+  pwm::set0(defaultSpeed);
+  pwm::set1(defaultSpeed);
 
   switch(pThis->state){
     case GROS_AJUSTEMENT_1:

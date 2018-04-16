@@ -95,20 +95,20 @@ bool Ajustement::grosAjustement0(State state) {
         uart::parcoursDebug(sensor, state, "grosAjustement0");
         // Le robot tourne vers le mur 0
         light::red();
-        pwm::set0(frein);
-        pwm::set1(defaultSpeed);//Une roue roule moins vite que l'autre
+        pwm::set0(-50);
+        pwm::set1(50);//Une roue roule moins vite que l'autre
         // Adjust in consequence if the wall is further the attack angle
         // should be bigger
         if(!grosAjustement0IsAjusted){
           uint16_t angle = 0;
           if (sensor->getValSensor0() > 50) {
-            angle = 600;
+            angle = 550; //reference: 600
           } else if (sensor->getValSensor0() > 40) {
-            angle = 500;
+            angle = 550; 
           } else if (sensor->getValSensor0() > 30) {
-            angle = 400;
+            angle = 350;
           } else {
-            angle = 300;
+            angle = 0;
           }
           uart::parcoursDebug(sensor,state,"angle grosAjustement");  
           timer::delay(angle);
@@ -151,20 +151,20 @@ bool Ajustement::grosAjustement1(State state){
         uart::parcoursDebug(sensor, state, "grosAjustement1");
         // Le robot tourne vers le mur 0
         light::red();
-        pwm::set1(frein);
-        pwm::set0(defaultSpeed);
+        pwm::set1(-50);
+        pwm::set0(50);
         // Adjust in consequence if the wall is further the attack angle
         // should be bigger
         if(!grosAjustement1IsAjusted){
           uint16_t angle = 0;
           if (sensor->getValSensor1() > 50) {
-            angle = 600;
+            angle = 550; // reference : 600 
           } else if (sensor->getValSensor1() > 40) {
-            angle = 500;
+            angle = 550;
           } else if (sensor->getValSensor1() > 30) {
-            angle = 400;
+            angle = 350;
           } else {
-            angle = 300;
+            angle = 0;
           }
           uart::parcoursDebug(sensor,state,"angle grosAjustement");  
           timer::delay(angle);
