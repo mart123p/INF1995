@@ -96,16 +96,16 @@ bool Ajustement::grosAjustement0(State state) {
         // Le robot tourne vers le mur 0
         light::red();
         pwm::set0(frein);
-        pwm::set1(40);//Une roue roule moins vite que l'autre
+        pwm::set1(defaultSpeed);//Une roue roule moins vite que l'autre
         // Adjust in consequence if the wall is further the attack angle
         // should be bigger
         if(!grosAjustement0IsAjusted){
           uint16_t angle = 0;
-          if (sensor->getValSensor1() > 50) {
+          if (sensor->getValSensor0() > 50) {
             angle = 600;
-          } else if (sensor->getValSensor1() > 40) {
+          } else if (sensor->getValSensor0() > 40) {
             angle = 500;
-          } else if (sensor->getValSensor1() > 30) {
+          } else if (sensor->getValSensor0() > 30) {
             angle = 400;
           } else {
             angle = 300;
@@ -129,6 +129,7 @@ bool Ajustement::grosAjustement0(State state) {
       }
       return false;
     }else{
+      grosAjustement0IsAjusted = false;
       //Si le robot n'est plus dans les bonnes bornes il change de state
       tick = 0;
       uart::parcoursDebug(sensor, state, "Faux gros Ajustement");
@@ -184,6 +185,7 @@ bool Ajustement::grosAjustement1(State state){
       }
       return false;
     }else{
+      grosAjustement1IsAjusted = false;
       //Si le robot n'est plus dans les bonnes bornes il change de state
       tick = 0;
       //State devient wall_1 comme la fonction return true

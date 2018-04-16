@@ -139,8 +139,8 @@ void Parcours::virage180_0() {
     poteau.scrutation(sensor, state,lastState); 
     _delay_ms(50);
 
-    pwm::set0(25);
-    pwm::set1(45);
+    pwm::set0(28);
+    pwm::set1(48);
     if (sensor.getValSensor0() < 14) {
      state = WALL_0;
     }
@@ -158,8 +158,8 @@ void Parcours::virage180_1() {
     poteau.scrutation(sensor, state,lastState);
     _delay_ms(50);
 
-    pwm::set0(45);
-    pwm::set1(25);
+    pwm::set0(48);
+    pwm::set1(28);
     if (sensor.getValSensor1() < 14) {
      state = WALL_1;
     }
