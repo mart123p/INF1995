@@ -3,6 +3,10 @@ Ajustement::Ajustement(Sensor* sensor){
     this->sensor = sensor;
     grosAjustement0IsAjusted = false;
     grosAjustement1IsAjusted = false;
+
+    correctionFrein0 = false;
+    correctionFrein1 = false;
+
     doitAttendre = true;
 }
 
@@ -13,6 +17,7 @@ void Ajustement::ajuste0(){
     	uart::parcoursDebug(sensor, 255, "capteur 0 trop loin");
         light::red();
         pwm::set1(acceleration);
+        correctionFrein0 = false;
         
         //On vérifie que le robot se raproche bel et bien du mur 
         //si ce n'est pas le cas on augmente l'efficacité du virage
@@ -28,10 +33,12 @@ void Ajustement::ajuste0(){
     	uart::parcoursDebug(sensor, 255, "capteur 0 trop proche");
         light::red();
         pwm::set0(acceleration);
+        correctionFrein0 = false;
         //On s'assure que le robot s'éloigne bel et bien du mur 
         //sinon on augmente l'efficacité du virage
         if(sensor->getValSensor0() < sensor->getOldVals0()[1]){
             pwm::set1(frein);
+            correctionFrein0 = true;
         }else{
             pwm::set1(defaultSpeed);
         }
@@ -40,6 +47,7 @@ void Ajustement::ajuste0(){
     //aller tout doit
     else{
         light::green();
+        correctionFrein0 = false;
         pwm::set1(defaultSpeed);
         pwm::set0(defaultSpeed);
     } 
@@ -52,6 +60,7 @@ void Ajustement::ajuste1(){
   	  uart::parcoursDebug(sensor, 255, "capteur 1 trop loin");
       light::red();
       pwm::set0(acceleration);
+      correctionFrein1 = false;
       //On vérifie que le robot se raproche bel et bien du mur 
       //si ce n'est pas le cas on augmente l'efficacité du virage 
       if (sensor->getValSensor1() > sensor->getOldVals1()[1]) {
@@ -65,12 +74,13 @@ void Ajustement::ajuste1(){
   else if (sensor->getValSensor1() < 13) {
         light::red();
         uart::parcoursDebug(sensor, 255, "capteur 1 trop proche");
-
         pwm::set1(acceleration);
+        correctionFrein1 = false;
         //On s'assure que le robot s'éloigne bel et bien du mur 
         //sinon on augmente l'efficacité du virage 
         if (sensor->getValSensor1() < sensor->getOldVals1()[1]) {
             pwm::set0(frein);
+            correctionFrein1 = true;
         } else {
             pwm::set0(defaultSpeed);
         }
@@ -79,6 +89,7 @@ void Ajustement::ajuste1(){
   //aller tout doit
   else {
         light::green();
+        correctionFrein1 = false;
         pwm::set0(defaultSpeed);
         pwm::set1(defaultSpeed);
   }
@@ -205,4 +216,12 @@ void Ajustement::reset0(){
 
 void Ajustement::reset1(){
   grosAjustement1IsAjusted = false;
+}
+
+bool Ajustement::didCorrectionFrein0(){
+  return correctionFrein0;
+}
+
+bool Ajustement::didCorrectionFrein1(){
+  return correctionFrein1;
 }

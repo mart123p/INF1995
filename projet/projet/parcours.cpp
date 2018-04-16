@@ -131,6 +131,14 @@ void Parcours::changeWall() {
 
 void Parcours::virage180_0() {
   light::red();
+
+  if(ajustement.didCorrectionFrein0()){
+    //On doit reajuster avant de faire le bigturn
+    pwm::set1(50);
+    pwm::set0(-50);
+    _delay_ms(500);
+  }
+
   while (state != WALL_0){
     pwm::set0(28);
     pwm::set1(48);
@@ -150,6 +158,12 @@ void Parcours::virage180_0() {
 
 void Parcours::virage180_1() {
   light::red();
+  if(ajustement.didCorrectionFrein1()){
+    //On doit réajuster avant de faire le bigturn
+    pwm::set0(50);
+    pwm::set1(-50);
+    _delay_ms(500);
+  }
   while (state != WALL_1){
     pwm::set0(48);
     pwm::set1(28);

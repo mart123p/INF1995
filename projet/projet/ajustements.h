@@ -39,6 +39,10 @@ class Ajustement{
 
         void reset1();
 
+        bool didCorrectionFrein0();
+
+        bool didCorrectionFrein1();
+
         /**
          * Met a false doitAttendre
          */
@@ -49,6 +53,10 @@ class Ajustement{
         Sensor* sensor;
         bool grosAjustement0IsAjusted;
         bool grosAjustement1IsAjusted;
+
+        bool correctionFrein0; //Utilise dans bigturn
+        bool correctionFrein1; //Utilise dans bigturn
+
         bool doitAttendre;
         uint8_t tick;
 
