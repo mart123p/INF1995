@@ -35,6 +35,10 @@ class Ajustement{
          */
         bool grosAjustement1(State state);
 
+        void reset0();
+
+        void reset1();
+
         /**
          * Met a false doitAttendre
          */

@@ -198,3 +198,11 @@ bool Ajustement::grosAjustement1(State state){
 void Ajustement::neDoitPasAttendre(){
   doitAttendre = false;
 }
+
+void Ajustement::reset0(){
+  grosAjustement0IsAjusted = false;
+}
+
+void Ajustement::reset1(){
+  grosAjustement1IsAjusted = false;
+}

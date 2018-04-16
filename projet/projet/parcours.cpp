@@ -94,12 +94,14 @@ void Parcours::exec() {
 
       case GROS_AJUSTEMENT_0:
           if(ajustement.grosAjustement0(state)){
+            ajustement.reset0();
             state = WALL_0;
           } 
         break;
 
       case GROS_AJUSTEMENT_1:
           if(ajustement.grosAjustement1(state)){
+            ajustement.reset1();
             state = WALL_1;
           }
         break;
