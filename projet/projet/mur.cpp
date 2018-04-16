@@ -29,7 +29,7 @@ void Mur::scrutation(Sensor& sensor,State& state,State& lastState){
 
     // Detection si le robot a le droit de changer de cote
     if (!canSwitchWall) {
-        if (state == WALL_0) {
+        if (state == WALL_0 || state == GROS_AJUSTEMENT_0) {
             if (sensor.read1() > vide_1) {
                 if (tick > 10) { //On s'assure que c'est bien un vide
                     tick = 0;
@@ -40,7 +40,7 @@ void Mur::scrutation(Sensor& sensor,State& state,State& lastState){
             } else {
                 tick = 0;
             }
-        } else if (state == WALL_1) {
+        } else if (state == WALL_1 || state == GROS_AJUSTEMENT_1) {
             if (sensor.read0() > vide_0) {
                 if (tick > 10) {
                     tick = 0;

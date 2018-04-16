@@ -3,7 +3,7 @@
 
 #define defaultSpeed 38
 #define frein -38
-#define acceleration 48
+#define acceleration 42
 
 #define vide_0 60
 #define vide_1 60

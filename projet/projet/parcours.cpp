@@ -72,7 +72,7 @@ void Parcours::exec() {
         break;
 
       case WALL_0:
-        if (sensor.getValSensor0() > vide_0){
+        if (sensor.getValSensor0() > 45){
           state = BIG_TURN_0;
         }else if (sensor.getValSensor0() > 27) {
           state = GROS_AJUSTEMENT_0;
@@ -83,7 +83,7 @@ void Parcours::exec() {
         break;
 
       case WALL_1:
-        if (sensor.getValSensor1() > vide_0){
+        if (sensor.getValSensor1() > 45){
           state = BIG_TURN_1;
         }else if (sensor.getValSensor1() > 27) {
           state = GROS_AJUSTEMENT_1;
@@ -139,18 +139,18 @@ void Parcours::virage180_0() {
     pwm::set1(50);
     pwm::set0(-50);
     _delay_ms(500);
-  }
+  } 
 
   while (state != WALL_0){
-    pwm::set0(20);
-    pwm::set1(48);
+    pwm::set0(40);
+    pwm::set1(80);
     
     uart::parcoursDebug(sensor, state, "BIGTURN 0 (IN LOOP)");
     sensor.read1();
     sensor.read0();                            
     poteau.scrutation(sensor, state,lastState); 
     _delay_ms(50);
-    if (sensor.getValSensor0() < 24) {
+    if (sensor.getValSensor0() < 21) {
      state = WALL_0;
     }
   }
@@ -167,9 +167,10 @@ void Parcours::virage180_1() {
     pwm::set1(-50);
     _delay_ms(500);
   }
+  
   while (state != WALL_1){
-    pwm::set0(48);
-    pwm::set1(20);
+    pwm::set0(47);
+    pwm::set1(34);
     
     uart::parcoursDebug(sensor, state, "BIGTURN 1 (IN LOOP)");
     sensor.read1();
@@ -179,7 +180,7 @@ void Parcours::virage180_1() {
     _delay_ms(50);
 
 
-    if (sensor.getValSensor1() < 24) {
+    if (sensor.getValSensor1() < 19) {
      state = WALL_1;
     }
   }

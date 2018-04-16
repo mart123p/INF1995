@@ -115,11 +115,11 @@ bool Ajustement::grosAjustement0(State state) {
         if(!grosAjustement0IsAjusted){
           uint16_t angle = 0;
           if (sensor->getValSensor0() > 50) {
-            angle = 550; //reference: 600
+            angle = 650; //reference: 600
           } else if (sensor->getValSensor0() > 40) {
             angle = 550; 
           } else if (sensor->getValSensor0() > 30) {
-            angle = 350;
+            angle = 450;
           } else {
             angle = 0;
           }
@@ -131,7 +131,7 @@ bool Ajustement::grosAjustement0(State state) {
           pwm::set1(defaultSpeed);
         }else{
           //The attack angle is ajusted. We need to go foward until the distance is normal
-          pwm::set1(defaultSpeed);
+          pwm::set1(45);
           pwm::set0(defaultSpeed);
 
           if(sensor->getValSensor0() < 14){
@@ -174,11 +174,11 @@ bool Ajustement::grosAjustement1(State state){
         if(!grosAjustement1IsAjusted){
           uint16_t angle = 0;
           if (sensor->getValSensor1() > 50) {
-            angle = 550; // reference : 600 
+            angle = 600; // reference : 600 
           } else if (sensor->getValSensor1() > 40) {
-            angle = 550;
+            angle = 500;
           } else if (sensor->getValSensor1() > 30) {
-            angle = 350;
+            angle = 400;
           } else {
             angle = 0;
           }
@@ -190,7 +190,7 @@ bool Ajustement::grosAjustement1(State state){
         }else{
           //The attack angle is ajusted. We need to go foward until the distance is normal
           pwm::set0(defaultSpeed);
-          pwm::set1(defaultSpeed);
+          pwm::set1(45);
 
           if(sensor->getValSensor1() < 14){
             //We are good we need to change the state
