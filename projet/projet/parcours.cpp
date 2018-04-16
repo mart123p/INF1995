@@ -29,7 +29,8 @@ void Parcours::exec() {
   light::green();
   bool isRunning = true;
 
-  uart::parcoursDebug(sensor, state, "init");
+  uart::parcoursDebug(sensor, state, "====init====");
+  uart::parcoursDebug(sensor, state, "====init====");
 
   while (isRunning) {
     
@@ -134,13 +135,14 @@ void Parcours::virage180_0() {
 
   if(ajustement.didCorrectionFrein0()){
     //On doit reajuster avant de faire le bigturn
+    uart::parcoursDebug(sensor,state,"BIGTURN0 Fix Ajustement");
     pwm::set1(50);
     pwm::set0(-50);
     _delay_ms(500);
   }
 
   while (state != WALL_0){
-    pwm::set0(28);
+    pwm::set0(20);
     pwm::set1(48);
     
     uart::parcoursDebug(sensor, state, "BIGTURN 0 (IN LOOP)");
@@ -148,7 +150,7 @@ void Parcours::virage180_0() {
     sensor.read0();                            
     poteau.scrutation(sensor, state,lastState); 
     _delay_ms(50);
-    if (sensor.getValSensor0() < 14) {
+    if (sensor.getValSensor0() < 24) {
      state = WALL_0;
     }
   }
@@ -160,13 +162,14 @@ void Parcours::virage180_1() {
   light::red();
   if(ajustement.didCorrectionFrein1()){
     //On doit réajuster avant de faire le bigturn
+    uart::parcoursDebug(sensor,state,"BIGTURN1 Fix Ajustement");
     pwm::set0(50);
     pwm::set1(-50);
     _delay_ms(500);
   }
   while (state != WALL_1){
     pwm::set0(48);
-    pwm::set1(28);
+    pwm::set1(20);
     
     uart::parcoursDebug(sensor, state, "BIGTURN 1 (IN LOOP)");
     sensor.read1();
@@ -176,7 +179,7 @@ void Parcours::virage180_1() {
     _delay_ms(50);
 
 
-    if (sensor.getValSensor1() < 14) {
+    if (sensor.getValSensor1() < 24) {
      state = WALL_1;
     }
   }
