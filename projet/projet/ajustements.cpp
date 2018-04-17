@@ -134,13 +134,13 @@ bool Ajustement::grosAjustement0(State state) {
           pwm::set1(defaultSpeed);
         }else{
           //The attack angle is ajusted. We need to go foward until the distance is normal
-          pwm::set1(55);    // Référentiel : 55/45
-          pwm::set0(45);      
+          pwm::set1(45);    // Référentiel : 55/45
+          pwm::set0(35);      
 
           if(sensor->getValSensor0() < 18){
             //We are good we need to change the state
-            pwm::set0(-75);
-            pwm::set1(-75);
+            pwm::set0(-85);
+            pwm::set1(-85);
             tick = 0;
             doitAttendre = true;
             return true;
