@@ -114,13 +114,13 @@ bool Ajustement::grosAjustement0(State state) {
         if(!grosAjustement0IsAjusted){
           uint16_t angle = 0;
           if (sensor->getValSensor0() > 50) {
-            angle = 800; //reference: 600
+            angle = 950; //reference: 950
           } else if (sensor->getValSensor0() > 40) {
-            angle = 600; 
+            angle = 650; // Référentiel : 650
           } else if (sensor->getValSensor0() > 30) {
-            angle = 500;
+            angle = 575; // Référentiel : 575
           } else if (sensor->getValSensor0() > 20){
-            angle = 400;
+            angle = 550; // Référentiel : 550
           } else {
             angle = 0;
           }
@@ -134,8 +134,8 @@ bool Ajustement::grosAjustement0(State state) {
           pwm::set1(defaultSpeed);
         }else{
           //The attack angle is ajusted. We need to go foward until the distance is normal
-          pwm::set1(60);
-          pwm::set0(55);
+          pwm::set1(55);    // Référentiel : 55/45
+          pwm::set0(45);      
 
           if(sensor->getValSensor0() < 18){
             //We are good we need to change the state
@@ -178,13 +178,13 @@ bool Ajustement::grosAjustement1(State state){
         if(!grosAjustement1IsAjusted){
           uint16_t angle = 0;
           if (sensor->getValSensor1() > 50) {
-            angle = 400; // reference : 600 
+            angle = 600; // reference : 600 
           } else if (sensor->getValSensor1() > 40) {
-            angle = 300;
+            angle = 415;
           } else if (sensor->getValSensor1() > 30) {
-            angle = 200;
+            angle = 325;
           } else if (sensor->getValSensor1() > 20){
-            angle = 100;
+            angle = 350;
           } else{
             angle = 0;
           }
@@ -198,7 +198,7 @@ bool Ajustement::grosAjustement1(State state){
         }else{
           //The attack angle is ajusted. We need to go foward until the distance is normal
           pwm::set0(55);
-          pwm::set1(60);
+          pwm::set1(65);
 
           if(sensor->getValSensor1() < 18){
             //We are good we need to change the state

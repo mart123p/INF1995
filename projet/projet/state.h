@@ -3,7 +3,7 @@
 
 #define defaultSpeed 38
 #define frein -38
-#define acceleration 46 // Référentiel 42, marchait bien 
+#define acceleration 42 // Référentiel 42, marchait bien 
 
 #define vide_0 60
 #define vide_1 60
