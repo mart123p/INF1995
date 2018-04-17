@@ -61,7 +61,7 @@ Le dossier test est un dossier qui regroupe quelques snippets de code pour teste
 ## Dossier tools
 Le dossier tools est le dossier qui regroupe tous nos outils de diagnostic. Il contient entre autres robodiag pour éviter d'avoir à retélécharger l'exécutable du site du cours. De plus, il contient notre outil de diagnostic maison. 
 
-Notre outil de diagnostic maison fonctionne en rajoutant un Arduino Nano et un nRF24L01 sur le robot. Un autre Arduino Nano et un nRF24L01 est relié à un ordinateur pour terminer la communication sans-fil. Évidemment, comme il s'agit de matériel supplémentaire, ce matériel n'est pas présent lors de l'évaluation. Il nous a cependant grandement aidés pour le développement.
+Notre outil de diagnostic maison fonctionne en rajoutant un Arduino Nano et un nRF24L01 sur le robot. Le nRF24L01 est un module de communication sans fil 2.4Ghz, il peut être contrôlé à l'aide du protocole SPI. Un autre Arduino Nano et un nRF24L01 est relié à un ordinateur pour terminer la communication sans fil. Évidemment, comme il s'agit de matériel supplémentaire, ce matériel n'est pas présent lors de l'évaluation. Il nous a cependant grandement aidés pour le développement.
 
 Le script python `capteur.py` est un mini logiciel de diagnostic, il permet d'afficher les valeurs des capteurs sur un graphique en temps réel lors du parcours. Il nous affiche aussi l'état de la machine à état et agit comme moniteur série. Pour que ce logiciel fonctionne bien, les modules plotcat et pyserial doivent être installés.
 
@@ -74,6 +74,6 @@ On peut lancer le script à l'aide de python 2.7, le fonctionnement sur python 3
 ```
 python capteur.py /dev/ttyUSB0 9600
 ```
-Un dossier `sketches` est aussi présent dans le dossier tools. Ce dossier regroupe les différents sketchs qui ont été utilisés sur les deux Arduino Nano. Le premier sketch est utilisé pour la réception des données. Ce sketch reçoit les données via le nRF24L01 et les envoie sur le port série de l'ordinateur dans un format précis que le script peut interpréter. Le deuxième sketch est utilisé pour l'envoi des données. C'est l'Arduino qui est connecté sur le robot. Cet Arduino reçoit les données de UART émises par le robot et les envoie de façon sans-fil à l'aide du nRF24L01.
+Un dossier `sketches` est aussi présent dans le dossier tools. Ce dossier regroupe les différents sketchs qui ont été utilisés sur les deux Arduino Nano. Le premier sketch est utilisé pour la réception des données. Ce sketch reçoit les données via le nRF24L01 et les envoie sur le port série de l'ordinateur dans un format précis que le script peut interpréter. Le deuxième sketch est utilisé pour l'envoi des données. C'est l'Arduino qui est connecté sur le robot. Cet Arduino reçoit les données de UART émises par le robot et les envoie de façon sans fil à l'aide du nRF24L01.
 
 Ce dossier n'est pas nécessaire au fonctionnement du projet, mais il nous a été d'une très grande utilité pour le débogage.
