@@ -26,8 +26,6 @@
 /******************************************************************************/
 
 #ifndef F_CPU
-/* fournir un avertissement mais non une erreur */
-#warning "F_CPU pas defini pour 'memoire_24.cpp'"
 #define F_CPU 8000000UL
 #endif
 

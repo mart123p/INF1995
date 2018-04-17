@@ -1,114 +1,150 @@
 #ifndef UART_H
 #define UART_H
+/**
+ * Envoyer et recevoir diverses messages avec l'interface de communication UART.
+ * Ces messages peuvent être reçus à l'aide du programme sérieViaUSB. Certaines
+ * méthodes ont été conçues pour être utilisé avec les logiciels de diagnostique
+ * maison dont il est question dans readme.md
+ */
+
 #include <avr/io.h>
 #include "sensors.h"
-/**
- * Send various messages via uart. Can be used with the program serieViaUSB
- */
 
 namespace uart {
 /**
- * Sets all the registers necessary for the UART.
+ * Configuration des registres nécessaire pour la communication UART
  * @return void
  */
 void init();
 
 /**
- * Prints to UART an array of character or a string.
- * @param c The array of character or the string
- * @param size The size of the array or string
+ * Afficher en UART un tableau de caractères ou une chaîne de caractères
+ * @param c Chaîne de caractères
+ * @param size Taille de la chaîne de caractère
  * @return void
  */
 void print(const char *c, const uint8_t size);
 
 /**
- * Prints to UART an array of character or a string. This method will
- * look for the null byte at the end of the string to determine the size
- * of it.
- * @param c The array of character or the string
+ * Afficher en UART un tableau de caractères ou une chaîne de caractères. La
+ * taille n'est pas nécessaire, car le code regarde pour le caractère nul.
+ * @param c Chaîne de caractères
  * @return void
  */
 void print(const char *c);
 /**
- * Prints a int to UART
- * @param n The int to print
+ * Afficher un entier en ascii sur UART
+ * @param n L'entier à afficher
  * @return void
  */
 void print(const int n);
 
 /**
- * Prints a long to UART
- * @param n The long to print
+ * Afficher un gros entier en ascii sur UART
+ * @param n Le long à afficher
  * @return void
  */
 void print(const long n);
 
 /**
- * Prints a uint8_t to UART
- * @param n The byte to print
+ * Afficher un uint8_t en ascii sur UART
+ * @param n L'octet à afficher
  * @return void
  */
 void print(const uint8_t n);
 
 /**
- * Prints a uint16_t to UART
- * @param n The uint16_t to print
+ * Afficher un uint16_t en ascii sur UART
+ * @param n Le mot à afficher
  * @return void
  */
 void print(const uint16_t n);
 
 /**
- * Prints a uint32_t to UART
- * @param n The uint32_t to print
+ * Afficher un uint32_t en ascii sur UART
+ * @param n Le uint32_t à afficher
  * @return void
  */
 void print(const uint32_t n);
 
 /**
- * Prints a char to UART
- * @param n The char to print
+ * Afficher un caractère sur UART
+ * @param c Le caractère à afficher
  * @return void
  */
 void print(const char c);
 
 /**
- * Prints a new line to UART
+ * Afficher un retour à la ligne sur UART
  * @return void
  */
 void println();
 /**
- * Read data from uart
- * @return uint8_t the data
+ * Lire les données en entrée sur UART
+ * @return uint8_t L'octet
  */
 uint8_t readData();
 
 /**
- * Send data with uart
- * @param data The data to send 
- * @return void 
+ * Envoyer des données en UART
+ * @param data L'octet à envoyer
+ * @return void
  */
 void sendData(uint8_t data);
 
-
 /**
- * Clear the console
+ * Nettoyage de la console
  * @return void
  */
 void clear();
 /**
- * Test all the uart functions. This method is mainly used for developpement
+ * Tester toutes les méthodes UART
  * @return void
- */ 
+ */
 void test();
 
-void parcoursDebug(Sensor &sensor, uint8_t state, const char *c);
-void parcoursDebug(Sensor* sensor, uint8_t state, const char *c);
-void parcoursDebug(Sensor &sensor, uint8_t state, uint8_t num);
-void parcoursDebug(Sensor* sensor, uint8_t state, uint8_t num);
+// Débogage maison
 
+/**
+ * Rafraîchir le logiciel de débogage avec de nouvelles données, afficher en
+ * même temps une chaîne de caractère sur le moniteur série.
+ * @param Sensor* sensor La classe Sensor pour obtenir les valeurs des capteurs
+ * actuellement
+ * @param uint8_t state État de la machine a état
+ * @param const char *c Chaîne de caractère à afficher sur le moniteur série
+ */
+void parcoursDebug(Sensor &sensor, uint8_t state, const char *c);
+
+/**
+ * Rafraîchir le logiciel de débogage avec de nouvelles données, afficher en
+ * même temps une chaîne de caractère sur le moniteur série.
+ * @param Sensor &sensor La classe Sensor pour obtenir les valeurs des capteurs
+ * actuellement
+ * @param uint8_t state État de la machine a état
+ * @param const char *c Chaîne de caractère à afficher sur le moniteur série
+ */
+void parcoursDebug(Sensor *sensor, uint8_t state, const char *c);
+
+/**
+ * Rafraîchir le logiciel de débogage avec de nouvelles données, afficher en
+ * même temps une valeur sur le moniteur série.
+ * @param Sensor &sensor La classe Sensor pour obtenir les valeurs des capteurs
+ * actuellement
+ * @param uint8_t state État de la machine a état
+ * @param uint8_t num Valeur à afficher sur le moniteur série.
+ */
+void parcoursDebug(Sensor &sensor, uint8_t state, uint8_t num);
+
+/**
+ * Rafraîchir le logiciel de débogage avec de nouvelles données, afficher en
+ * même temps une valeur sur le moniteur série.
+ * @param Sensor* sensor La classe Sensor pour obtenir les valeurs des capteurs
+ * actuellement
+ * @param uint8_t state État de la machine a état
+ * @param uint8_t num Valeur à afficher sur le moniteur série.
+ */
+void parcoursDebug(Sensor *sensor, uint8_t state, uint8_t num);
 
 }  // namespace uart
-
-
 
 #endif

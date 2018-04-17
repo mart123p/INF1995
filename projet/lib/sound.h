@@ -1,14 +1,16 @@
 #ifndef SOUND_H
 #define SOUND_H
 
+/**
+ * Jouer un son de façon logiciel. Cette fonctionnalitée n'est pas utilisé dans
+ * le projet final.
+ */
+
 #include <avr/io.h>
 #define F_CPU 8000000
 #include <util/delay.h>
 
-/**
- * Methods to make some sound and music
- */
-
+// Déclaration des diverses notes sur plusieurs octaves
 #define B6 236
 #define A6_ 251
 #define A6 268
@@ -21,7 +23,6 @@
 #define D6 419
 #define C6_ 446
 #define C6 474
-
 #define B5 507
 #define A5_ 538
 #define A5 570
@@ -34,7 +35,6 @@
 #define D5 875
 #define C5_ 928
 #define C5 986
-
 #define B4 1046
 #define A4_ 1110
 #define A4 1178
@@ -51,38 +51,38 @@
 namespace sound {
 
 /**
- * Initialize the sound pin
+ * Initialiser la pin de son
  * @return void
  */
 void init();
 
 /**
- * Play a success sound
+ * Jouer une mélodie de succès
  * @return void
  */
 void success();
 
 /**
- * Play a fail sound
+ * Jouer une mélodie d'échec
  * @return void
  */
 void fail();
 
 /**
- * Play the music crazy frog
+ * Jouer la chanson thème de crazy frog
  * @return void
  */
 void crazyfrog();
 
 /**
- * Play a beep sound
- * @param duration in ms to play beep sound
+ * Faire un bip sonore
+ * @param Durée en ms de la tonalité
  * @return void
  */
 void beep(const uint16_t duration);
 
 /**
- * Test all the sound functions
+ * Tester toutes les fonctions de son
  * @return void
  */
 void test();

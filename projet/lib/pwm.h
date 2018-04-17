@@ -1,43 +1,47 @@
 #ifndef PWM_H
 #define PWM_H
 
+/**
+ * Contrôle des signaux envoyés aux moteurs. Un signal PWM est utilisé pour
+ * faire ce contrôle.
+ */
 #include <avr/io.h>
 #define F_CPU 8000000
 #include <util/delay.h>
 namespace pwm {
 
 /**
- * Set register for pwm
+ * Activation des registres pour faire un PWM pour les moteurs
  * @return void
  */
 void init();
 
 /**
- * Set pwm signal to OCR1A
+ * Activer le pwm pour le moteur 1. Utilisation d'un pourcentage pour le
+ * contrôle
  * @param signal (-100 to 100)
  * @return void
  */
 void set1(int8_t signal);
 
 /**
- * Set pwm signal to OCR1B
+ * Activer le pwm pour le moteur 0. Utilisation d'un pourcentage pour le
+ * contrôle
  * @param signal (-100 to 100)
  * @return void
  */
 void set0(int8_t signal);
 
 /**
- * Test all the functions in pwm.h
+ * Fermer le PWM pour les deux roues
  * @return void
  */
-
-
-/**
- * Turn off both wheels 
- * @return void
- */ 
 void off();
 
+/**
+ * Tester les différentes fonction PWM
+ * @return void
+*/
 void test();
 }  // namespace pwm
 #endif

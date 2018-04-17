@@ -18,10 +18,10 @@
 #include "light.h"
 #include "memory.h"
 #include "pwm.h"
+#include "sensors.h"
 #include "sound.h"
 #include "soundpwm.h"
 #include "timer.h"
-#include "sensors.h"
 #include "uart.h"
 
 #endif

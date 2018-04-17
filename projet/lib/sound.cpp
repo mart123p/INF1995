@@ -6,18 +6,13 @@ void _delay_us_var(const uint16_t duration) {
     i++;
   }
 }
-/**
- * @brief      Plays a frequency
- *
- * @param[in]  freq      The frequency in hertz From (1000hz to 9999hz)
- * @param[in]  duration  The duration in ms
- */
+
 void frequency(const uint16_t freq, const uint16_t duration) {
   uint16_t i = 0;
   uint16_t time = (1000 * (uint32_t)duration) / (freq + 60);
   while (i != time) {
     PORTC |= (1 << PD2);
-    _delay_us(60);  // 60 is the volume...
+    _delay_us(60);
     PORTC &= ~(1 << PD2);
     _delay_us_var(freq);
     i++;

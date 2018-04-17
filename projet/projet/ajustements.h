@@ -11,17 +11,20 @@ class Ajustement{
         Ajustement(Sensor* sensor);
         
         /**
-         * permet un ajustement sur le mur 0 à courte distance
+         * Permet au robot de rester à une distance de 15 cm du mur
+         * lorsqu'il suit un mur situé à sa gauche.
          */
         void ajuste0();
         
         /**
-         * permet un ajustement sur le mur 1 à courte distance
+         * Permet au robot de rester à une distance de 15 cm du mur
+         * lorsqu'il suit un mur situé à sa droite.
          */
         void ajuste1();
         
         /**
-         * Permet un un ajustement sur le mur 0 à longue distance
+         * Permet un ajustement sur le mur 0 à longue distance
+         * Cette méthode est principalement utilisée lorsqu'on doit changer de mur
          * @param  state Permet d'afficher l'état
          * @return       bool indiquand si l'ajustement est ok ou si il doit se réajuster
          */
@@ -29,18 +32,38 @@ class Ajustement{
         
 
         /**
-         * Permet un un ajustement sur le mur 1 à longue distance
+         * Permet un ajustement sur le mur 1 à longue distance
+         * Cette méthode est principalement utilisée lorsqu'on doit changer de mur
          * @param  state Permet d'afficher l'état
          * @return       bool indiquand si l'ajustement est ok ou si il doit se réajuster
          */
         bool grosAjustement1(State state);
 
+         /**
+         * Met l'attribut grosAjustement1IsAjusted à false 
+         * pour permettre au robot de tourner quand il tombe dans l'état de 
+         * changement de mur
+         */
         void reset0();
 
+         /**
+         * Met l'attribut grosAjustement0IsAjusted à false 
+         * pour permettre au robot de tourner quand il tombe dans l'état de 
+         * changement de mur
+         */
         void reset1();
 
+
+         /**
+         * Permet de vérifier si le robot a corrigé sa position avant
+         * qu'il effectue un déplacement comme faire un virage de 180 degrés
+         */
         bool didCorrectionFrein0();
 
+         /**
+         * Permet de vérifier si le robot a corrigé sa position avant
+         * qu'il effectue un déplacement comme faire un virage de 180 degrés
+         */
         bool didCorrectionFrein1();
 
         /**
