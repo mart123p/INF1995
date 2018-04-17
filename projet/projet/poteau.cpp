@@ -59,8 +59,8 @@ void Poteau::wasDetected(){
 		}
 	}
 	reset();
-	pwm::set1(oldSpeed1);
-	pwm::set0(oldSpeed0);
+	OCR1B = oldSpeed0;
+	OCR1A = oldSpeed1;
 }
 
 void Poteau::scrutation(Sensor& sensor,State& state, State& lastState){
