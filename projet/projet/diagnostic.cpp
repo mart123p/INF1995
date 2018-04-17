@@ -3,7 +3,7 @@
 
 volatile bool ready = false;
 
-void Diagnostique::exec(){
+void Diagnostic::exec(){
 	DDRD &= ~(1 << DDD2);     // Mettre le bouton en entrée 
 	
 	UCSR0B |= (1 << RXCIE0); // Activate receive interrupt
@@ -22,7 +22,7 @@ ISR(USART0_RX_vect) {
 	lectureRequete();
 }
 
-uint8_t Diagnostique::etatBoutonPoussoir(){
+uint8_t Diagnostic::etatBoutonPoussoir(){
 	if(PIND & 0x04) {
 		return 0x00; 		// 0x00 pour enfonce
 	}
@@ -96,7 +96,7 @@ void lectureRequete() {
 }
 		
 
-void Diagnostique::envoieInformation() {
+void Diagnostic::envoieInformation() {
 	// Envoie etat du BP
 	uart::sendData(etatBP);
 	uart::sendData(etatBoutonPoussoir());

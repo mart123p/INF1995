@@ -1,5 +1,5 @@
-#ifndef DIAGNOSTIQUE_H
-#define DIAGNOSTIQUE_H
+#ifndef DIAGNOSTIC_H
+#define DIAGNOSTIC_H
 #include "ohBoy.h"
 #include <avr/pgmspace.h>
 
@@ -19,7 +19,7 @@
 #define vert 0x04
 
 
-class Diagnostique{
+class Diagnostic{
 	public:
 	void exec();
 private:

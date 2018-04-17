@@ -11,11 +11,11 @@ int main() {
   if(eeprom_read_byte(0) == 1){
     eeprom_write_byte(0,0);
 
-    //Debut du mode diagnostique
+    //Debut du mode diagnostic
     //Comunication avec le logiciel robodiag
 
-    Diagnostique diangnostique;
-    diangnostique.exec();
+    Diagnostic diangnostic;
+    diangnostic.exec();
 
   }else{
     eeprom_write_byte(0,1);
