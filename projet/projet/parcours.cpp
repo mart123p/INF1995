@@ -3,7 +3,7 @@
 Parcours* Parcours::pThis;
 
 
-Parcours::Parcours() : ajustement(&sensor) {
+Parcours::Parcours() : mur(&poteau),ajustement(&sensor) {
   
   state = READY;
   lastState = READY;

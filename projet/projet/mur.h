@@ -4,13 +4,14 @@
 #include "ohBoy.h"
 #include "tache.h"
 #include "state.h"
+#include "poteau.h"
 
 class Mur : Tache{
 public:
     /**
      * Constructeur par défaut
      */
-    Mur();
+    Mur(Poteau* poteau);
 
     /**
      * Scrute les deux côtés du robot à la recherche de murs pour changer de côté
@@ -28,5 +29,6 @@ public:
 private:    
     uint8_t tick;
     bool canSwitchWall;
+    Poteau* poteau;
 };
 #endif
