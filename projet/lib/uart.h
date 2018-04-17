@@ -88,10 +88,9 @@ uint8_t readData();
 /**
  * Envoyer des données en UART
  * @param data L'octet à envoyer
- * @return void 
+ * @return void
  */
 void sendData(uint8_t data);
-
 
 /**
  * Nettoyage de la console
@@ -101,13 +100,13 @@ void clear();
 /**
  * Tester toutes les méthodes UART
  * @return void
- */ 
+ */
 void test();
 
-//Débogage maison
+// Débogage maison
 
 /**
- * Rafraîchir le logiciel de débogage avec de nouvelles données, afficher en 
+ * Rafraîchir le logiciel de débogage avec de nouvelles données, afficher en
  * même temps une chaîne de caractère sur le moniteur série.
  * @param Sensor* sensor La classe Sensor pour obtenir les valeurs des capteurs
  * actuellement
@@ -117,17 +116,17 @@ void test();
 void parcoursDebug(Sensor &sensor, uint8_t state, const char *c);
 
 /**
- * Rafraîchir le logiciel de débogage avec de nouvelles données, afficher en 
+ * Rafraîchir le logiciel de débogage avec de nouvelles données, afficher en
  * même temps une chaîne de caractère sur le moniteur série.
  * @param Sensor &sensor La classe Sensor pour obtenir les valeurs des capteurs
  * actuellement
  * @param uint8_t state État de la machine a état
  * @param const char *c Chaîne de caractère à afficher sur le moniteur série
  */
-void parcoursDebug(Sensor* sensor, uint8_t state, const char *c);
+void parcoursDebug(Sensor *sensor, uint8_t state, const char *c);
 
 /**
- * Rafraîchir le logiciel de débogage avec de nouvelles données, afficher en 
+ * Rafraîchir le logiciel de débogage avec de nouvelles données, afficher en
  * même temps une valeur sur le moniteur série.
  * @param Sensor &sensor La classe Sensor pour obtenir les valeurs des capteurs
  * actuellement
@@ -137,18 +136,15 @@ void parcoursDebug(Sensor* sensor, uint8_t state, const char *c);
 void parcoursDebug(Sensor &sensor, uint8_t state, uint8_t num);
 
 /**
- * Rafraîchir le logiciel de débogage avec de nouvelles données, afficher en 
+ * Rafraîchir le logiciel de débogage avec de nouvelles données, afficher en
  * même temps une valeur sur le moniteur série.
  * @param Sensor* sensor La classe Sensor pour obtenir les valeurs des capteurs
  * actuellement
  * @param uint8_t state État de la machine a état
  * @param uint8_t num Valeur à afficher sur le moniteur série.
  */
-void parcoursDebug(Sensor* sensor, uint8_t state, uint8_t num);
-
+void parcoursDebug(Sensor *sensor, uint8_t state, uint8_t num);
 
 }  // namespace uart
-
-
 
 #endif

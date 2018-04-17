@@ -2,7 +2,7 @@
 #define PWM_H
 
 /**
- * Contrôle des signaux envoyés aux moteurs. Un signal PWM est utilisé pour 
+ * Contrôle des signaux envoyés aux moteurs. Un signal PWM est utilisé pour
  * faire ce contrôle.
  */
 #include <avr/io.h>
@@ -17,7 +17,7 @@ namespace pwm {
 void init();
 
 /**
- * Activer le pwm pour le moteur 1. Utilisation d'un pourcentage pour le 
+ * Activer le pwm pour le moteur 1. Utilisation d'un pourcentage pour le
  * contrôle
  * @param signal (-100 to 100)
  * @return void
@@ -25,7 +25,7 @@ void init();
 void set1(int8_t signal);
 
 /**
- * Activer le pwm pour le moteur 0. Utilisation d'un pourcentage pour le 
+ * Activer le pwm pour le moteur 0. Utilisation d'un pourcentage pour le
  * contrôle
  * @param signal (-100 to 100)
  * @return void
@@ -35,7 +35,7 @@ void set0(int8_t signal);
 /**
  * Fermer le PWM pour les deux roues
  * @return void
- */ 
+ */
 void off();
 
 /**

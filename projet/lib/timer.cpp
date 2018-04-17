@@ -18,8 +18,8 @@ void timer::init(uint16_t ms) {
   sei();
 }
 
-void timer::delay(uint16_t time){
-  for(uint16_t i =0; i < time; i++){
+void timer::delay(uint16_t time) {
+  for (uint16_t i = 0; i < time; i++) {
     _delay_ms(1);
   }
 }

@@ -2,14 +2,13 @@
 #define TIMER_H
 /**
  * Fonctions pour simplifier l'utilisation du timer 1. Cette fonctionnalité ne
- * peut pas être utilisé en même temps que le PWM pour les roues. 
+ * peut pas être utilisé en même temps que le PWM pour les roues.
  * Par conséquent, elle n'est pas utilisé pour dans le projet final.
  */
 
 #include <avr/interrupt.h>
 #define F_CPU 8000000
 #include <util/delay.h>
-
 
 namespace timer {
 

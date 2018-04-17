@@ -10,7 +10,7 @@
 #define F_CPU 8000000
 #include <util/delay.h>
 
-//Déclaration des diverses notes sur plusieurs octaves
+// Déclaration des diverses notes sur plusieurs octaves
 #define B6 236
 #define A6_ 251
 #define A6 268

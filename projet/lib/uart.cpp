@@ -48,21 +48,20 @@ void uart::print(const char *c) {
   }
 }
 
-uint8_t uart::readData(){
-  while ( !(UCSR0A & (1<<RXC0)) );
+uint8_t uart::readData() {
+  while (!(UCSR0A & (1 << RXC0)))
+    ;
   /* Get and return received data from buffer */
   return UDR0;
 }
 
-
-void uart::sendData(uint8_t data){
-  // Wait for empty transmit buffer 
-  while( !( UCSR0A & (1<<UDRE0)) );
-  // Put data into buffer, sends the data 
+void uart::sendData(uint8_t data) {
+  // Wait for empty transmit buffer
+  while (!(UCSR0A & (1 << UDRE0)))
+    ;
+  // Put data into buffer, sends the data
   UDR0 = data;
 }
-
-
 
 void uart::print(const char c) { uartSend(c); }
 
@@ -138,62 +137,59 @@ void uart::print(const uint32_t n) {
 
 void uart::println() { uartSend('\n'); }
 
-void uart::clear(){
-  uart::print("\033[2J\033[;H");
+void uart::clear() { uart::print("\033[2J\033[;H"); }
+
+void uart::parcoursDebug(Sensor &sensor, uint8_t state, const char *c) {
+  uart::sendData(0x11);
+  uart::sendData(sensor.getValSensor0());
+  uart::sendData(sensor.getValSensor1());
+
+  uart::sendData((uint8_t)(sensor.getAdcSensor0() & 0xFF));
+  uart::sendData((uint8_t)(sensor.getAdcSensor0() >> 8));
+
+  uart::sendData((uint8_t)(sensor.getAdcSensor1() & 0xFF));
+  uart::sendData((uint8_t)(sensor.getAdcSensor1() >> 8));
+
+  uart::sendData(state);
+  uint8_t compteur = 0;
+  while (c[compteur] != '\0') {
+    compteur++;
+  }
+  uart::sendData(compteur);
+  for (uint8_t i = 0; i < compteur; i++) {
+    uart::sendData(c[i]);
+  }
 }
 
+void uart::parcoursDebug(Sensor *sensor, uint8_t state, const char *c) {
+  uart::sendData(0x11);
+  uart::sendData(sensor->getValSensor0());
+  uart::sendData(sensor->getValSensor1());
 
-void uart::parcoursDebug(Sensor &sensor, uint8_t state, const char *c){
-    uart::sendData(0x11);
-  	uart::sendData(sensor.getValSensor0());
-  	uart::sendData(sensor.getValSensor1());
+  uart::sendData((uint8_t)(sensor->getAdcSensor0() & 0xFF));
+  uart::sendData((uint8_t)(sensor->getAdcSensor0() >> 8));
 
-    uart::sendData((uint8_t) (sensor.getAdcSensor0() & 0xFF));
-    uart::sendData((uint8_t) (sensor.getAdcSensor0() >> 8));
+  uart::sendData((uint8_t)(sensor->getAdcSensor1() & 0xFF));
+  uart::sendData((uint8_t)(sensor->getAdcSensor1() >> 8));
 
-    uart::sendData((uint8_t) (sensor.getAdcSensor1() & 0xFF));
-    uart::sendData((uint8_t) (sensor.getAdcSensor1() >> 8));
-
-  	uart::sendData(state);
-  	uint8_t compteur = 0;
-  	while (c[compteur] != '\0'){
-  		compteur++;
-  	}
-  	uart::sendData(compteur);
-  	for(uint8_t i = 0; i < compteur; i++) {
-  		uart::sendData(c[i]);
-  	}
+  uart::sendData(state);
+  uint8_t compteur = 0;
+  while (c[compteur] != '\0') {
+    compteur++;
+  }
+  uart::sendData(compteur);
+  for (uint8_t i = 0; i < compteur; i++) {
+    uart::sendData(c[i]);
+  }
 }
 
-void uart::parcoursDebug(Sensor *sensor, uint8_t state, const char *c){
-    uart::sendData(0x11);
-  	uart::sendData(sensor->getValSensor0());
-  	uart::sendData(sensor->getValSensor1());
-
-    uart::sendData((uint8_t) (sensor->getAdcSensor0() & 0xFF));
-    uart::sendData((uint8_t) (sensor->getAdcSensor0() >> 8));
-
-    uart::sendData((uint8_t) (sensor->getAdcSensor1() & 0xFF));
-    uart::sendData((uint8_t) (sensor->getAdcSensor1() >> 8));
-
-  	uart::sendData(state);
-  	uint8_t compteur = 0;
-  	while (c[compteur] != '\0'){
-  		compteur++;
-  	}
-  	uart::sendData(compteur);
-  	for(uint8_t i = 0; i < compteur; i++) {
-  		uart::sendData(c[i]);
-  	}
-}
-
-void uart::parcoursDebug(Sensor &sensor, uint8_t state, uint8_t num){
+void uart::parcoursDebug(Sensor &sensor, uint8_t state, uint8_t num) {
   uint8_t size = 1;
   uint8_t rem;
   while (pow_unsigned(10, size) <= num) {
     size++;
   }
-  char digits[size+1];
+  char digits[size + 1];
   for (uint8_t i = 0; i < size; i++) {
     rem = num % 10;
     num = num / 10;
@@ -202,16 +198,15 @@ void uart::parcoursDebug(Sensor &sensor, uint8_t state, uint8_t num){
   digits[size] = '\0';
 
   uart::parcoursDebug(sensor, state, digits);
-
 }
 
-void uart::parcoursDebug(Sensor* sensor, uint8_t state, uint8_t num){
+void uart::parcoursDebug(Sensor *sensor, uint8_t state, uint8_t num) {
   uint8_t size = 1;
   uint8_t rem;
   while (pow_unsigned(10, size) <= num) {
     size++;
   }
-  char digits[size+1];
+  char digits[size + 1];
   for (uint8_t i = 0; i < size; i++) {
     rem = num % 10;
     num = num / 10;
@@ -220,9 +215,7 @@ void uart::parcoursDebug(Sensor* sensor, uint8_t state, uint8_t num){
   digits[size] = '\0';
 
   uart::parcoursDebug(sensor, state, digits);
-
 }
-
 
 void uart::test() {
   uart::init();

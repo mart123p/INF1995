@@ -11,7 +11,7 @@
 namespace soundpwm {
 
 /**
- * Initialisation du son PWM et des registres nécessaires pour le bon 
+ * Initialisation du son PWM et des registres nécessaires pour le bon
  * fonctionnement du son.
  * @return void
  */
