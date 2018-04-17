@@ -22,5 +22,7 @@ sensors.o:sensors.h sensors.cpp
 soundpwm.o:soundpwm.h soundpwm.cpp
 	$(CC) $(CFLAGS) -l. -c soundpwm.cpp -o $@
 clean:
+	rm *.a
 	rm *.o
 	rm *.d
+
