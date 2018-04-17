@@ -114,13 +114,13 @@ bool Ajustement::grosAjustement0(State state) {
         if(!grosAjustement0IsAjusted){
           uint16_t angle = 0;
           if (sensor->getValSensor0() > 50) {
-            angle = 950; //reference: 950
+            angle = 750; //reference: 750
           } else if (sensor->getValSensor0() > 40) {
-            angle = 650; // Référentiel : 650
+            angle = 550; // Référentiel : 550
           } else if (sensor->getValSensor0() > 30) {
-            angle = 515; // Référentiel : 575
+            angle = 475; // Référentiel : 475
           } else if (sensor->getValSensor0() > 20){
-            angle = 500; // Référentiel : 550
+            angle = 425; // Référentiel : 425
           } else {
             angle = 0;
           }
@@ -143,6 +143,7 @@ bool Ajustement::grosAjustement0(State state) {
             pwm::set1(-85);
             tick = 0;
             doitAttendre = true;
+            grosAjustement0IsAjusted = false;
             return true;
           }
         }
@@ -180,11 +181,11 @@ bool Ajustement::grosAjustement1(State state){
           if (sensor->getValSensor1() > 50) {
             angle = 600; // reference : 600 
           } else if (sensor->getValSensor1() > 40) {
-            angle = 415;
+            angle = 415; // reference : 415
           } else if (sensor->getValSensor1() > 30) {
-            angle = 325;
+            angle = 325; // reference : 325
           } else if (sensor->getValSensor1() > 20){
-            angle = 350;
+            angle = 300; // reference : 300
           } else{
             angle = 0;
           }
@@ -202,10 +203,11 @@ bool Ajustement::grosAjustement1(State state){
 
           if(sensor->getValSensor1() < 18){
             //We are good we need to change the state
-            pwm::set0(-75);
-            pwm::set1(-75);
+            pwm::set0(-85);
+            pwm::set1(-85);
             tick = 0;
             doitAttendre = true;
+            grosAjustement1IsAjusted = false;
             return true;
           }
         }

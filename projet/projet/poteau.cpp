@@ -1,7 +1,7 @@
 #include "poteau.h"
 #define SENSOR_SIZE 18
 #define DISTANCE 10
-#define POTEAU_SIZE 5 //Nombre de points qui doivent être dans le bas de la courbe
+#define POTEAU_SIZE 3 //Nombre de points qui doivent être dans le bas de la courbe
 #define vide 130
 
 Poteau::Poteau(){
