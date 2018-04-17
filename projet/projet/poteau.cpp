@@ -28,8 +28,8 @@ void Poteau::wasDetected(){
 	uint8_t oldSpeed1 = OCR1A;
 	uint8_t oldSpeed0 = OCR1B;
 
-	pwm::set0(0);
-	pwm::set1(0);
+	pwm::set0(25);
+	pwm::set1(25);
 
 	detected = true;
 	for(uint8_t i = 0; i < 3;i++){
@@ -59,8 +59,19 @@ void Poteau::wasDetected(){
 		}
 	}
 	reset();
-	OCR1B = oldSpeed0;
-	OCR1A = oldSpeed1;
+	//On donne une chance au robot pour le faire avancer
+	if ((oldSpeed0+40) > 255){
+		OCR1B = 255;
+	}else{
+		OCR1B = (oldSpeed0+40);
+	}
+	
+	if ((oldSpeed1+40) > 255){
+		OCR1A = 255;
+	}else{
+		OCR1A = (oldSpeed1+40);
+	}
+	
 }
 
 void Poteau::scrutation(Sensor& sensor,State& state, State& lastState){
