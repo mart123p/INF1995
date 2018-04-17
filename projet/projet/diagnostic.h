@@ -20,15 +20,27 @@
 
 
 class Diagnostic{
-public:
-	void exec();
-private:	
-	uint8_t etatBoutonPoussoir();
-	void envoieInformation();
-	Sensor sensor;
+	public:
+	   /**
+	    * Permet d'envoyer les informations du robot au logiciel Robodiag
+	    */
+		void exec();
+	private:	
+		uint8_t etatBoutonPoussoir();
+		void envoieInformation();
+		Sensor sensor;
 };
 
-void envoyerIdentificationRobot();
-void lectureRequete();
+   /**
+    * Permet d'envoyer les informations d'identification du robot au 
+    * logiciel Robodiag, lorsque demandé.
+    */
+	void envoyerIdentificationRobot();
+
+	 /**
+    * Permet de lire ce qui est envoyé par le logiciel et d'effectuer
+    * des actions en conséquence. 
+    */
+	void lectureRequete();
 
 #endif

@@ -12,9 +12,10 @@ Parcours::Parcours() : mur(&poteau),ajustement(&sensor) {
 
   //Activation de l'interruption du bouton pour
   //faire la rotation du 180.
-  DDRD &= ~(1 << PD2);     // Clear the PD2 pin 
-  EICRA |= (1 << ISC00);    // set INT0 to trigger on ANY logic change
-  EIMSK |= (1 << INT0);     // Turns on INT0
+  DDRD &= ~(1 << PD2);     // Activer la pin PD2  
+  EICRA |= (1 << ISC00);   // Mettre INT0 de tel sorte qu'il reagit en 
+                           // fonction de n'importe quel changement logique.
+  EIMSK |= (1 << INT0);    // Active INT0
   sei();
 
 
@@ -40,18 +41,19 @@ void Parcours::exec() {
     uart::parcoursDebug(sensor, state, "Begin");
 
     //Execution des taches d'arriere plan
-    mur.scrutation(sensor,state,lastState); //Cette fonction peut changer l'etat de la machine
-                                            //A etat, il faut donc faire attention.
+    mur.scrutation(sensor,state,lastState); 
+    //Cette fonction peut changer l'etat de la machine
+    //A cet etat, il faut donc faire attention.
     poteau.scrutation(sensor, state,lastState);
-   // bouton.scrutation(sensor, state,lastState);
     //Fin des taches de scrutation.
 
 
     //Debut de la machine a etat
     switch (state) {
       case READY:
-        if (sensor.getValSensor0() > sensor.getValSensor1()) {  // Determiner quel
-          state = WALL_1;              // mur suivre
+        if (sensor.getValSensor0() > sensor.getValSensor1()) {  
+        // Determiner quel mur suivre
+          state = WALL_1;              
         } else {
           state = WALL_0;
         }
@@ -59,8 +61,8 @@ void Parcours::exec() {
           _delay_ms(50);
           sensor.read0();
           sensor.read1();
-        }  // Attente de une seconde avant de commencer
-
+        }  
+        // Attente de une seconde avant de commencer
         // à rouler pour ne pas changer dans un mauvais
         // état
         pwm::set1(defaultSpeed);
@@ -142,6 +144,8 @@ void Parcours::virage180_0() {
   } 
 
   while (state != WALL_0){
+    //On fait tourner les roues et on active la scrutation des capteurs
+    // tant que l'on ne capte pas a nouveau le mur.
     pwm::set0(40);
     pwm::set1(80);
     
@@ -169,6 +173,8 @@ void Parcours::virage180_1() {
   }
   
   while (state != WALL_1){
+    //On fait tourner les roues et on active la scrutation des capteurs
+    // tant que l'on ne capte pas a nouveau le mur.
     pwm::set0(47);
     pwm::set1(34);
     

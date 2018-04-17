@@ -5,8 +5,8 @@ Mur::Mur(Poteau* poteau){
     canSwitchWall = true;
 }
 void Mur::scrutation(Sensor& sensor,State& state,State& lastState){
-    if (canSwitchWall && (state == WALL_0 || state == GROS_AJUSTEMENT_0) && sensor.getValSensor1() < vide_1 && poteau->isReady()) {  // Capte un mur et qu'il est deja sur un mur
-        
+    if (canSwitchWall && (state == WALL_0 || state == GROS_AJUSTEMENT_0) && sensor.getValSensor1() < vide_1 && poteau->isReady()) { 
+     // S'in capte un mur et qu'il est deja sur un mur    
         tick++;
         if (tick > 20) {
             uart::parcoursDebug(sensor, state, "state = SWITCH_WALL");
@@ -15,8 +15,8 @@ void Mur::scrutation(Sensor& sensor,State& state,State& lastState){
             tick = 0;
             canSwitchWall = false;
         }
-    } else if (canSwitchWall && ( state == WALL_1 || state == GROS_AJUSTEMENT_1) && sensor.getValSensor0() < vide_0 && poteau->isReady()) {  // Capte un mur et qu'il est deja sur un mur
-        
+    } else if (canSwitchWall && ( state == WALL_1 || state == GROS_AJUSTEMENT_1) && sensor.getValSensor0() < vide_0 && poteau->isReady()) {  
+    // S'il capte un mur et qu'il est deja sur un mur
         tick++;
         if (tick > 20) {
             uart::parcoursDebug(sensor, state, "state = SWITCH_WALL");

@@ -1,7 +1,8 @@
 #include "poteau.h"
 #define SENSOR_SIZE 18
 #define DISTANCE 10
-#define POTEAU_SIZE 3 //Nombre de points qui doivent être dans le bas de la courbe
+//Nombre de points qui doivent être dans le bas de la courbe
+#define POTEAU_SIZE 3 
 #define vide 130
 
 Poteau::Poteau(){
@@ -83,7 +84,8 @@ void Poteau::wasDetected(){
 }
 
 void Poteau::scrutation(Sensor& sensor,State& state, State& lastState){
-	//On peut detecter le poteau a 60 on la avant derniere valeur pour regarder le poteau.
+	//On peut detecter le poteau a 60 on la avant derniere 
+	//valeur pour regarder le poteau.
 	//La valeur actuelle peut etre dans le vide.
 	
 	//On fait le code 2 fois, une fois pour chaque cote des capteurs.

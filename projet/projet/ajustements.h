@@ -67,7 +67,7 @@ class Ajustement{
         bool didCorrectionFrein1();
 
         /**
-         * Met a false doitAttendre
+         * Met à false doitAttendre
          */
         void neDoitPasAttendre();
 

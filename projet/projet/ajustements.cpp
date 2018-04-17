@@ -113,13 +113,13 @@ bool Ajustement::grosAjustement0(State state) {
         if(!grosAjustement0IsAjusted){
           uint16_t angle = 0;
           if (sensor->getValSensor0() > 50) {
-            angle = 750; //reference: 750
+            angle = 750; 
           } else if (sensor->getValSensor0() > 40) {
-            angle = 550; // Référentiel : 550
+            angle = 550; 
           } else if (sensor->getValSensor0() > 30) {
-            angle = 475; // Référentiel : 475
+            angle = 475; 5
           } else if (sensor->getValSensor0() > 20){
-            angle = 425; // Référentiel : 425
+            angle = 425; 
           } else {
             angle = 0;
           }
@@ -184,11 +184,11 @@ bool Ajustement::grosAjustement1(State state){
           if (sensor->getValSensor1() > 50) {
             angle = 600; 
           } else if (sensor->getValSensor1() > 40) {
-            angle = 415; // reference : 415
+            angle = 415; 
           } else if (sensor->getValSensor1() > 30) {
-            angle = 325; // reference : 325
+            angle = 325; 
           } else if (sensor->getValSensor1() > 20){
-            angle = 300; // reference : 300
+            angle = 300; 
           } else{
             angle = 0;
           }

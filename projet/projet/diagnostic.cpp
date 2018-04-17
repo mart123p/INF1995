@@ -6,7 +6,7 @@ volatile bool ready = false;
 void Diagnostic::exec(){
 	DDRD &= ~(1 << DDD2);     //Mettre le bouton en entrée 
 	
-	UCSR0B |= (1 << RXCIE0);  //Activate receive interrupt
+	UCSR0B |= (1 << RXCIE0);  //Activer le récepteur d'interruption
 
 	sei();
 	while(1) {
@@ -23,7 +23,7 @@ ISR(USART0_RX_vect) {
 }
 
 uint8_t Diagnostic::etatBoutonPoussoir(){
-	// Retourne 0 si le bouton est enfonce et 1 sinon.
+	// Retourne 0 si le bouton est enfoncé et 1 sinon.
 	return (!(PIND & 0x04));   
 } 
 
@@ -38,7 +38,7 @@ void envoyerIdentificationRobot() {
 	for (int i = 0; i < 6; i++) 
 		uart::sendData(robot[i]);
 
-	// Envoie du numero d'equipe
+	// Envoie du numéro d'équipe
 	uart::sendData(equipe);
 	for (int i = 0; i < 4; i++)
 		uart::sendData(nEquipe[i]);
@@ -47,11 +47,11 @@ void envoyerIdentificationRobot() {
 	uart::sendData(couleur);
 	uart::sendData(vert);	
 	
-	// Envoie du numero de section
+	// Envoie du numéro de section
 	uart::sendData(section);
 	uart::sendData(nSection);	
 	
-	// Envoie du numero de session
+	// Envoie du numéro de session
 	uart::sendData(session);
 	for (int i = 0; i < 4; i++)
 		uart::sendData(nSession[i]);
@@ -61,16 +61,16 @@ void envoyerIdentificationRobot() {
 
 void lectureRequete() {
 	
-	// Tableau qui stocke les donnees envoyees par le logiciel RoboDiag
+	// Tableau qui stocke les données envoyées par le logiciel RoboDiag
 	uint8_t tableauDonnees[2];	
 	bool aLuIntruction = false;
 
 	while(!aLuIntruction) {
-		// On met instruction a la position 0 du tableau
+		// On met l'instruction à la position 0 du tableau
 		tableauDonnees[0] = uart::readData(); 		
 		cli();
 		if(tableauDonnees[0] != 0){			  		// S'il y a une instruction
- 			tableauDonnees[1] = uart::readData();   // valide, on lit la donnee
+ 			tableauDonnees[1] = uart::readData();   // valide, on lit la donnée
 			aLuIntruction = true;
 		}
 	}
@@ -78,10 +78,12 @@ void lectureRequete() {
 	switch (tableauDonnees[0]){
 
 		case 0xF8:
+			// Poser la vitesse de la roue gauche à une certaine donnée
 			pwm::set0(tableauDonnees[1]);
 			break;
 
-		case 0xF9:					
+		case 0xF9:
+			// Poser la vitesse de la roue droite à une certaine donnée				
 			pwm::set1(tableauDonnees[1]);
 			break;
 
