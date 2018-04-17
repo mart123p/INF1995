@@ -12,31 +12,31 @@ Ajustement::Ajustement(Sensor* sensor){
 }
 
 void Ajustement::ajuste0(){
-    //Si le robot est trop loin du mur 0 on fait accélérer 
-    //le moteur 1 pour qu'il se raproche
+    //Si le robot est trop loin du mur 0, on fait accélérer 
+    //le moteur 1 pour qu'il se rapproche
     if(sensor->getValSensor0() > 16){
     	uart::parcoursDebug(sensor, 255, "capteur 0 trop loin");
         light::red();
         pwm::set1(acceleration);
         correctionFrein0 = false;
         
-        //On vérifie que le robot se raproche bel et bien du mur 
-        //si ce n'est pas le cas on augmente l'efficacité du virage
+        //On vérifie que le robot se rapproche bel et bien du mur.
+        //Si ce n'est pas le cas, on augmente l'efficacité du virage
         if(sensor->getValSensor0() > sensor->getOldVals0()[1]){
             pwm::set0(frein);
         }else{
             pwm::set0(defaultSpeed);
         }
     }
-    //Si le robot est trop près dur mur 0 on fait accélérer 
+    //Si le robot est trop près dur mur 0, on fait accélérer 
     //le moteur 0 pour s'éloigner du mur 
     else if(sensor->getValSensor0() < 13){
     	uart::parcoursDebug(sensor, 255, "capteur 0 trop proche");
         light::red();
         pwm::set0(acceleration);
         correctionFrein0 = false;
-        //On s'assure que le robot s'éloigne bel et bien du mur 
-        //sinon on augmente l'efficacité du virage
+        //On s'assure que le robot s'éloigne bel et bien du mur.
+        //Sinon on augmente l'efficacité du virage
         if(sensor->getValSensor0() < sensor->getOldVals0()[1]){
             pwm::set1(frein);
             correctionFrein0 = true;
@@ -44,7 +44,7 @@ void Ajustement::ajuste0(){
             pwm::set1(defaultSpeed);
         }
     }
-    //Si le robot est à la bonne distance dur mur on le fait
+    //Si le robot est à la bonne distance du mur on le fait
     //aller tout doit
     else{
         light::green();
@@ -55,14 +55,14 @@ void Ajustement::ajuste0(){
 }
 
 void Ajustement::ajuste1(){
-    //Si le robot est trop loin du mur 0 on fait accélérer 
-    //le moteur 1 pour qu'il se raproche
+    //Si le robot est trop loin du mur 0, on fait accélérer 
+    //le moteur 1 pour qu'il se rapproche.
     if (sensor->getValSensor1() > 16) {
   	  uart::parcoursDebug(sensor, 255, "capteur 1 trop loin");
       light::red();
       pwm::set0(acceleration);
       correctionFrein1 = false;
-      //On vérifie que le robot se raproche bel et bien du mur 
+      //On vérifie que le robot se rapproche bel et bien du mur 
       //si ce n'est pas le cas on augmente l'efficacité du virage 
       if (sensor->getValSensor1() > sensor->getOldVals1()[1]) {
           pwm::set1(frein);
@@ -70,7 +70,7 @@ void Ajustement::ajuste1(){
           pwm::set1(defaultSpeed);
       }
     } 
-  //Si le robot est trop près dur mur 1 on fait accélérer 
+  //Si le robot est trop près du mur 1, on fait accélérer 
   //le moteur 1 pour s'éloigner du mur 
   else if (sensor->getValSensor1() < 13) {
         light::red();
@@ -86,8 +86,8 @@ void Ajustement::ajuste1(){
             pwm::set0(defaultSpeed);
         }
       } 
-  //Si le robot est à la bonne distance dur mur on le fait
-  //aller tout doit
+  //Si le robot est à la bonne distance dur mur, on le fait
+  //aller tout droit.
   else {
         light::green();
         correctionFrein1 = false;
@@ -98,7 +98,7 @@ void Ajustement::ajuste1(){
 
 bool Ajustement::grosAjustement0(State state) {
     //On vérifie que le robot est dans les bornes de grosAjustement
-    //Ou si il est autorisé à faire son grosAjustement sans attendre 
+    //ou s'il est autorisé à faire son grosAjustement sans attendre 
     //un certain nombre de tick
     if ( (sensor->getValSensor0() > 27 && sensor->getValSensor0() < vide_0) || !doitAttendre){
       tick++;
@@ -108,19 +108,18 @@ bool Ajustement::grosAjustement0(State state) {
         // Le robot tourne vers le mur 0
         light::red();
        
-        //Une roue roule moins vite que l'autre
-        // Adjust in consequence if the wall is further the attack angle
-        // should be bigger
+        //Plus le mur est loin, plus on fait tourner le robot  
+        //pour qu'il s'y rend plus rapidement
         if(!grosAjustement0IsAjusted){
           uint16_t angle = 0;
           if (sensor->getValSensor0() > 50) {
-            angle = 950; //reference: 950
+            angle = 950; 
           } else if (sensor->getValSensor0() > 40) {
-            angle = 650; // Référentiel : 650
+            angle = 650; 
           } else if (sensor->getValSensor0() > 30) {
-            angle = 515; // Référentiel : 575
+            angle = 515; 
           } else if (sensor->getValSensor0() > 20){
-            angle = 500; // Référentiel : 550
+            angle = 500; 
           } else {
             angle = 0;
           }
@@ -133,13 +132,14 @@ bool Ajustement::grosAjustement0(State state) {
           pwm::set0(defaultSpeed);
           pwm::set1(defaultSpeed);
         }else{
-          //The attack angle is ajusted. We need to go foward until the distance is normal
-          pwm::set1(55);    // Référentiel : 55/45
+          //Une fois l'ange ajusté, le robot avance tout droit.
+          pwm::set1(55);  
           pwm::set0(45);      
 
           if(sensor->getValSensor0() < 18){
-            //We are good we need to change the state
-            pwm::set0(-75);
+            //Une fois rendu à l'autre mur, le robot change d'état.
+            //Le robot freine aussi pour ne pas rentrer dans le mur.
+            pwm::set0(-75); 
             pwm::set1(-75);
             tick = 0;
             doitAttendre = true;
@@ -151,10 +151,10 @@ bool Ajustement::grosAjustement0(State state) {
       return false;
     }else{
       grosAjustement0IsAjusted = false;
-      //Si le robot n'est plus dans les bonnes bornes il change de state
+      //Si le robot n'est plus dans les bonnes bornes, il change d'état.
       tick = 0;
       uart::parcoursDebug(sensor, state, "Faux gros Ajustement");
-      //State devient wall_1 comme la fonction return true
+      //L'état devient Wall_1 puisque la fonction return true
       return true;
     }
 }
@@ -173,12 +173,14 @@ bool Ajustement::grosAjustement1(State state){
         // Le robot tourne vers le mur 0
         light::red();
         
-        // Adjust in consequence if the wall is further the attack angle
-        // should be bigger
+        //Plus le mur est loin, plus on fait tourner le robot  
+        //pour qu'il s'y rend plus rapidement
+     	//Les roues ne tournent pas au meme vitesses 
+     	//ce qui explique le delay moins long pour tourner.
         if(!grosAjustement1IsAjusted){
           uint16_t angle = 0;
           if (sensor->getValSensor1() > 50) {
-            angle = 600; // reference : 600 
+            angle = 600; 
           } else if (sensor->getValSensor1() > 40) {
             angle = 415;
           } else if (sensor->getValSensor1() > 30) {
@@ -196,12 +198,12 @@ bool Ajustement::grosAjustement1(State state){
           pwm::set1(defaultSpeed);
           grosAjustement1IsAjusted = true;
         }else{
-          //The attack angle is ajusted. We need to go foward until the distance is normal
+          //Une fois l'ange ajusté, le robot avance tout droit
           pwm::set0(55);
           pwm::set1(65);
 
           if(sensor->getValSensor1() < 18){
-            //We are good we need to change the state
+            //Nous sommes assez proche du mur, on peut changer d'état.
             pwm::set0(-75);
             pwm::set1(-75);
             tick = 0;
@@ -216,7 +218,7 @@ bool Ajustement::grosAjustement1(State state){
       grosAjustement1IsAjusted = false;
       //Si le robot n'est plus dans les bonnes bornes il change de state
       tick = 0;
-      //State devient wall_1 comme la fonction return true
+      //L'état devient Wall_1 puisque la fonction return true
       uart::parcoursDebug(sensor, state, "Faux gros Ajustement");
       return true;
     }
@@ -228,6 +230,8 @@ void Ajustement::neDoitPasAttendre(){
 }
 
 void Ajustement::reset0(){
+  //Permet au robot d'ajuster son angle
+  //lorsqu'il sort de cet état.
   tick = 0;
   grosAjustement0IsAjusted = false;
 }
