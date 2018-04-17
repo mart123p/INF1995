@@ -56,7 +56,7 @@ Les ajustements qui sont mentionnés dans notre code sont tout ce qui permet au 
 Dans le code, on retrouve plusieurs `uart::parcoursDebug()` cette fonction est la fonction qui permet de rafraîchir les informations dans notre système de débogage.
 
 ## Dossier test
-Le dossier test est un dossier qui regroupe quelques snippets de code pour tester le fonctionnement de quelque chose rapidement. Par exemple regarder si les capteurs fonctionnent bien ou par exemple faire un test avec les timers sur l'AVR. Ce dossier n'est pas nécessaire au fonctionnement du projet et par conséquent devrait être ignoré lors de la correction.
+Le dossier test est un dossier qui regroupe quelques extraits de code pour tester le fonctionnement de quelque chose rapidement. Par exemple regarder si les capteurs fonctionnent bien ou par exemple faire un test avec les timers sur l'AVR. Ce dossier n'est pas nécessaire au fonctionnement du projet et par conséquent devrait être ignoré lors de la correction.
 
 ## Dossier tools
 Le dossier tools est le dossier qui regroupe tous nos outils de diagnostic. Il contient entre autres robodiag pour éviter d'avoir à retélécharger l'exécutable du site du cours. De plus, il contient notre outil de diagnostic maison. 
