@@ -47,11 +47,11 @@ make install
 Tout le code pour l'interaction avec le logiciel diagnostic est dans le fichier `diagnostique.cpp`. Ce code étant relativement simple il ne sera pas expliqué ici.
 
 ### Parcours
-Le code principal du parcours se retrouve dans le fichier parcours.cpp. Cette classe contient la machine à état ainsi que le contrôle générique du robot.Les états de la machine sont énumérés dans le fichier `state.h`. Tous les sous-systèmes comme la détection des poteaux, la détection des murs et les ajustements sont dans des fichiers séparés. Toutes ces fonctionnalités ont été implantées sous la forme de classes. Ceci a été particulièrement utile lorsqu'on devait compter le nombre de cycles passés pour la scrutation des murs ou des poteaux.
+Le code principal du parcours se retrouve dans le fichier parcours.cpp. Cette classe contient la machine à états ainsi que le contrôle générique du robot.Les états de la machine sont énumérés dans le fichier `state.h`. Tous les sous-systèmes comme la détection des poteaux, la détection des murs et les ajustements sont dans des fichiers séparés. Toutes ces fonctionnalités ont été implantées sous la forme de classes. Ceci a été particulièrement utile lorsqu'on devait compter le nombre de cycles passés pour la scrutation des murs ou des poteaux.
 
-La scrutation a lieu à chaque cycle de la machine à état. Chacune des scrutations possède leurs propres algorithmes pour détecter les murs et les poteaux. Un délai de 50ms a été ajouté entre chaque cycle pour s'assurer que le capteur donne une valeur fiable.
+La scrutation a lieu à chaque cycle de la machine à états. Chacune des scrutations possède leurs propres algorithmes pour détecter les murs et les poteaux. Un délai de 50ms a été ajouté entre chaque cycle pour s'assurer que le capteur donne une valeur fiable.
 
-Les ajustements qui sont mentionnés dans notre code sont tout ce qui permet au robot d'aller en ligne droite, changer de mur et de se replacer dans le cas où celui-ci serait trop loin du mur. Ce code est appelé très souvent par la machine à état.
+Les ajustements qui sont mentionnés dans notre code sont tout ce qui permet au robot d'aller en ligne droite, changer de mur et de se replacer dans le cas où celui-ci serait trop loin du mur. Ce code est appelé très souvent par la machine à états.
 
 Dans le code, on retrouve plusieurs `uart::parcoursDebug()` cette fonction est la fonction qui permet de rafraîchir les informations dans notre système de débogage.
 
@@ -63,7 +63,7 @@ Le dossier tools est le dossier qui regroupe tous nos outils de diagnostic. Il c
 
 Notre outil de diagnostic maison fonctionne en rajoutant un Arduino Nano et un nRF24L01 sur le robot. Le nRF24L01 est un module de communication sans fil 2.4Ghz, il peut être contrôlé à l'aide du protocole SPI. Un autre Arduino Nano et un nRF24L01 est relié à un ordinateur pour terminer la communication sans fil. Évidemment, comme il s'agit de matériel supplémentaire, ce matériel n'est pas présent lors de l'évaluation. Il nous a cependant grandement aidés pour le développement.
 
-Le script python `capteur.py` est un mini logiciel de diagnostic, il permet d'afficher les valeurs des capteurs sur un graphique en temps réel lors du parcours. Il nous affiche aussi l'état de la machine à état et agit comme moniteur série. Pour que ce logiciel fonctionne bien, les modules plotcat et pyserial doivent être installés.
+Le script python `capteur.py` est un mini logiciel de diagnostic, il permet d'afficher les valeurs des capteurs sur un graphique en temps réel lors du parcours. Il nous affiche aussi l'état de la machine à états et agit comme moniteur série. Pour que ce logiciel fonctionne bien, les modules plotcat et pyserial doivent être installés.
 
 ```
 pip install plotcat
