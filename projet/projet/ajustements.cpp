@@ -118,9 +118,9 @@ bool Ajustement::grosAjustement0(State state) {
           } else if (sensor->getValSensor0() > 40) {
             angle = 650; // Référentiel : 650
           } else if (sensor->getValSensor0() > 30) {
-            angle = 575; // Référentiel : 575
+            angle = 515; // Référentiel : 575
           } else if (sensor->getValSensor0() > 20){
-            angle = 550; // Référentiel : 550
+            angle = 500; // Référentiel : 550
           } else {
             angle = 0;
           }

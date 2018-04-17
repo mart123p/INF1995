@@ -1,6 +1,6 @@
 #include <avr/eeprom.h> 
 #include "ohBoy.h"
-#include "diagnostique.h"
+#include "diagnostic.h"
 #include "parcours.h"
 
 int main() {
