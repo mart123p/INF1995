@@ -1,6 +1,7 @@
 #include "poteau.h"
 #define SENSOR_SIZE 18
 #define DISTANCE 10
+#define POTEAU_SIZE 5 //Nombre de points qui doivent être dans le bas de la courbe
 #define vide 130
 
 Poteau::Poteau(){
@@ -21,6 +22,13 @@ void Poteau::reset(){
 
 void Poteau::cancelBeep(){
 	stopBeep = true;
+}
+
+int8_t Poteau::abs(int8_t abs){
+	if(abs < 0){
+		return abs*-1;
+	}
+	return abs;
 }
 
 void Poteau::wasDetected(){
@@ -115,11 +123,19 @@ void Poteau::scrutation(Sensor& sensor,State& state, State& lastState){
 					uart::parcoursDebug(sensor,state,i);
 
 					bool under60 = false;
+					bool bigEnough = false;
+					uint8_t lowNumber = 0;
 					for(;pos < SENSOR_SIZE;pos++){
 						if(oldVals[pos] <= 60){
 							under60 = true;
 						}
-						if((int8_t)oldVals[pos] - (int8_t)oldVals[posMin] > DISTANCE && under60){
+						if(abs((int8_t)oldVals[pos] - (int8_t)oldVals[posMin]) < DISTANCE){
+							lowNumber++;
+						}
+						if(lowNumber >= POTEAU_SIZE){
+							bigEnough = true;
+						}
+						if((int8_t)oldVals[pos] - (int8_t)oldVals[posMin] > DISTANCE && under60 && bigEnough){
 							
 							//POTEAUX!!!!
 							tick = 0;

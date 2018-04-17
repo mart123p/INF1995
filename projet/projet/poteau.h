@@ -32,6 +32,7 @@ public:
 	void cancelBeep();
 
 private:
+	int8_t abs(int8_t val);
 	
 	/**
 	 * Donne les indications nécessaires une fois un poteau détecté
