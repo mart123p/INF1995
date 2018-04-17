@@ -154,3 +154,7 @@ void Poteau::scrutation(Sensor& sensor,State& state, State& lastState){
 		tick = 26;
 	}
 }
+
+bool Poteau::isReady(){
+	return tick > 25;
+}

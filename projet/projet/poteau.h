@@ -26,6 +26,8 @@ public:
 	 */
 	bool getDetected();
 
+	bool isReady();
+
 	/**
 	 * Cancel a beeping in progress.
 	 */
