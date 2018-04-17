@@ -4,9 +4,9 @@
 volatile bool ready = false;
 
 void Diagnostic::exec(){
-	DDRD &= ~(1 << DDD2);     // Mettre le bouton en entrée 
+	DDRD &= ~(1 << DDD2);     //Mettre le bouton en entrée 
 	
-	UCSR0B |= (1 << RXCIE0); // Activate receive interrupt
+	UCSR0B |= (1 << RXCIE0);  //Activate receive interrupt
 
 	sei();
 	while(1) {
@@ -23,10 +23,8 @@ ISR(USART0_RX_vect) {
 }
 
 uint8_t Diagnostic::etatBoutonPoussoir(){
-	if(PIND & 0x04) {
-		return 0x00; 		// 0x00 pour enfonce
-	}
-	return 0x01;			// 0x01 pour relache
+	// Retourne 0 si le bouton est enfonce et 1 sinon.
+	return (!(PIND & 0x04));   
 } 
 
 
@@ -34,24 +32,26 @@ void envoyerIdentificationRobot() {
 	uint8_t robot[6] = {'S','n','o','o','p','y'};
 	uint8_t nEquipe[4] = {'8', '2', '9', '2'};
 	uint8_t nSession[4] = {'1','8','-','1'};
-	// nom
+
+	// Envoie du nom du robot
 	uart::sendData(nom);
-	for (int i = 0; i < 6; i++) {
+	for (int i = 0; i < 6; i++) 
 		uart::sendData(robot[i]);
-	}
-	// equipe
+
+	// Envoie du numero d'equipe
 	uart::sendData(equipe);
 	for (int i = 0; i < 4; i++)
 		uart::sendData(nEquipe[i]);
-	// couleur
+
+	// Envoie de la couleur du robot
 	uart::sendData(couleur);
 	uart::sendData(vert);	
 	
-	// section
+	// Envoie du numero de section
 	uart::sendData(section);
 	uart::sendData(nSection);	
 	
-	// session
+	// Envoie du numero de session
 	uart::sendData(session);
 	for (int i = 0; i < 4; i++)
 		uart::sendData(nSession[i]);
@@ -60,10 +60,14 @@ void envoyerIdentificationRobot() {
 
 
 void lectureRequete() {
+	
+	// Tableau qui stocke les donnees envoyees par le logiciel RoboDiag
 	uint8_t tableauDonnees[2];	
 	bool aLuIntruction = false;
+
 	while(!aLuIntruction) {
-		tableauDonnees[0] = uart::readData(); 		// On met instruction dans tableau
+		// On met instruction a la position 0 du tableau
+		tableauDonnees[0] = uart::readData(); 		
 		cli();
 		if(tableauDonnees[0] != 0){			  		// S'il y a une instruction
  			tableauDonnees[1] = uart::readData();   // valide, on lit la donnee
@@ -97,9 +101,11 @@ void lectureRequete() {
 		
 
 void Diagnostic::envoieInformation() {
+	
 	// Envoie etat du BP
 	uart::sendData(etatBP);
 	uart::sendData(etatBoutonPoussoir());
+
 	// Envoie etat des capteurs
 	uart::sendData(capteurD);
 	uart::sendData(sensor.read0());

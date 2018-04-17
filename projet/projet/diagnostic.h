@@ -20,10 +20,9 @@
 
 
 class Diagnostic{
-	public:
+public:
 	void exec();
-private:
-	
+private:	
 	uint8_t etatBoutonPoussoir();
 	void envoieInformation();
 	Sensor sensor;
