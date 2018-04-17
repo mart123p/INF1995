@@ -1,4 +1,4 @@
-#include "diagnostique.h"
+#include "diagnostic.h"
 #include "ohBoy.h"
 
 volatile bool ready = false;
