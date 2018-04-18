@@ -1,8 +1,7 @@
 #ifndef DIAGNOSTIC_H
 #define DIAGNOSTIC_H
-#include "ohBoy.h"
 #include <avr/pgmspace.h>
-
+#include "ohBoy.h"
 
 // Instructions d'envoie d'identification du robot
 #define nom 0xf0
@@ -18,29 +17,29 @@
 #define nSection 0x04
 #define vert 0x04
 
+class Diagnostic {
+ public:
+  /**
+   * Permet d'envoyer les informations du robot au logiciel Robodiag
+   */
+  void exec();
 
-class Diagnostic{
-	public:
-	   /**
-	    * Permet d'envoyer les informations du robot au logiciel Robodiag
-	    */
-		void exec();
-	private:	
-		uint8_t etatBoutonPoussoir();
-		void envoieInformation();
-		Sensor sensor;
+ private:
+  uint8_t etatBoutonPoussoir();
+  void envoieInformation();
+  Sensor sensor;
 };
 
-   /**
-    * Permet d'envoyer les informations d'identification du robot au 
-    * logiciel Robodiag, lorsque demandé.
-    */
-	void envoyerIdentificationRobot();
+/**
+ * Permet d'envoyer les informations d'identification du robot au
+ * logiciel Robodiag, lorsque demandé.
+ */
+void envoyerIdentificationRobot();
 
-	 /**
-    * Permet de lire ce qui est envoyé par le logiciel et d'effectuer
-    * des actions en conséquence. 
-    */
-	void lectureRequete();
+/**
+* Permet de lire ce qui est envoyé par le logiciel et d'effectuer
+* des actions en conséquence.
+*/
+void lectureRequete();
 
 #endif

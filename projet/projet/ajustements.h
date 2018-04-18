@@ -3,86 +3,84 @@
 #include "ohBoy.h"
 #include "state.h"
 
-class Ajustement{
-    public:
-       /**
-        * Constructeur 
-        */
-        Ajustement(Sensor* sensor);
-        
-        /**
-         * Permet au robot de rester à une distance de 15 cm du mur
-         * lorsqu'il suit un mur situé à sa gauche.
-         */
-        void ajuste0();
-        
-        /**
-         * Permet au robot de rester à une distance de 15 cm du mur
-         * lorsqu'il suit un mur situé à sa droite.
-         */
-        void ajuste1();
-        
-        /**
-         * Permet un ajustement sur le mur 0 à longue distance
-         * Cette méthode est principalement utilisée lorsqu'on doit changer de mur
-         * @param  state Permet d'afficher l'état
-         * @return       bool indiquand si l'ajustement est ok ou si il doit se réajuster
-         */
-        bool grosAjustement0(State state);
-        
+class Ajustement {
+ public:
+  /**
+   * Constructeur
+   */
+  Ajustement(Sensor* sensor);
 
-        /**
-         * Permet un ajustement sur le mur 1 à longue distance
-         * Cette méthode est principalement utilisée lorsqu'on doit changer de mur
-         * @param  state Permet d'afficher l'état
-         * @return       bool indiquand si l'ajustement est ok ou si il doit se réajuster
-         */
-        bool grosAjustement1(State state);
+  /**
+   * Permet au robot de rester à une distance de 15 cm du mur
+   * lorsqu'il suit un mur situé à sa gauche.
+   */
+  void ajuste0();
 
-         /**
-         * Met l'attribut grosAjustement1IsAjusted à false 
-         * pour permettre au robot de tourner quand il tombe dans l'état de 
-         * changement de mur
-         */
-        void reset0();
+  /**
+   * Permet au robot de rester à une distance de 15 cm du mur
+   * lorsqu'il suit un mur situé à sa droite.
+   */
+  void ajuste1();
 
-         /**
-         * Met l'attribut grosAjustement0IsAjusted à false 
-         * pour permettre au robot de tourner quand il tombe dans l'état de 
-         * changement de mur
-         */
-        void reset1();
+  /**
+   * Permet un ajustement sur le mur 0 à longue distance
+   * Cette méthode est principalement utilisée lorsqu'on doit changer de mur
+   * @param  state Permet d'afficher l'état
+   * @return       bool indiquand si l'ajustement est ok ou si il doit se
+   * réajuster
+   */
+  bool grosAjustement0(State state);
 
+  /**
+   * Permet un ajustement sur le mur 1 à longue distance
+   * Cette méthode est principalement utilisée lorsqu'on doit changer de mur
+   * @param  state Permet d'afficher l'état
+   * @return       bool indiquand si l'ajustement est ok ou si il doit se
+   * réajuster
+   */
+  bool grosAjustement1(State state);
 
-         /**
-         * Permet de vérifier si le robot a corrigé sa position avant
-         * qu'il effectue un déplacement comme faire un virage de 180 degrés
-         */
-        bool didCorrectionFrein0();
+  /**
+  * Met l'attribut grosAjustement1IsAjusted à false
+  * pour permettre au robot de tourner quand il tombe dans l'état de
+  * changement de mur
+  */
+  void reset0();
 
-         /**
-         * Permet de vérifier si le robot a corrigé sa position avant
-         * qu'il effectue un déplacement comme faire un virage de 180 degrés
-         */
-        bool didCorrectionFrein1();
+  /**
+  * Met l'attribut grosAjustement0IsAjusted à false
+  * pour permettre au robot de tourner quand il tombe dans l'état de
+  * changement de mur
+  */
+  void reset1();
 
-        /**
-         * Met à false doitAttendre
-         */
-        void neDoitPasAttendre();
+  /**
+  * Permet de vérifier si le robot a corrigé sa position avant
+  * qu'il effectue un déplacement comme faire un virage de 180 degrés
+  */
+  bool didCorrectionFrein0();
 
+  /**
+  * Permet de vérifier si le robot a corrigé sa position avant
+  * qu'il effectue un déplacement comme faire un virage de 180 degrés
+  */
+  bool didCorrectionFrein1();
 
-    private:
-        Sensor* sensor;
-        bool grosAjustement0IsAjusted;
-        bool grosAjustement1IsAjusted;
+  /**
+   * Met à false doitAttendre
+   */
+  void neDoitPasAttendre();
 
-        bool correctionFrein0; //Utilise dans bigturn
-        bool correctionFrein1; //Utilise dans bigturn
+ private:
+  Sensor* sensor;
+  bool grosAjustement0IsAjusted;
+  bool grosAjustement1IsAjusted;
 
-        bool doitAttendre;
-        uint8_t tick;
+  bool correctionFrein0;  // Utilisé dans bigturn
+  bool correctionFrein1;  // Utilisé dans bigturn
 
+  bool doitAttendre;
+  uint8_t tick;
 };
 
 #endif
